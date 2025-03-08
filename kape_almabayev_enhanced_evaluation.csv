@@ -1,0 +1,11 @@
+fighter1,fighter2,actual_winner,predicted_winner,win_probability,correct
+Manel Kape,Asu Almabayev,Manel Kape,Manel Kape,0.6119253929603301,True
+Cody Brundage,Julian Marquez,Cody Brundage,Cody Brundage,0.681276265537181,True
+Nasrat Haqparast,Esteban Ribovics,Nasrat Haqparast,Nasrat Haqparast,0.8340017373977441,True
+Hyder Amil,William Gomis,Hyder Amil,William Gomis,0.5249880529164717,False
+Danny Barlow,Sam Patterson,Sam Patterson,Sam Patterson,0.677458496312107,True
+Austen Lane,Mario Pinto,Mario Pinto,Mario Pinto,0.7004161963087043,True
+Ricardo Ramos,Chepe Mariscal,Chepe Mariscal,Chepe Mariscal,0.7688041876273055,True
+Danny Silva,Lucas Almeida,Danny Silva,Danny Silva,0.7169798076347291,True
+Andrea Lee,JJ Aldrich,JJ Aldrich,Andrea Lee,0.639713439462672,False
+Charles Johnson,Ramazan Temirov,Ramazan Temirov,Ramazan Temirov,0.7549082425260326,True

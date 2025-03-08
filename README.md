@@ -1,6 +1,6 @@
 # UFC Fight Prediction System
 
-A machine learning-based system for predicting UFC fight outcomes with advanced analytics and external data integration.
+A machine learning-based system for predicting UFC fight outcomes with advanced analytics and external data integration from Fight Matrix and Tapology.
 
 ## Overview
 
@@ -16,7 +16,7 @@ This project uses historical UFC fight data to predict the outcomes of upcoming 
 - **Fight Outcome Prediction**: Predicts the winner with confidence level
 - **Method of Victory**: Estimates probability of KO/TKO, submission, or decision
 - **Fighter Statistics**: Analyzes height, reach, recent wins, losing streaks, striking and takedown metrics
-- **Multi-Model Approach**: Combines machine learning with external rating systems
+- **Multi-Model Approach**: Combines machine learning with external rating systems (Elo, Glicko, WHR)
 - **Upset Detection**: Flags potential upsets in close matchups
 - **Historical Validation**: Tests model against past events to measure accuracy
 
@@ -75,9 +75,26 @@ python predict_ufc313.py --evaluate --past-event "UFC 300" --past-date "2024-04-
 The system uses several data sources:
 
 1. **Historical UFC Fight Data**: Fight results, fighter statistics, and fight metrics
-2. **Fight Matrix**: Multiple rating systems including Elo, Glicko, and WHR
-3. **Tapology**: Betting odds and community predictions
+2. **Fight Matrix**: Multiple rating systems including Elo, Glicko, and WHR from [Fight Matrix](https://www.fightmatrix.com/)
+3. **Tapology**: Betting odds and community predictions from [Tapology](https://www.tapology.com/)
 4. **Physical Attributes**: Height, reach, and other physical measurements
+
+## External Data Integration
+
+The system integrates data from Fight Matrix and Tapology to improve prediction accuracy:
+
+1. **Fight Matrix Models**:
+   - Betting Odds: Implied probability from betting lines
+   - Elo K170: Classic Elo rating system
+   - Elo Modified: Modified Elo with fight-specific advantages
+   - Glicko-1: Glicko rating system
+   - WHR: Whole History Rating system
+
+2. **Tapology Data**:
+   - Betting odds
+   - Community predictions
+
+The final prediction is a weighted combination of our ML model and these external rating systems.
 
 ## Model Details
 

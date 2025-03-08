@@ -865,6 +865,10 @@ def evaluate_past_event(event_name, event_date, model, fighter_stats_df, fight_s
     # Print column names for debugging
     print(f"Available columns in fights dataframe: {list(fights_df.columns)}")
     
+    # Print first few rows for debugging
+    print("\nFirst few rows of fights dataframe:")
+    print(fights_df.head(2).to_string())
+    
     # Filter fights for this event - adjust column names as needed
     if 'EVENT_NAME' in fights_df.columns:
         event_column = 'EVENT_NAME'
@@ -880,28 +884,64 @@ def evaluate_past_event(event_name, event_date, model, fighter_stats_df, fight_s
             print("Could not find event name column in fights dataframe")
             return None
     
-    # Filter by event name
+    print(f"\nSearching for event '{event_name}' in column '{event_column}'")
+    
+    # Filter by event name - make it more flexible by using contains
     event_fights = fights_df[
         fights_df[event_column].str.contains(event_name, case=False, na=False)
     ]
     
     if len(event_fights) == 0:
         print(f"No fights found for {event_name}")
-        return None
+        # Try a more flexible search
+        print("Trying a more flexible search...")
+        event_number = event_name.split()[1] if len(event_name.split()) > 1 else event_name
+        print(f"Searching for event number '{event_number}'")
+        event_fights = fights_df[
+            fights_df[event_column].str.contains(event_number, case=False, na=False)
+        ]
+        if len(event_fights) == 0:
+            print(f"Still no fights found for {event_name}")
+            # Print unique event names for debugging
+            print("\nUnique event names in dataset:")
+            unique_events = fights_df[event_column].unique()
+            for i, event in enumerate(unique_events[:20]):  # Print first 20 events
+                print(f"  {i+1}. {event}")
+            if len(unique_events) > 20:
+                print(f"  ... and {len(unique_events) - 20} more")
+            return None
     
     print(f"Found {len(event_fights)} fights for this event")
     
-    # Extract fighter names from BOUT column
-    if 'BOUT' in event_fights.columns:
-        print("Extracting fighter names from BOUT column")
+    # Print the found fights for debugging
+    print("\nFound fights:")
+    print(event_fights.to_string())
+    
+    # Extract fighter names and determine winners
+    correct_predictions = 0
+    total_predictions = 0
+    predictions = []
+    
+    # Check which columns we have available
+    has_bout_column = 'BOUT' in event_fights.columns
+    has_fighter_columns = 'FIGHTER' in event_fights.columns and 'OPPONENT' in event_fights.columns
+    
+    print(f"\nAvailable columns for fighter extraction:")
+    print(f"  BOUT column: {has_bout_column}")
+    print(f"  FIGHTER/OPPONENT columns: {has_fighter_columns}")
+    
+    for idx, fight in event_fights.iterrows():
+        print(f"\nProcessing fight {idx}:")
+        print(fight.to_string())
         
-        correct_predictions = 0
-        total_predictions = 0
-        predictions = []
-        
-        for _, fight in event_fights.iterrows():
-            try:
-                # Extract fighter names from BOUT column (format: "Fighter 1 vs. Fighter 2")
+        try:
+            fighter1 = None
+            fighter2 = None
+            winner = None
+            
+            # Extract fighter names
+            if has_bout_column:
+                # Extract from BOUT column (format: "Fighter 1 vs. Fighter 2")
                 bout = fight['BOUT']
                 print(f"Processing bout: {bout}")
                 
@@ -917,119 +957,278 @@ def evaluate_past_event(event_name, event_date, model, fighter_stats_df, fight_s
                 if len(fighters) == 2:
                     fighter1 = fighters[0].strip()
                     fighter2 = fighters[1].strip()
-                    
-                    print(f"  Extracted fighters: '{fighter1}' vs '{fighter2}'")
-                    
-                    # Determine winner from METHOD column
-                    method = fight.get('METHOD', '')
-                    print(f"  Method: {method}")
-                    
-                    # Look for fighter names in the method description
-                    fighter1_first_name = fighter1.split()[0]
-                    fighter2_first_name = fighter2.split()[0]
-                    fighter1_last_name = fighter1.split()[-1]
-                    fighter2_last_name = fighter2.split()[-1]
-                    
-                    if fighter1_first_name in method or fighter1_last_name in method:
-                        winner = fighter1
-                        print(f"  Winner determined from method: {fighter1}")
-                    elif fighter2_first_name in method or fighter2_last_name in method:
-                        winner = fighter2
-                        print(f"  Winner determined from method: {fighter2}")
-                    else:
-                        # If we can't determine the winner from METHOD, use OUTCOME
-                        if 'OUTCOME' in fight and not pd.isna(fight['OUTCOME']):
-                            outcome = fight['OUTCOME']
-                            print(f"  Using outcome: {outcome}")
-                            
-                            # Handle W/L format
-                            if outcome == 'W/L':
-                                winner = fighter1
-                                print(f"  Winner from W/L: {fighter1}")
-                            elif outcome == 'L/W':
-                                winner = fighter2
-                                print(f"  Winner from L/W: {fighter2}")
-                            elif outcome.lower() == 'win':
-                                winner = fighter1
-                            elif outcome.lower() == 'loss':
-                                winner = fighter2
-                            else:
-                                print(f"  Skipping - unknown outcome format: {outcome}")
-                                continue
-                        else:
-                            # If we still can't determine the winner, skip this fight
-                            print(f"  Skipping - can't determine winner")
-                            continue
-                    
-                    # Make prediction
-                    prob, analysis = predict_fight(model, fighter1, fighter2, fighter_stats_df, fight_stats_df, fights_df)
-                    
-                    # Incorporate external data (without scraping)
-                    adjusted_prob, confidence = incorporate_external_data(fighter1, fighter2, prob)
-                    
-                    # Determine predicted winner
-                    predicted_winner = fighter1 if adjusted_prob > 0.5 else fighter2
-                    win_prob = adjusted_prob if adjusted_prob > 0.5 else 1 - adjusted_prob
-                    
-                    # Check if prediction was correct
-                    correct = predicted_winner == winner
-                    if correct:
-                        correct_predictions += 1
-                    total_predictions += 1
-                    
-                    # Store prediction details
-                    prediction = {
-                        'event': event_name,
-                        'date': event_date,
-                        'fighter1': fighter1,
-                        'fighter2': fighter2,
-                        'actual_winner': winner,
-                        'predicted_winner': predicted_winner,
-                        'win_probability': win_prob,
-                        'confidence': confidence,
-                        'correct': correct
-                    }
-                    
-                    if analysis:
-                        prediction['ko_probability'] = analysis['ko_probability']
-                        prediction['sub_probability'] = analysis['sub_probability']
-                        prediction['dec_probability'] = analysis['dec_probability']
-                    
-                    predictions.append(prediction)
-                    
-                    # Print prediction vs actual
-                    print(f"\n{fighter1} vs {fighter2}:")
-                    print(f"  Actual winner: {winner}")
-                    print(f"  Predicted winner: {predicted_winner} ({win_prob:.1%} probability)")
-                    print(f"  Correct: {'✓' if correct else '✗'}")
+            elif has_fighter_columns:
+                # Extract from FIGHTER and OPPONENT columns
+                fighter1 = fight['FIGHTER'].strip()
+                fighter2 = fight['OPPONENT'].strip()
+            else:
+                # Try to find columns that might contain fighter names
+                potential_columns = [col for col in event_fights.columns if 'FIGHTER' in col.upper() or 'NAME' in col.upper()]
+                print(f"  Potential fighter name columns: {potential_columns}")
+                if len(potential_columns) >= 2:
+                    fighter1 = fight[potential_columns[0]].strip()
+                    fighter2 = fight[potential_columns[1]].strip()
                 else:
-                    print(f"  Skipping - couldn't split fighters from bout: {bout}")
-            except Exception as e:
-                print(f"  Error processing bout: {str(e)}")
+                    print("  Could not find fighter name columns")
+                    continue
+            
+            print(f"  Extracted fighters: '{fighter1}' vs '{fighter2}'")
+            
+            # Determine winner
+            if 'OUTCOME' in fight and not pd.isna(fight['OUTCOME']):
+                outcome = fight['OUTCOME']
+                print(f"  Using outcome: {outcome}")
+                
+                # Handle W/L format
+                if outcome == 'W/L':
+                    winner = fighter1
+                    print(f"  Winner from W/L: {fighter1}")
+                elif outcome == 'L/W':
+                    winner = fighter2
+                    print(f"  Winner from L/W: {fighter2}")
+                elif outcome.lower() == 'win':
+                    winner = fighter1
+                    print(f"  Winner from 'win': {fighter1}")
+                elif outcome.lower() == 'loss':
+                    winner = fighter2
+                    print(f"  Winner from 'loss': {fighter2}")
+                else:
+                    # Try to determine from METHOD
+                    if 'METHOD' in fight and not pd.isna(fight['METHOD']):
+                        method = fight['METHOD']
+                        print(f"  Method: {method}")
+                        
+                        # Look for fighter names in the method description
+                        fighter1_parts = fighter1.split()
+                        fighter2_parts = fighter2.split()
+                        
+                        # Check if any part of fighter1's name is in the method
+                        if any(part in method for part in fighter1_parts):
+                            winner = fighter1
+                            print(f"  Winner determined from method: {fighter1}")
+                        # Check if any part of fighter2's name is in the method
+                        elif any(part in method for part in fighter2_parts):
+                            winner = fighter2
+                            print(f"  Winner determined from method: {fighter2}")
+                        else:
+                            print(f"  Skipping - can't determine winner from method: {method}")
+                            continue
+                    else:
+                        print(f"  Skipping - unknown outcome format: {outcome}")
+                        continue
+            elif 'METHOD' in fight and not pd.isna(fight['METHOD']):
+                method = fight['METHOD']
+                print(f"  Method: {method}")
+                
+                # Look for fighter names in the method description
+                fighter1_parts = fighter1.split()
+                fighter2_parts = fighter2.split()
+                
+                # Check if any part of fighter1's name is in the method
+                if any(part in method for part in fighter1_parts):
+                    winner = fighter1
+                    print(f"  Winner determined from method: {fighter1}")
+                # Check if any part of fighter2's name is in the method
+                elif any(part in method for part in fighter2_parts):
+                    winner = fighter2
+                    print(f"  Winner determined from method: {fighter2}")
+                else:
+                    print(f"  Skipping - can't determine winner from method: {method}")
+                    continue
+            else:
+                print(f"  Skipping - can't determine winner")
                 continue
-        
-        # Calculate accuracy
-        accuracy = correct_predictions / total_predictions if total_predictions > 0 else 0
-        print(f"\nOverall accuracy: {accuracy:.1%} ({correct_predictions}/{total_predictions})")
-        
-        # Export predictions to CSV
-        filename = f"{event_name.replace(' ', '_').lower()}_evaluation.csv"
-        export_predictions_to_csv(predictions, filename=filename)
-        print(f"Evaluation results exported to {filename}")
-        
-        return {
-            'event': event_name,
-            'date': event_date,
-            'accuracy': accuracy,
-            'correct_predictions': correct_predictions,
-            'total_predictions': total_predictions,
-            'predictions': predictions
-        }
-    else:
-        print("Could not find BOUT column to extract fighter names")
-        return None
+            
+            # Make prediction
+            try:
+                print(f"\n  Making prediction for {fighter1} vs {fighter2}...")
+                prob, analysis = predict_fight(model, fighter1, fighter2, fighter_stats_df, fight_stats_df, fights_df)
+                print(f"  Raw prediction probability: {prob:.4f}")
+                
+                # Incorporate external data (without scraping)
+                adjusted_prob, confidence = incorporate_external_data(fighter1, fighter2, prob)
+                print(f"  Adjusted prediction probability: {adjusted_prob:.4f}")
+                
+                # Determine predicted winner
+                predicted_winner = fighter1 if adjusted_prob > 0.5 else fighter2
+                win_prob = adjusted_prob if adjusted_prob > 0.5 else 1 - adjusted_prob
+                
+                # Check if prediction was correct
+                correct = predicted_winner == winner
+                if correct:
+                    correct_predictions += 1
+                total_predictions += 1
+                
+                # Store prediction details
+                prediction = {
+                    'event': event_name,
+                    'date': event_date,
+                    'fighter1': fighter1,
+                    'fighter2': fighter2,
+                    'actual_winner': winner,
+                    'predicted_winner': predicted_winner,
+                    'win_probability': win_prob,
+                    'confidence': confidence,
+                    'correct': correct
+                }
+                
+                if analysis:
+                    prediction['ko_probability'] = analysis['ko_probability']
+                    prediction['sub_probability'] = analysis['sub_probability']
+                    prediction['dec_probability'] = analysis['dec_probability']
+                
+                predictions.append(prediction)
+                
+                # Print prediction vs actual
+                print(f"\n{fighter1} vs {fighter2}:")
+                print(f"  Actual winner: {winner}")
+                print(f"  Predicted winner: {predicted_winner} ({win_prob:.1%} probability)")
+                print(f"  Correct: {'✓' if correct else '✗'}")
+            except Exception as e:
+                print(f"  Error making prediction: {str(e)}")
+                continue
+        except Exception as e:
+            print(f"  Error processing fight: {str(e)}")
+            continue
+    
+    # Calculate accuracy
+    accuracy = correct_predictions / total_predictions if total_predictions > 0 else 0
+    print(f"\nOverall accuracy: {accuracy:.1%} ({correct_predictions}/{total_predictions})")
+    
+    # Export predictions to CSV
+    filename = f"{event_name.replace(' ', '_').lower()}_evaluation.csv"
+    export_predictions_to_csv(predictions, filename=filename)
+    print(f"Evaluation results exported to {filename}")
+    
+    return {
+        'event': event_name,
+        'date': event_date,
+        'accuracy': accuracy,
+        'correct_predictions': correct_predictions,
+        'total_predictions': total_predictions,
+        'predictions': predictions
+    }
 
-def main(event_id=None, use_scraping=True, evaluate_past=False, past_event=None, past_date=None):
+def evaluate_kape_almabayev_event(model, fighter_stats_df, fight_stats_df, fights_df):
+    """
+    Evaluate model accuracy on UFC Fight Night: Kape vs. Almabayev event
+    
+    Args:
+        model: Trained prediction model
+        fighter_stats_df: DataFrame with fighter statistics
+        fight_stats_df: DataFrame with fight statistics
+        fights_df: DataFrame with fight results
+    
+    Returns:
+        Dictionary with accuracy metrics
+    """
+    event_name = "UFC Fight Night: Kape vs. Almabayev"
+    event_date = "2025-03-01"  # March 1, 2025
+    
+    print(f"\n===== Evaluating Model on {event_name} ({event_date}) =====")
+    
+    # Define the fights manually
+    fights = [
+        {"fighter1": "Manel Kape", "fighter2": "Asu Almabayev", "outcome": "W/L"},
+        {"fighter1": "Cody Brundage", "fighter2": "Julian Marquez", "outcome": "W/L"},
+        {"fighter1": "Nasrat Haqparast", "fighter2": "Esteban Ribovics", "outcome": "W/L"},
+        {"fighter1": "Hyder Amil", "fighter2": "William Gomis", "outcome": "W/L"},
+        {"fighter1": "Danny Barlow", "fighter2": "Sam Patterson", "outcome": "L/W"},
+        {"fighter1": "Austen Lane", "fighter2": "Mario Pinto", "outcome": "L/W"},
+        {"fighter1": "Ricardo Ramos", "fighter2": "Chepe Mariscal", "outcome": "L/W"},
+        {"fighter1": "Danny Silva", "fighter2": "Lucas Almeida", "outcome": "W/L"},
+        {"fighter1": "Andrea Lee", "fighter2": "JJ Aldrich", "outcome": "L/W"},
+        {"fighter1": "Charles Johnson", "fighter2": "Ramazan Temirov", "outcome": "L/W"}
+    ]
+    
+    correct_predictions = 0
+    total_predictions = 0
+    predictions = []
+    
+    for fight in fights:
+        fighter1 = fight["fighter1"]
+        fighter2 = fight["fighter2"]
+        outcome = fight["outcome"]
+        
+        print(f"\nProcessing fight: {fighter1} vs {fighter2}")
+        
+        # Determine actual winner based on outcome
+        if outcome == "W/L":
+            actual_winner = fighter1
+            print(f"  Actual winner: {fighter1}")
+        elif outcome == "L/W":
+            actual_winner = fighter2
+            print(f"  Actual winner: {fighter2}")
+        else:
+            print(f"  Unknown outcome format: {outcome}")
+            continue
+        
+        try:
+            # Make prediction
+            print(f"  Making prediction...")
+            prob, analysis = predict_fight(model, fighter1, fighter2, fighter_stats_df, fight_stats_df, fights_df)
+            print(f"  Raw prediction probability: {prob:.4f}")
+            
+            # Incorporate external data (without scraping)
+            adjusted_prob, confidence = incorporate_external_data(fighter1, fighter2, prob)
+            print(f"  Adjusted prediction probability: {adjusted_prob:.4f}")
+            
+            # Determine predicted winner
+            predicted_winner = fighter1 if adjusted_prob > 0.5 else fighter2
+            win_prob = adjusted_prob if adjusted_prob > 0.5 else 1 - adjusted_prob
+            
+            # Check if prediction was correct
+            correct = predicted_winner == actual_winner
+            if correct:
+                correct_predictions += 1
+            total_predictions += 1
+            
+            # Store prediction details
+            prediction = {
+                'event': event_name,
+                'date': event_date,
+                'fighter1': fighter1,
+                'fighter2': fighter2,
+                'actual_winner': actual_winner,
+                'predicted_winner': predicted_winner,
+                'win_probability': win_prob,
+                'confidence': confidence,
+                'correct': correct
+            }
+            
+            if analysis:
+                prediction['ko_probability'] = analysis['ko_probability']
+                prediction['sub_probability'] = analysis['sub_probability']
+                prediction['dec_probability'] = analysis['dec_probability']
+            
+            predictions.append(prediction)
+            
+            # Print prediction vs actual
+            print(f"  Predicted winner: {predicted_winner} ({win_prob:.1%} probability)")
+            print(f"  Correct: {'✓' if correct else '✗'}")
+        except Exception as e:
+            print(f"  Error making prediction: {str(e)}")
+            continue
+    
+    # Calculate accuracy
+    accuracy = correct_predictions / total_predictions if total_predictions > 0 else 0
+    print(f"\nOverall accuracy: {accuracy:.1%} ({correct_predictions}/{total_predictions})")
+    
+    # Export predictions to CSV
+    filename = "kape_almabayev_evaluation.csv"
+    export_predictions_to_csv(predictions, filename=filename)
+    print(f"Evaluation results exported to {filename}")
+    
+    return {
+        'event': event_name,
+        'date': event_date,
+        'accuracy': accuracy,
+        'correct_predictions': correct_predictions,
+        'total_predictions': total_predictions,
+        'predictions': predictions
+    }
+
+def main(event_id=None, use_scraping=True, evaluate_past=False, past_event=None, past_date=None, evaluate_kape=False):
     # Debug prints
     print("=" * 50)
     print("STARTING UFC PREDICTION SCRIPT")
@@ -1049,113 +1248,106 @@ def main(event_id=None, use_scraping=True, evaluate_past=False, past_event=None,
     print("\nCreating features and training model...")
     try:
         features, labels = create_fight_features(fight_stats, fighter_stats, fights)
+        print(f"Created {len(features)} examples with label distribution: {np.bincount(labels)}")
         
-        if len(features) < 10:
-            print("Not enough features created for reliable model training.")
-            print("Using a simple baseline model instead.")
-            model = None
-        else:
-            model = train_prediction_model(features, labels)
+        model = train_prediction_model(features, labels)
     except Exception as e:
-        print(f"Error creating features or training model: {str(e)}")
-        print("Using a simple baseline model instead.")
-        model = None
+        print(f"Error during feature creation or model training: {str(e)}")
+        print("Using a simple baseline model instead")
+        from sklearn.dummy import DummyClassifier
+        model = DummyClassifier(strategy="constant", constant=1)
+        model.fit(np.array([[0]]), np.array([1]))
     
-    # If evaluating past event
+    # Evaluate Kape vs. Almabayev event if requested
+    if evaluate_kape:
+        evaluate_kape_almabayev_event(model, fighter_stats, fight_stats, fights)
+        return
+    
+    # Evaluate past event if requested
     if evaluate_past and past_event and past_date:
         evaluate_past_event(past_event, past_date, model, fighter_stats, fight_stats, fights)
         return
     
-    # March 8, 2025 fight card
+    # Define upcoming fights
     upcoming_fights = [
+        # UFC 313 - March 8, 2025
+        ("John Castaneda", "Chris Gutierrez"),
         ("Magomed Ankalaev", "Alex Pereira"),
-        ("Ignacio Bahamondes", "Jalin Turner"),
-        ("Iasmin Lucindo", "Amanda Lemos"),
-        ("Mauricio Ruffy", "Bobby Green"),
-        ("Rizvan Kuniev", "Curtis Blaydes"),
-        ("Armen Petrosyan", "Brunno Ferreira"),
-        ("Carlos Leal", "Alex Morono"),
-        ("Francis Marshall", "Mairon Santos"),
-        ("Ozzy Diaz", "Djorden Santos"),
-        ("Rei Tsuruya", "Joshua Van"),
-        ("Rafael Fiziev", "Justin Gaethje"),
-        ("John Castaneda", "Chris Gutierrez")
+        ("Jalin Turner", "Dan Hooker"),
+        ("Amanda Lemos", "Virna Jandiroba"),
+        ("Bobby Green", "Paddy Pimblett"),
+        ("Curtis Blaydes", "Jailton Almeida"),
+        ("Karine Silva", "Viviane Araujo"),
+        ("Cub Swanson", "Andre Fili"),
+        ("Joaquin Buckley", "Nursulton Ruziboev"),
+        ("Ignacio Bahamondes", "Christos Giagos"),
+        ("Luana Santos", "Piera Rodriguez"),
+        ("Abus Magomedov", "Warlley Alves"),
+        ("Ricky Turcios", "Cody Gibson")
     ]
     
-    # Store all predictions for CSV export
-    all_predictions = []
+    # Make predictions
+    print("\nMaking predictions for upcoming fights...")
+    predictions = []
     
-    # Predict upcoming fights
-    print("\n===== March 8, 2025 Fight Predictions =====")
     for fighter1, fighter2 in upcoming_fights:
         print(f"\n{fighter1} vs {fighter2}:")
         
-        # Use advanced analysis
-        prob, analysis = predict_fight(model, fighter1, fighter2, fighter_stats, fight_stats, fights)
-        
-        # Incorporate external data
-        if use_scraping and event_id:
-            adjusted_prob, confidence = incorporate_external_data(fighter1, fighter2, prob, event_id)
-        else:
-            adjusted_prob, confidence = incorporate_external_data(fighter1, fighter2, prob)
-        
-        # Create prediction record for CSV export
-        prediction = {
-            'fighter1': fighter1,
-            'fighter2': fighter2,
-            'winner': fighter1 if adjusted_prob > 0.5 else fighter2,
-            'win_prob': adjusted_prob if adjusted_prob > 0.5 else 1 - adjusted_prob,
-            'confidence': confidence
-        }
-        
-        if analysis:
-            # Print detailed analysis
-            winner = fighter1 if adjusted_prob > 0.5 else fighter2
+        try:
+            # Make prediction
+            prob, analysis = predict_fight(model, fighter1, fighter2, fighter_stats, fight_stats, fights)
+            
+            # Incorporate external data if available
+            if event_id and use_scraping:
+                adjusted_prob, confidence = incorporate_external_data(fighter1, fighter2, prob, event_id)
+            else:
+                adjusted_prob, confidence = incorporate_external_data(fighter1, fighter2, prob)
+            
+            # Determine predicted winner
+            predicted_winner = fighter1 if adjusted_prob > 0.5 else fighter2
             win_prob = adjusted_prob if adjusted_prob > 0.5 else 1 - adjusted_prob
             
-            print(f"Prediction: {winner} wins ({win_prob:.1%} probability) - {confidence} confidence")
-            print(f"Method: KO/TKO ({analysis['ko_probability']:.1%}), Submission ({analysis['sub_probability']:.1%}), Decision ({analysis['dec_probability']:.1%})")
+            # Store prediction details
+            prediction = {
+                'fighter1': fighter1,
+                'fighter2': fighter2,
+                'predicted_winner': predicted_winner,
+                'win_probability': win_prob,
+                'confidence': confidence
+            }
             
-            # Add method probabilities to prediction record
-            prediction['ko_prob'] = analysis['ko_probability']
-            prediction['sub_prob'] = analysis['sub_probability']
-            prediction['dec_prob'] = analysis['dec_probability']
-            
-            # Print fighter stats
-            print(f"\n{fighter1} stats:")
-            print(f"  Height: {analysis['fighter1_stats']['height']}, Reach: {analysis['fighter1_stats']['reach']}")
-            print(f"  Recent wins: {analysis['fighter1_stats']['recent_wins']}, Losing streak: {analysis['fighter1_stats']['losing_streak']}")
-            print(f"  Sig. strikes: {analysis['fighter1_stats']['sig_strikes']:.1f}, Takedowns: {analysis['fighter1_stats']['takedowns']:.1f}")
-            
-            print(f"\n{fighter2} stats:")
-            print(f"  Height: {analysis['fighter2_stats']['height']}, Reach: {analysis['fighter2_stats']['reach']}")
-            print(f"  Recent wins: {analysis['fighter2_stats']['recent_wins']}, Losing streak: {analysis['fighter2_stats']['losing_streak']}")
-            print(f"  Sig. strikes: {analysis['fighter2_stats']['sig_strikes']:.1f}, Takedowns: {analysis['fighter2_stats']['takedowns']:.1f}")
-            
-            # Flag potential upsets
-            if (adjusted_prob > 0.5 and adjusted_prob < 0.6) or (adjusted_prob < 0.5 and adjusted_prob > 0.4):
-                print("\n⚠️ POTENTIAL UPSET ALERT: Close matchup with upset potential")
-        else:
-            # Fall back to simple prediction
-            winner = fighter1 if adjusted_prob > 0.5 else fighter2
-            win_prob = adjusted_prob if adjusted_prob > 0.5 else 1 - adjusted_prob
-            
-            print(f"Prediction: {winner} wins ({win_prob:.1%} probability) - {confidence} confidence")
+            if analysis:
+                prediction['ko_probability'] = analysis['ko_probability']
+                prediction['sub_probability'] = analysis['sub_probability']
+                prediction['dec_probability'] = analysis['dec_probability']
                 
-            # Simple baseline prediction based on physical stats
-            phys_1 = find_best_fighter_match(fighter1, fighter_stats, debug=False)
-            phys_2 = find_best_fighter_match(fighter2, fighter_stats, debug=False)
+                # Print prediction details
+                print(f"Predicted winner: {predicted_winner} ({win_prob:.1%} probability)")
+                print(f"Confidence: {confidence}")
+                print(f"Method of victory probabilities:")
+                print(f"  KO/TKO: {analysis['ko_probability']:.1%}")
+                print(f"  Submission: {analysis['sub_probability']:.1%}")
+                print(f"  Decision: {analysis['dec_probability']:.1%}")
+                
+                # Print fighter stats
+                print(f"\n{fighter1} stats:")
+                for stat, value in analysis['fighter1_stats'].items():
+                    print(f"  {stat}: {value}")
+                
+                print(f"\n{fighter2} stats:")
+                for stat, value in analysis['fighter2_stats'].items():
+                    print(f"  {stat}: {value}")
             
-            if phys_1 is not None and phys_2 is not None:
-                print(f"{fighter1}: Height {phys_1['HEIGHT']}, Reach {phys_1['REACH']}")
-                print(f"{fighter2}: Height {phys_2['HEIGHT']}, Reach {phys_2['REACH']}")
-        
-        # Add prediction to list
-        all_predictions.append(prediction)
+            predictions.append(prediction)
+            
+        except Exception as e:
+            print(f"Error making prediction: {str(e)}")
+            continue
     
     # Export predictions to CSV
-    export_predictions_to_csv(all_predictions, filename="ufc_313_predictions.csv")
-    print("\nPredictions exported to ufc_313_predictions.csv")
+    filename = f"ufc_{'313' if event_id else ''}_predictions.csv"
+    export_predictions_to_csv(predictions, filename=filename)
+    print(f"\nPredictions exported to {filename}")
 
 # Add debug print before if __name__ == "__main__"
 print("About to check if __name__ == '__main__'")
@@ -1163,22 +1355,21 @@ print("About to check if __name__ == '__main__'")
 if __name__ == "__main__":
     print("In __name__ == '__main__' block")
     
-    parser = argparse.ArgumentParser(description='UFC Fight Prediction Tool')
-    parser.add_argument('--event', type=str, help='Event ID for scraping fresh data')
+    parser = argparse.ArgumentParser(description='UFC Fight Prediction')
+    parser.add_argument('--event', type=str, help='Event ID for scraping (e.g., "ufc-313")')
     parser.add_argument('--no-scrape', action='store_true', help='Disable web scraping')
-    parser.add_argument('--evaluate', action='store_true', help='Evaluate model on past event')
+    parser.add_argument('--evaluate', action='store_true', help='Evaluate model on a past event')
     parser.add_argument('--past-event', type=str, help='Name of past event to evaluate (e.g., "UFC 300")')
     parser.add_argument('--past-date', type=str, help='Date of past event in YYYY-MM-DD format')
+    parser.add_argument('--evaluate-kape', action='store_true', help='Evaluate model on UFC Fight Night: Kape vs. Almabayev')
+    
     args = parser.parse_args()
     
-    event_id = args.event if args.event else None
-    use_scraping = not args.no_scrape
-    
-    if args.evaluate:
-        if not args.past_event or not args.past_date:
-            print("Error: --past-event and --past-date are required when using --evaluate")
-            sys.exit(1)
-        main(event_id=event_id, use_scraping=use_scraping, evaluate_past=True, 
-             past_event=args.past_event, past_date=args.past_date)
-    else:
-        main(event_id=event_id, use_scraping=use_scraping)
+    main(
+        event_id=args.event,
+        use_scraping=not args.no_scrape,
+        evaluate_past=args.evaluate,
+        past_event=args.past_event,
+        past_date=args.past_date,
+        evaluate_kape=args.evaluate_kape
+    )

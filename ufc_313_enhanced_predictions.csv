@@ -1,0 +1,13 @@
+fighter1,fighter2,predicted_winner,win_probability,confidence,ko_probability,sub_probability,dec_probability
+Magomed Ankalaev,Alex Pereira,Alex Pereira,0.6275982098866948,Low,0.7,0.0,0.3
+Ignacio Bahamondes,Jalin Turner,Ignacio Bahamondes,0.5522599916336903,Low,0.55,0.35,0.1
+Iasmin Lucindo,Amanda Lemos,Amanda Lemos,0.5772612916020581,Low,0.14427860696517414,0.2686567164179105,0.5870646766169154
+Mauricio Ruffy,Bobby Green,Mauricio Ruffy,0.5243677621467099,Low,0.35,0.0,0.65
+Rizvan Kuniev,Curtis Blaydes,Curtis Blaydes,0.7326317146269785,Medium,0.67,0.0,0.33
+Armen Petrosyan,Brunno Ferreira,Armen Petrosyan,0.811838727451451,High,0.5,0.0,0.5
+Carlos Leal,Alex Morono,Alex Morono,0.8091410298461872,High,0.29,0.14,0.57
+Francis Marshall,Mairon Santos,Francis Marshall,0.5925081440184271,Low,0.75,0.0,0.25
+Ozzy Diaz,Djorden Santos,Ozzy Diaz,0.5089814671803471,Low,0.3,0.2,0.5
+Rei Tsuruya,Joshua Van,Joshua Van,0.589822965437713,Low,0.1,0.0,0.9
+Rafael Fiziev,Justin Gaethje,Rafael Fiziev,0.5858668301972187,Low,0.585,0.0,0.41500000000000004
+John Castaneda,Chris Gutierrez,Chris Gutierrez,0.6609037538532123,Medium,0.27,0.125,0.605
