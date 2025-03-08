@@ -942,12 +942,19 @@ def evaluate_past_event(event_name, event_date, model, fighter_stats_df, fight_s
                             outcome = fight['OUTCOME']
                             print(f"  Using outcome: {outcome}")
                             
-                            if outcome.lower() == 'win':
+                            # Handle W/L format
+                            if outcome == 'W/L':
+                                winner = fighter1
+                                print(f"  Winner from W/L: {fighter1}")
+                            elif outcome == 'L/W':
+                                winner = fighter2
+                                print(f"  Winner from L/W: {fighter2}")
+                            elif outcome.lower() == 'win':
                                 winner = fighter1
                             elif outcome.lower() == 'loss':
                                 winner = fighter2
                             else:
-                                print(f"  Skipping - draw or no contest: {outcome}")
+                                print(f"  Skipping - unknown outcome format: {outcome}")
                                 continue
                         else:
                             # If we still can't determine the winner, skip this fight
