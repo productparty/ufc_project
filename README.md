@@ -1,68 +1,110 @@
-# Scrape UFC Stats
-Scrape all available UFC events data, fights stats, and fighter details and from [ufcstats.com](http://ufcstats.com/) and save in CSV format.
-<br>
-<br>
-<br>
+# UFC Fight Prediction System
 
-## Prerequisites
+A machine learning-based system for predicting UFC fight outcomes with advanced analytics and external data integration.
+
+## Overview
+
+This project uses historical UFC fight data to predict the outcomes of upcoming fights. It combines:
+
+1. **Machine Learning Model**: An XGBoost classifier trained on physical attributes and fight statistics
+2. **Advanced Fight Analysis**: Detailed breakdown of fighter matchups and fighting styles
+3. **External Data Integration**: Incorporates betting odds and rating systems from Fight Matrix and Tapology
+4. **Historical Evaluation**: Ability to test the model against past events to measure accuracy
+
+## Features
+
+- **Fight Outcome Prediction**: Predicts the winner with confidence level
+- **Method of Victory**: Estimates probability of KO/TKO, submission, or decision
+- **Fighter Statistics**: Analyzes height, reach, recent wins, losing streaks, striking and takedown metrics
+- **Multi-Model Approach**: Combines machine learning with external rating systems
+- **Upset Detection**: Flags potential upsets in close matchups
+- **Historical Validation**: Tests model against past events to measure accuracy
+
+## Installation
+
+1. Clone the repository:
 ```
-Python 3
-```
-Install requirements with `pip install -r requirements.txt`
-<br>
-<br>
-<br>
-
-## Introduction
-
-Data for all events, fights, and fighters have scraped and saved as the following data files:
-```
-ufc_events.csv
-ufc_fight_details.csv
-ufc_fight_results.csv
-ufc_fight_stats.csv
-ufc_fighter_details.csv
-ufc_fighter_tott.csv
+git clone https://github.com/yourusername/ufc-prediction.git
+cd ufc-prediction
 ```
 
-To download the CSV files without running any code, click `Code` > `Download ZIP` or clone the repo.
-<br>
-<br>
+2. Create a virtual environment:
+```
+python -m venv .venv
+```
 
-You can also scrape the all data for fight stats again using the notebook `scrape_ufc_stats_all_historical_data.ipynb`, and all data for fighter tale of the tape again using the notebook `scrape_ufc_stats_fighter_tott.ipynb`.
-Do note these will each take a few hours to complete.
+3. Activate the virtual environment:
+- Windows: `.venv\Scripts\activate`
+- Unix/MacOS: `source .venv/bin/activate`
 
-Once you have the up-to-date historical data for fight stats, you can run the notebook `scrape_ufc_stats_unparsed_data.ipynb` or the script `scrape_ufc_stats_unparsed_data.py` to scrape the only latest fights and refresh the data.
+4. Install dependencies:
+```
+pip install -r requirements.txt
+```
 
-The notebook `scrape_ufc_stats_working_example.ipynb` can be used for testing or debugging. The code here is broken down into sections which can be executed to scrape single data points, e.g. scraping stats for one fight only.
+## Usage
 
-Do feel free to reach out with any comments, suggestions, or issues. 😃
-<br>
-<br>
-<br>
+### Predicting Upcoming Fights
 
-## Data Refresh
+```
+python predict_ufc313.py
+```
 
-The script `scrape_ufc_stats_unparsed_data.py` has been added to [PythonAnywhere](https://www.pythonanywhere.com/?affiliate_id=00a8b72b) and will run daily to check and scrape new fights and fighters and push the refreshed data files to this repository. 
+### Incorporating External Data
 
-This keeps the data files up to date with the latest fight and fighter stats and you can quickly download and use the CSV files above without running any code.
-<br>
-<br>
-<br>
+```
+python predict_ufc313.py --event ufc-313
+```
 
-## Next Steps
+### Evaluating Past Events
 
-~~Data Refresh for Fights - Parse and refresh new fight data programmatically when there are new events~~
+```
+python predict_ufc313.py --evaluate --past-event "UFC 300" --past-date "2024-04-13"
+```
 
-~~Scrape Fighter Details - Get all fighter's tale of the tape (e.g. height, weight, etc.)~~
+### Command Line Arguments
 
-~~Data Refresh for Fighters - Parse and refresh new fighter details programmatically when there are new fighters added to the roster~~
+- `--event`: Event ID for scraping fresh data from Fight Matrix and Tapology
+- `--no-scrape`: Disable web scraping and use cached data
+- `--evaluate`: Evaluate model on a past event
+- `--past-event`: Name of past event to evaluate (e.g., "UFC 300")
+- `--past-date`: Date of past event in YYYY-MM-DD format
 
-Clean Data - Clean data to be used for further analysis
+## Data Sources
 
-Data Exploration - Plot and visualise stats
+The system uses several data sources:
 
-Prediction - Build a machine learning model to predict the outcome of fights
-<br>
-<br>
-<br>
+1. **Historical UFC Fight Data**: Fight results, fighter statistics, and fight metrics
+2. **Fight Matrix**: Multiple rating systems including Elo, Glicko, and WHR
+3. **Tapology**: Betting odds and community predictions
+4. **Physical Attributes**: Height, reach, and other physical measurements
+
+## Model Details
+
+The prediction model is based on XGBoost and uses the following features:
+
+- Height difference between fighters
+- Reach difference between fighters
+- Significant strike differential
+- Takedown differential
+- Submission attempt differential
+
+Feature importance analysis shows that physical attributes (reach and height) are the strongest predictors of fight outcomes.
+
+## Future Enhancements
+
+- Web interface for predictions
+- Round-by-round predictions
+- Fighter style matchup analysis
+- Automated data scraping for real-time updates
+- Betting value calculator
+
+## License
+
+MIT License
+
+## Acknowledgments
+
+- UFC Stats for historical fight data
+- Fight Matrix for their comprehensive rating systems
+- Tapology for betting odds and community predictions
