@@ -1,9 +1,0 @@
-fighter1,fighter2,actual_winner,predicted_winner,win_probability,correct
-Cody Brundage,Julian Marquez,Cody Brundage,Julian Marquez,0.5405700688200689,False
-Nasrat Haqparast,Esteban Ribovics,Nasrat Haqparast,Nasrat Haqparast,0.8256666666666667,True
-Hyder Amil,William Gomis,Hyder Amil,Hyder Amil,0.56404930885316,True
-Danny Barlow,Sam Patterson,Sam Patterson,Sam Patterson,0.91,True
-Austen Lane,Mario Pinto,Mario Pinto,Mario Pinto,0.8381666666666667,True
-Danny Silva,Lucas Almeida,Danny Silva,Danny Silva,0.715,True
-Andrea Lee,JJ Aldrich,JJ Aldrich,JJ Aldrich,0.5339490918438288,True
-Charles Johnson,Ramazan Temirov,Ramazan Temirov,Charles Johnson,0.56404930885316,False
