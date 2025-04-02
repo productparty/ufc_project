@@ -15,3 +15,5 @@ jupyter-server>=2.7.2 # not directly required, pinned by Snyk to avoid a vulnera
 scikit-learn
 xgboost
 selenium
+httpx>=0.24,<0.26
+supabase==2.3.1
