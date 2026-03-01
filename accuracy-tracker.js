@@ -52,16 +52,22 @@ class AccuracyTracker {
 
             totalFights++;
 
+            // Use override pick if present, otherwise model pick
+            const effectiveWinner = prediction.override ? prediction.override.winner : prediction.winner;
+            const effectiveWinnerName = prediction.override ? prediction.override.winnerName : prediction.winnerName;
+            const effectiveMethod = prediction.override ? prediction.override.method : prediction.method;
+            const effectiveRound = prediction.override ? prediction.override.round : prediction.round;
+
             // Check winner
-            const winnerMatch = prediction.winner === result.winner;
+            const winnerMatch = effectiveWinner === result.winner;
             if (winnerMatch) winnerCorrect++;
 
             // Check method (only if winner correct)
-            const methodMatch = winnerMatch && this.methodMatches(prediction.method, result.method);
+            const methodMatch = winnerMatch && this.methodMatches(effectiveMethod, result.method);
             if (methodMatch) methodCorrect++;
 
             // Check round (only if method correct and not DEC)
-            const roundMatch = methodMatch && this.roundMatches(prediction.round, result.round, result.method);
+            const roundMatch = methodMatch && this.roundMatches(effectiveRound, result.round, result.method);
             if (roundMatch) roundCorrect++;
 
             // Track by weight class
@@ -96,13 +102,14 @@ class AccuracyTracker {
                 fighterB: fight.fighterB.name,
                 weightClass,
                 prediction: {
-                    winner: prediction.winnerName,
-                    method: prediction.method,
-                    round: prediction.round,
+                    winner: effectiveWinnerName,
+                    method: effectiveMethod,
+                    round: effectiveRound,
                     confidence: prediction.confidence,
                     confidenceTier: prediction.confidenceTier,
                     isVolatile: prediction.isVolatile,
-                    primarySource: prediction.primarySource
+                    primarySource: prediction.primarySource,
+                    isOverridden: !!prediction.override
                 },
                 result: {
                     winner: result.winnerName,

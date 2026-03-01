@@ -940,6 +940,14 @@ class App {
         const card = e.target.closest('.fight-card');
         if (!card) return;
 
+        // Handle inline stat edit click
+        const editableStat = e.target.closest('.editable-stat');
+        if (editableStat && !editableStat.classList.contains('editing')) {
+            e.stopPropagation();
+            this.startInlineEdit(editableStat, card.dataset.fightId);
+            return;
+        }
+
         // Handle edit button
         if (e.target.classList.contains('edit-fight-btn')) {
             this.editFight(card.dataset.fightId);
@@ -956,6 +964,171 @@ class App {
         if (e.target.closest('.fight-card-header')) {
             card.classList.toggle('expanded');
         }
+    }
+
+    /**
+     * Start inline editing of a fighter stat value
+     */
+    startInlineEdit(statSpan, fightId) {
+        if (statSpan.classList.contains('editing')) return;
+        statSpan.classList.add('editing');
+
+        const fieldPath = statSpan.dataset.fieldPath;
+        const fighterLabel = statSpan.dataset.fighterLabel;
+        const inputType = statSpan.dataset.inputType || 'text';
+        const suffix = statSpan.dataset.suffix || '';
+        const rawValue = statSpan.dataset.rawValue || '';
+
+        const originalHTML = statSpan.innerHTML;
+        const originalClasses = statSpan.className;
+
+        const input = document.createElement('input');
+        input.type = inputType === 'number' ? 'number' : 'text';
+        input.className = 'inline-stat-input';
+        input.value = rawValue;
+        if (inputType === 'number') {
+            input.step = 'any';
+            input.min = '0';
+        }
+
+        statSpan.innerHTML = '';
+        statSpan.appendChild(input);
+        input.focus();
+        input.select();
+
+        let saved = false;
+
+        const saveValue = async () => {
+            if (saved) return;
+            saved = true;
+
+            const newValue = input.value.trim();
+            const parsedValue = inputType === 'number'
+                ? (newValue === '' ? null : parseFloat(newValue))
+                : (newValue === '' ? null : newValue);
+
+            const oldParsed = inputType === 'number'
+                ? (rawValue === '' ? null : parseFloat(rawValue))
+                : (rawValue === '' ? null : rawValue);
+
+            if (parsedValue === oldParsed || (parsedValue === null && oldParsed === null)) {
+                statSpan.innerHTML = originalHTML;
+                statSpan.className = originalClasses;
+                return;
+            }
+
+            try {
+                await this.saveInlineStatEdit(fightId, fighterLabel, fieldPath, parsedValue);
+
+                const isMissing = parsedValue === null || parsedValue === undefined || parsedValue === '';
+                if (isMissing) {
+                    statSpan.innerHTML = '<span class="missing-dash">--</span>';
+                    if (!statSpan.classList.contains('missing')) statSpan.classList.add('missing');
+                } else {
+                    statSpan.textContent = `${parsedValue}${suffix}`;
+                    statSpan.classList.remove('missing');
+                }
+                statSpan.dataset.rawValue = parsedValue !== null ? String(parsedValue) : '';
+                statSpan.classList.remove('editing');
+                statSpan.classList.add('editable-stat');
+
+                this.refreshFightCardIndicator(fightId);
+            } catch (error) {
+                console.error('Inline edit failed:', error);
+                statSpan.innerHTML = originalHTML;
+                statSpan.className = originalClasses;
+                UIComponents.showToast('Failed to save edit', 'error');
+            }
+        };
+
+        const cancelEdit = () => {
+            if (saved) return;
+            saved = true;
+            statSpan.innerHTML = originalHTML;
+            statSpan.className = originalClasses;
+        };
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveValue();
+            } else if (e.key === 'Escape') {
+                cancelEdit();
+            }
+        });
+
+        input.addEventListener('blur', () => {
+            setTimeout(() => saveValue(), 50);
+        });
+    }
+
+    /**
+     * Save an inline stat edit to storage
+     */
+    async saveInlineStatEdit(fightId, fighterLabel, fieldPath, value) {
+        const fight = await storage.getFight(fightId);
+        if (!fight) throw new Error('Fight not found');
+
+        const fighterKey = fighterLabel === 'A' ? 'fighterA' : 'fighterB';
+        const fighter = JSON.parse(JSON.stringify(fight[fighterKey] || {}));
+
+        // Deep-set value at dotted path
+        const pathParts = fieldPath.split('.');
+        let target = fighter;
+        for (let i = 0; i < pathParts.length - 1; i++) {
+            const key = pathParts[i];
+            if (!target[key] || typeof target[key] !== 'object') {
+                target[key] = {};
+            }
+            target = target[key];
+        }
+        target[pathParts[pathParts.length - 1]] = value;
+
+        await storage.updateFight(fightId, { [fighterKey]: fighter });
+    }
+
+    /**
+     * Refresh the data-complete indicator on a fight card without full re-render
+     */
+    async refreshFightCardIndicator(fightId) {
+        const fight = await storage.getFight(fightId);
+        if (!fight) return;
+
+        const card = document.querySelector(`.fight-card[data-fight-id="${fightId}"]`);
+        if (!card) return;
+
+        const indicator = card.querySelector('.data-indicator');
+        if (!indicator) return;
+
+        const missingFields = storage.getMissingFields(fight);
+        const isComplete = fight.dataComplete;
+
+        const indicatorSpan = indicator.querySelector('.complete, .incomplete');
+        if (indicatorSpan) {
+            if (isComplete) {
+                indicatorSpan.className = 'complete';
+                indicatorSpan.textContent = 'Complete';
+            } else {
+                indicatorSpan.className = 'incomplete';
+                indicatorSpan.textContent = `${missingFields.length} missing`;
+            }
+        }
+
+        // Update header counters
+        const fights = await storage.getFightsByEvent(this.activeEventId);
+        const totalFights = fights.length;
+        const completeFights = fights.filter(f => f.dataComplete).length;
+        const missingFights = totalFights - completeFights;
+
+        const fightCountEl = document.getElementById('fight-count');
+        const completeCountEl = document.getElementById('complete-count');
+        const missingCountEl = document.getElementById('missing-count');
+        if (fightCountEl) fightCountEl.textContent = totalFights;
+        if (completeCountEl) completeCountEl.textContent = completeFights;
+        if (missingCountEl) missingCountEl.textContent = missingFights;
+
+        const markCompleteBtn = document.getElementById('mark-complete-btn');
+        if (markCompleteBtn) markCompleteBtn.disabled = totalFights === 0 || missingFights > 0;
     }
 
     /**
@@ -2127,8 +2300,111 @@ class App {
         const card = e.target.closest('.prediction-card');
         if (!card) return;
 
+        // Handle Override toggle button
+        if (e.target.classList.contains('override-toggle-btn')) {
+            e.stopPropagation();
+            const overrideSection = card.querySelector('.override-section');
+            if (overrideSection) {
+                const isVisible = overrideSection.style.display !== 'none';
+                overrideSection.style.display = isVisible ? 'none' : 'block';
+                if (!isVisible) card.classList.add('expanded');
+            }
+            return;
+        }
+
+        // Handle Save Override
+        if (e.target.classList.contains('save-override-btn')) {
+            this.handleSaveOverride(card);
+            return;
+        }
+
+        // Handle Clear Override
+        if (e.target.classList.contains('clear-override-btn')) {
+            this.handleClearOverride(card);
+            return;
+        }
+
+        // Handle Cancel Override
+        if (e.target.classList.contains('cancel-override-btn')) {
+            const overrideSection = card.querySelector('.override-section');
+            if (overrideSection) overrideSection.style.display = 'none';
+            return;
+        }
+
+        // Handle expand/collapse
         if (e.target.closest('.prediction-card-header')) {
             card.classList.toggle('expanded');
+        }
+    }
+
+    /**
+     * Save a prediction override
+     */
+    async handleSaveOverride(card) {
+        const predictionId = card.dataset.predictionId;
+
+        const winnerSelect = card.querySelector('.override-winner');
+        const methodSelect = card.querySelector('.override-method');
+        const roundSelect = card.querySelector('.override-round');
+
+        const winner = winnerSelect.value;
+        const method = methodSelect.value;
+        const round = roundSelect.value;
+
+        if (!winner || !method || !round) {
+            UIComponents.showToast('Please select winner, method, and round', 'warning');
+            return;
+        }
+
+        const winnerName = winnerSelect.options[winnerSelect.selectedIndex].text;
+        const finalRound = method === 'DEC' ? 'DEC' : round;
+
+        try {
+            await storage.updatePrediction(predictionId, {
+                override: {
+                    winner,
+                    winnerName,
+                    method,
+                    round: finalRound
+                },
+                overriddenAt: new Date().toISOString()
+            });
+
+            // Invalidate cached confidence ranking
+            await storage.deleteConfidenceRanking(this.activeEventId);
+            const rankBtn = document.getElementById('confidence-rank-btn');
+            if (rankBtn) rankBtn.textContent = 'Confidence Rank';
+
+            UIComponents.showToast('Override saved', 'success');
+            await this.loadPredictionsView();
+        } catch (error) {
+            console.error('Failed to save override:', error);
+            UIComponents.showToast('Failed to save override', 'error');
+        }
+    }
+
+    /**
+     * Clear a prediction override
+     */
+    async handleClearOverride(card) {
+        const predictionId = card.dataset.predictionId;
+
+        try {
+            await storage.updatePrediction(predictionId, {
+                override: null,
+                overriddenAt: null
+            });
+
+            // Invalidate cached confidence ranking
+            await storage.deleteConfidenceRanking(this.activeEventId);
+            const rankBtn = document.getElementById('confidence-rank-btn');
+            if (rankBtn) rankBtn.textContent = 'Confidence Rank';
+
+            UIComponents.showToast('Override cleared - reverted to model prediction', 'success');
+            await this.loadPredictionsView();
+        } catch (error) {
+            console.error('Failed to clear override:', error);
+            UIComponents.showToast('Failed to clear override', 'error');
         }
     }
 

@@ -242,12 +242,12 @@ def health():
 
 if __name__ == '__main__':
     print(f"""
-╔══════════════════════════════════════════════════════════╗
-║         UFC Predictor Data & Proxy Server                ║
-══════════════════════════════════════════════════════════
-║  Server URL: http://localhost:5555                       ║
-║  Proxy URL:  http://localhost:5555/proxy?url=...         ║
-║  Saving to:  {RESULTS_DIR:<35} ║
-╚══════════════════════════════════════════════════════════╝
+==========================================================
+         UFC Predictor Data & Proxy Server
+==========================================================
+  Server URL: http://localhost:5555
+  Proxy URL:  http://localhost:5555/proxy?url=...
+  Saving to:  {RESULTS_DIR}
+==========================================================
     """)
     app.run(host='0.0.0.0', port=5555, debug=False)

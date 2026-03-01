@@ -118,36 +118,67 @@ const UIComponents = {
         const tapology = fighter.tapology || {};
         const dratings = fighter.dratings || {};
         const fightMatrix = fighter.fightMatrix || {};
+        const fightmatrix = fighter.fightmatrix || {}; // lowercase - expanded data
         const ufcStats = fighter.ufcStats || {};
 
         const stats = [
-            { value: fighter.record, label: 'Record' },
-            { value: tapology.consensus, label: 'Tapology %', suffix: '%' },
-            { value: tapology.koTko, label: 'T-KO %', suffix: '%' },
-            { value: tapology.sub, label: 'T-SUB %', suffix: '%' },
-            { value: tapology.dec, label: 'T-DEC %', suffix: '%' },
-            { value: dratings.winPct, label: 'DRatings %', suffix: '%' },
-            { value: fightMatrix.cirrs, label: 'Fight Matrix CIRRS' },
-            { value: ufcStats.slpm, label: 'SLpM' },
-            { value: ufcStats.tdAvg, label: 'TD Avg' },
-            { value: ufcStats.subAvg, label: 'Sub Avg' },
-            { value: ufcStats.ctrlTime, label: 'Ctrl Time' },
-            { value: ufcStats.koWinPct, label: 'KO Win %', suffix: '%' },
-            { value: ufcStats.subWinPct, label: 'SUB Win %', suffix: '%' },
-            { value: ufcStats.finishLossPct, label: 'Finish Loss %', suffix: '%' }
+            // Record (from expanded fightmatrix, fallback to fighter.record)
+            { value: fightmatrix.record || fighter.record, label: 'Record', path: 'fightmatrix.record', type: 'text' },
+            // Tapology
+            { value: tapology.consensus, label: 'Tapology %', suffix: '%', path: 'tapology.consensus', type: 'number' },
+            { value: tapology.koTko, label: 'T-KO %', suffix: '%', path: 'tapology.koTko', type: 'number' },
+            { value: tapology.sub, label: 'T-SUB %', suffix: '%', path: 'tapology.sub', type: 'number' },
+            { value: tapology.dec, label: 'T-DEC %', suffix: '%', path: 'tapology.dec', type: 'number' },
+            // DRatings & CIRRS
+            { value: dratings.winPct, label: 'DRatings %', suffix: '%', path: 'dratings.winPct', type: 'number' },
+            { value: fightMatrix.cirrs, label: 'CIRRS', path: 'fightMatrix.cirrs', type: 'number' },
+            // Expanded FightMatrix
+            { value: fightmatrix.eloK170?.winPct, label: 'EloK170 %', suffix: '%', path: 'fightmatrix.eloK170.winPct', type: 'number' },
+            { value: fightmatrix.eloMod?.winPct, label: 'EloMod %', suffix: '%', path: 'fightmatrix.eloMod.winPct', type: 'number' },
+            { value: fightmatrix.glicko?.winPct, label: 'Glicko %', suffix: '%', path: 'fightmatrix.glicko.winPct', type: 'number' },
+            { value: fightmatrix.whr?.winPct, label: 'WHR %', suffix: '%', path: 'fightmatrix.whr.winPct', type: 'number' },
+            { value: fightmatrix.bettingOdds, label: 'Betting Odds', path: 'fightmatrix.bettingOdds', type: 'number' },
+            { value: fightmatrix.bettingWinPct, label: 'Betting %', suffix: '%', path: 'fightmatrix.bettingWinPct', type: 'number' },
+            { value: fightmatrix.age, label: 'Age', path: 'fightmatrix.age', type: 'number' },
+            { value: fightmatrix.daysSinceLastFight, label: 'Days Off', path: 'fightmatrix.daysSinceLastFight', type: 'number' },
+            { value: fightmatrix.last3Record, label: 'Last 3', path: 'fightmatrix.last3Record', type: 'text' },
+            { value: fightmatrix.ranking, label: 'FM Rank', path: 'fightmatrix.ranking', type: 'number' },
+            // UFC Stats
+            { value: ufcStats.slpm, label: 'SLpM', path: 'ufcStats.slpm', type: 'number' },
+            { value: ufcStats.tdAvg, label: 'TD Avg', path: 'ufcStats.tdAvg', type: 'number' },
+            { value: ufcStats.subAvg, label: 'Sub Avg', path: 'ufcStats.subAvg', type: 'number' },
+            { value: ufcStats.ctrlTime, label: 'Ctrl Time', path: 'ufcStats.ctrlTime', type: 'text' },
+            { value: ufcStats.koWinPct, label: 'KO Win %', suffix: '%', path: 'ufcStats.koWinPct', type: 'number' },
+            { value: ufcStats.subWinPct, label: 'SUB Win %', suffix: '%', path: 'ufcStats.subWinPct', type: 'number' },
+            { value: ufcStats.finishLossPct, label: 'Finish Loss %', suffix: '%', path: 'ufcStats.finishLossPct', type: 'number' }
         ];
 
         return stats.map(stat => {
             const value = stat.value;
+            // Round numeric values to max 2 decimal places for display
+            const formatValue = (v) => {
+                if (typeof v === 'number') {
+                    return parseFloat(v.toFixed(2));
+                }
+                return v;
+            };
+            const displayVal = formatValue(value);
             const displayValue = value !== null && value !== undefined && value !== ''
-                ? `${value}${stat.suffix || ''}`
-                : '<span class="missing">--</span>';
+                ? `${displayVal}${stat.suffix || ''}`
+                : '<span class="missing-dash">--</span>';
             const isMissing = value === null || value === undefined || value === '';
+            const rawValue = isMissing ? '' : displayVal;
 
             return `
                 <div class="stat-row">
                     <span class="stat-label">${stat.label}</span>
-                    <span class="stat-value${isMissing ? ' missing' : ''}">${displayValue}</span>
+                    <span class="stat-value${isMissing ? ' missing' : ''} editable-stat"
+                          data-field-path="${stat.path}"
+                          data-fighter-label="${label}"
+                          data-input-type="${stat.type || 'text'}"
+                          data-suffix="${stat.suffix || ''}"
+                          data-raw-value="${this.escapeHtml(String(rawValue))}"
+                          title="Click to edit">${displayValue}</span>
                 </div>
             `;
         }).join('');
@@ -158,11 +189,23 @@ const UIComponents = {
      */
     createPredictionCard(prediction, fight, isExpanded = false, aiAnalysis = null) {
         const card = document.createElement('div');
-        card.className = `prediction-card confidence-${prediction.confidenceTier}${isExpanded ? ' expanded' : ''}`;
+        const isOverridden = !!prediction.override;
+        card.className = `prediction-card confidence-${prediction.confidenceTier}${isExpanded ? ' expanded' : ''}${isOverridden ? ' overridden' : ''}`;
         card.dataset.fightId = prediction.fightId;
+        card.dataset.predictionId = prediction.id;
 
         const fighterAName = fight.fighterA?.name || 'Fighter A';
         const fighterBName = fight.fighterB?.name || 'Fighter B';
+
+        // Display override pick if present, otherwise model pick
+        const displayWinner = isOverridden ? prediction.override.winnerName : prediction.winnerName;
+        const displayMethod = isOverridden ? prediction.override.method : prediction.method;
+        const displayRound = isOverridden ? prediction.override.round : prediction.round;
+
+        const overrideBadge = isOverridden ? '<span class="override-badge">OVERRIDE</span>' : '';
+        const modelRef = isOverridden
+            ? `<div class="model-prediction-ref">Model: ${this.escapeHtml(prediction.winnerName)} by ${prediction.method} ${prediction.round !== 'DEC' ? `(${prediction.round})` : ''}</div>`
+            : '';
 
         card.innerHTML = `
             <div class="prediction-card-header">
@@ -172,23 +215,88 @@ const UIComponents = {
                         <span class="weight-class">${fight.weightClass}</span>
                     </div>
                     <div class="prediction-pick">
-                        <span class="predicted-winner">${this.escapeHtml(prediction.winnerName)}</span>
-                        <span class="prediction-method">by ${prediction.method} ${prediction.round !== 'DEC' ? `(${prediction.round})` : ''}</span>
+                        ${overrideBadge}
+                        <span class="predicted-winner">${this.escapeHtml(displayWinner)}</span>
+                        <span class="prediction-method">by ${displayMethod} ${displayRound !== 'DEC' ? `(${displayRound})` : ''}</span>
                     </div>
+                    ${modelRef}
                 </div>
                 <div class="prediction-badges">
                     ${prediction.isVolatile ? '<span class="volatility-badge">Volatile</span>' : ''}
                     ${this.createSourceBadges(prediction.dataSources || [prediction.primarySource], prediction.primarySource)}
+                    <button class="btn btn-sm override-toggle-btn" type="button">${isOverridden ? 'Edit Override' : 'Override'}</button>
                     <span class="expand-icon">&#9660;</span>
                 </div>
             </div>
             <div class="prediction-card-body">
+                ${this.createOverrideSection(prediction, fight)}
                 ${this.createAIAnalysisSection(aiAnalysis, prediction.fightId)}
                 ${this.createReasoningDisplay(prediction.reasoning)}
             </div>
         `;
 
         return card;
+    },
+
+    /**
+     * Create the override section for a prediction card
+     */
+    createOverrideSection(prediction, fight) {
+        const isOverridden = !!prediction.override;
+        const fighterAName = fight.fighterA?.name || 'Fighter A';
+        const fighterBName = fight.fighterB?.name || 'Fighter B';
+        const numRounds = fight.numRounds || 3;
+
+        let roundOptions = '';
+        for (let r = 1; r <= numRounds; r++) {
+            const val = `R${r}`;
+            const selected = isOverridden && prediction.override.round === val ? 'selected' : '';
+            roundOptions += `<option value="${val}" ${selected}>Round ${r}</option>`;
+        }
+        const decSelected = isOverridden && prediction.override.round === 'DEC' ? 'selected' : '';
+        roundOptions += `<option value="DEC" ${decSelected}>Decision</option>`;
+
+        const overrideWinner = isOverridden ? prediction.override.winner : '';
+        const overrideMethod = isOverridden ? prediction.override.method : '';
+
+        return `
+            <div class="override-section" style="display: none;">
+                <div class="override-form">
+                    <h4>Override Prediction</h4>
+                    <div class="override-fields">
+                        <div class="form-group">
+                            <label>Winner</label>
+                            <select class="override-winner">
+                                <option value="">Select...</option>
+                                <option value="fighterA" ${overrideWinner === 'fighterA' ? 'selected' : ''}>${this.escapeHtml(fighterAName)}</option>
+                                <option value="fighterB" ${overrideWinner === 'fighterB' ? 'selected' : ''}>${this.escapeHtml(fighterBName)}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Method</label>
+                            <select class="override-method">
+                                <option value="">Select...</option>
+                                <option value="KO" ${overrideMethod === 'KO' ? 'selected' : ''}>KO/TKO</option>
+                                <option value="SUB" ${overrideMethod === 'SUB' ? 'selected' : ''}>Submission</option>
+                                <option value="DEC" ${overrideMethod === 'DEC' ? 'selected' : ''}>Decision</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Round</label>
+                            <select class="override-round">
+                                <option value="">Select...</option>
+                                ${roundOptions}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="override-actions">
+                        <button class="btn btn-primary btn-sm save-override-btn" type="button">Save Override</button>
+                        ${isOverridden ? '<button class="btn btn-danger btn-sm clear-override-btn" type="button">Clear Override</button>' : ''}
+                        <button class="btn btn-secondary btn-sm cancel-override-btn" type="button">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        `;
     },
 
     /**
@@ -663,6 +771,10 @@ const UIComponents = {
             ? '<span class="tied-badge">TIED</span>'
             : '';
 
+        const overrideBadge = ranking.isOverridden
+            ? '<span class="override-badge-small">OVERRIDE</span>'
+            : '';
+
         card.innerHTML = `
             <div class="confidence-rank-header">
                 <div class="rank-number">
@@ -677,6 +789,7 @@ const UIComponents = {
                     </div>
                     <div class="rank-pick">
                         Pick: <strong>${this.escapeHtml(ranking.pick)}</strong>
+                        ${overrideBadge}
                         ${volatileBadge}
                         ${tiedBadge}
                     </div>

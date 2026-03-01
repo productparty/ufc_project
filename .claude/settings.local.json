@@ -18,7 +18,10 @@
       "Bash(powershell -NoProfile -Command \"wmic logicaldisk get DeviceID,FreeSpace,Size\")",
       "Bash(gh repo view:*)",
       "WebFetch(domain:github.com)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(node -e:*)",
+      "Bash(node test_predictions.js:*)",
+      "Bash(node:*)"
     ]
   }
 }

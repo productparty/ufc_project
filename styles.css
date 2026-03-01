@@ -759,6 +759,39 @@ body {
     font-style: italic;
 }
 
+/* Inline Editable Stats */
+.stat-value.editable-stat {
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    padding: 1px 4px;
+    transition: background-color 0.15s ease;
+}
+
+.stat-value.editable-stat:hover {
+    background-color: var(--bg-tertiary, rgba(0, 0, 0, 0.05));
+}
+
+.stat-value.editable-stat.editing {
+    padding: 0;
+}
+
+.inline-stat-input {
+    width: 70px;
+    padding: 2px 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-sm);
+    outline: none;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    text-align: right;
+}
+
+.inline-stat-input:focus {
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.3);
+}
+
 /* Predictions Container */
 .predictions-container {
     display: flex;
@@ -916,6 +949,111 @@ body {
 
 .prediction-card.expanded .prediction-card-body {
     display: block;
+}
+
+/* Override Badge */
+.override-badge {
+    background: #7c3aed;
+    color: white;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.override-badge-small {
+    background: #7c3aed;
+    color: white;
+    padding: 1px 6px;
+    border-radius: var(--radius-sm);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Overridden Prediction Card */
+.prediction-card.overridden {
+    border-left: 3px solid #7c3aed;
+}
+
+.prediction-card.overridden .predicted-winner {
+    color: #7c3aed;
+}
+
+/* Model prediction reference (shown when overridden) */
+.model-prediction-ref {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 2px;
+}
+
+/* Override Toggle Button */
+.override-toggle-btn {
+    background: transparent;
+    border: 1px solid #7c3aed;
+    color: #7c3aed;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+}
+
+.override-toggle-btn:hover {
+    background: #7c3aed;
+    color: white;
+}
+
+/* Override Section */
+.override-section {
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid #7c3aed;
+}
+
+.override-section h4 {
+    margin: 0 0 var(--space-sm) 0;
+    color: #7c3aed;
+    font-size: 0.875rem;
+}
+
+.override-fields {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.override-fields .form-group {
+    flex: 1;
+    min-width: 120px;
+}
+
+.override-fields label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text-secondary);
+}
+
+.override-fields select {
+    width: 100%;
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.override-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
 }
 
 /* AI Analysis Section */

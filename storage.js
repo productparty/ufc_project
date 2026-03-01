@@ -440,23 +440,37 @@ class Storage {
      * Save predictions for an event
      */
     async savePredictions(eventId, predictions) {
+        // First, read existing predictions to preserve overrides
+        const existingPredictions = await this.getPredictionsByEvent(eventId);
+        const overrideMap = new Map();
+        for (const existing of existingPredictions) {
+            if (existing.override) {
+                overrideMap.set(existing.fightId, {
+                    override: existing.override,
+                    overriddenAt: existing.overriddenAt
+                });
+            }
+        }
+
         const transaction = this.db.transaction(['predictions'], 'readwrite');
         const store = transaction.objectStore('predictions');
 
         // Clear existing predictions for this event
         const index = store.index('eventId');
-        const existingRequest = index.getAllKeys(eventId);
+        const existingKeysRequest = index.getAllKeys(eventId);
 
         return new Promise((resolve, reject) => {
-            existingRequest.onsuccess = async () => {
+            existingKeysRequest.onsuccess = async () => {
                 // Delete existing predictions
-                for (const key of existingRequest.result) {
+                for (const key of existingKeysRequest.result) {
                     store.delete(key);
                 }
 
-                // Add new predictions
+                // Add new predictions, carrying over overrides by fightId
                 const savedPredictions = [];
                 for (const pred of predictions) {
+                    const existingOverride = overrideMap.get(pred.fightId);
+
                     const prediction = {
                         id: this.generateId(),
                         eventId,
@@ -471,6 +485,8 @@ class Storage {
                         primarySource: pred.primarySource,
                         dataSources: pred.dataSources || [],
                         reasoning: pred.reasoning,
+                        override: existingOverride?.override || null,
+                        overriddenAt: existingOverride?.overriddenAt || null,
                         createdAt: new Date().toISOString()
                     };
 
@@ -479,7 +495,8 @@ class Storage {
                 }
 
                 transaction.oncomplete = () => {
-                    console.log('[Storage] SAVED', savedPredictions.length, 'predictions for event:', eventId);
+                    console.log('[Storage] SAVED', savedPredictions.length, 'predictions for event:', eventId,
+                        overrideMap.size > 0 ? `(${overrideMap.size} overrides preserved)` : '');
                     resolve(savedPredictions);
                 };
                 transaction.onerror = () => {
@@ -488,7 +505,7 @@ class Storage {
                 };
             };
 
-            existingRequest.onerror = () => reject(existingRequest.error);
+            existingKeysRequest.onerror = () => reject(existingKeysRequest.error);
         });
     }
 
@@ -519,6 +536,40 @@ class Storage {
 
             request.onsuccess = () => resolve(request.result);
             request.onerror = () => reject(request.error);
+        });
+    }
+
+    /**
+     * Update a single prediction (used for overrides)
+     */
+    async updatePrediction(predictionId, updates) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction(['predictions'], 'readwrite');
+            const store = transaction.objectStore('predictions');
+            const getRequest = store.get(predictionId);
+
+            getRequest.onsuccess = () => {
+                const prediction = getRequest.result;
+                if (!prediction) {
+                    reject(new Error('Prediction not found'));
+                    return;
+                }
+
+                const updatedPrediction = {
+                    ...prediction,
+                    ...updates,
+                    updatedAt: new Date().toISOString()
+                };
+
+                const putRequest = store.put(updatedPrediction);
+                putRequest.onsuccess = () => {
+                    console.log('[Storage] Prediction UPDATED:', predictionId);
+                    resolve(updatedPrediction);
+                };
+                putRequest.onerror = () => reject(putRequest.error);
+            };
+
+            getRequest.onerror = () => reject(getRequest.error);
         });
     }
 
@@ -1150,11 +1201,14 @@ class Storage {
                 predictions.forEach(p => {
                     allPredictions.push({
                         event: event.name,
+                        fightId: p.fightId,
                         winner: p.winnerName,
                         method: p.method,
                         round: p.round,
                         confidence: p.confidence,
-                        source: p.primarySource
+                        source: p.primarySource,
+                        override: p.override || null,
+                        overriddenAt: p.overriddenAt || null
                     });
                 });
             }
@@ -1541,6 +1595,8 @@ class Storage {
                         round: p.round,
                         confidence: p.confidence,
                         primarySource: p.source,
+                        override: p.override || null,
+                        overriddenAt: p.overriddenAt || null,
                         createdAt: new Date().toISOString()
                     };
 

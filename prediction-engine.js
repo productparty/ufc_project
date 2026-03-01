@@ -16,27 +16,42 @@ class PredictionEngine {
         // Source agreement thresholds
         this.STRONG_AGREEMENT_THRESHOLD = 4; // 4+ sources agree on same winner
         this.LOPSIDED_FAVORITE_THRESHOLD = 80; // confidence above this = likely finish
-        this.CLOSE_FIGHT_THRESHOLD = 50; // confidence below this = lean DEC (lowered from 55)
+        this.CLOSE_FIGHT_THRESHOLD = 63; // confidence below this = lean DEC (raised from 58 in v4)
 
         // Layoff thresholds (strengthened)
         this.LAYOFF_MODERATE = 300; // days - small penalty
         this.LAYOFF_SEVERE = 400; // days - moderate penalty
         this.LAYOFF_EXTREME = 500; // days - heavy penalty
 
-        // Weight class finish bias
+        // v5: EV-based method selection with DEC certainty premium
+        // DEC picks reliably capture full bonus (method correct + round auto-correct)
+        // Finish picks have ~25% round accuracy, making them higher variance per correct pick
+        // Top scorers in prediction leagues pick DEC 65-70% of the time
+        // Multiplier represents this structural advantage: DEC wins unless a single
+        // finish method probability exceeds DEC_prob × DEC_EV_MULTIPLIER
+        this.DEC_EV_MULTIPLIER = 1.30;
+
+        // Method base rate prior - historical UFC averages (~50% DEC, 30% KO, 20% SUB)
+        // Acts as Bayesian anchor to prevent finish over-prediction
+        this.METHOD_BASE_RATE = { ko: 33, sub: 20, dec: 47 };
+        this.METHOD_PRIOR_WEIGHT = 0.30;
+
+        // Weight class finish bias - calibrated from historical UFC rates
+        // Historical finish%: HW 70%, LHW 62%, MW 59%, WW 52%, LW 51%, FW 46%, BW 45%, FLW 46%
+        // Female: WBW 39%, WFLW 36%, WSW 33%
         this.WEIGHT_CLASS_FINISH_BIAS = {
-            'HW': { ko: 1.3, sub: 1.0, dec: 0.8 },
-            'LHW': { ko: 1.2, sub: 1.0, dec: 0.9 },
-            'MW': { ko: 1.0, sub: 1.0, dec: 1.0 },
-            'WW': { ko: 1.0, sub: 1.0, dec: 1.0 },
-            'LW': { ko: 0.97, sub: 1.0, dec: 1.03 },
-            'FW': { ko: 0.95, sub: 1.0, dec: 1.05 },
-            'BW': { ko: 0.92, sub: 0.97, dec: 1.08 },
-            'FLW': { ko: 0.88, sub: 0.95, dec: 1.12 },
-            'WSW': { ko: 0.85, sub: 0.95, dec: 1.15 },
-            'WFLW': { ko: 0.87, sub: 0.95, dec: 1.13 },
-            'WBW': { ko: 0.87, sub: 0.95, dec: 1.13 },
-            'WFW': { ko: 0.90, sub: 0.97, dec: 1.08 }
+            'HW': { ko: 1.35, sub: 1.10, dec: 0.70 },   // 70% finish rate, 48% TKO
+            'LHW': { ko: 1.20, sub: 1.00, dec: 0.85 },   // 62% finish rate, 43% TKO
+            'MW': { ko: 1.05, sub: 1.05, dec: 0.92 },    // 59% finish rate, 37% TKO
+            'WW': { ko: 1.00, sub: 1.00, dec: 1.00 },    // 52% finish rate (baseline)
+            'LW': { ko: 0.95, sub: 1.05, dec: 1.02 },    // 51% finish rate, 29% TKO, 22% SUB
+            'FW': { ko: 0.92, sub: 0.95, dec: 1.10 },    // 46% finish rate, 28% TKO
+            'BW': { ko: 0.88, sub: 0.97, dec: 1.12 },    // 45% finish rate, 26% TKO
+            'FLW': { ko: 0.87, sub: 1.05, dec: 1.08 },   // 46% finish rate, 25% TKO, 22% SUB
+            'WSW': { ko: 0.70, sub: 0.85, dec: 1.35 },   // 33% finish rate, 13% TKO — female penalty
+            'WFLW': { ko: 0.72, sub: 0.88, dec: 1.30 },  // 36% finish rate, 17% TKO — female penalty
+            'WBW': { ko: 0.75, sub: 0.82, dec: 1.28 },   // 39% finish rate, 23% TKO — female penalty
+            'WFW': { ko: 0.80, sub: 0.90, dec: 1.20 }    // ~45% finish rate (limited data)
         };
 
         // Round prediction: continuous scoring constants (aligned with Python implementation)
@@ -46,40 +61,47 @@ class PredictionEngine {
         this.MAX_BONUS_CAP = 8.0;
 
         // Division-specific round thresholds for 3-round fights
-        // Higher TKO-rate divisions get lower thresholds (more R1/R2 predictions)
+        // Calibrated from historical UFC data:
+        //   Overall 3-round finish distribution: R1 54.4%, R2 30.7%, R3 14.9%
+        //   Higher threshold = harder to predict that round
+        //   HW: 47% of KOs in R1, keep R1 accessible but not too easy
+        //   BW/WBW: rare early finishes, 96% WBW fights go Over 1.5 rounds
+        //   WW/FLW: front-loaded finishes, lower R1 thresholds
         this.DIVISION_ROUND_THRESHOLDS_3RD = {
-            'HW':   { R1: 42.0, R2: 33.0, R3: 0.0 },
-            'LHW':  { R1: 45.0, R2: 36.0, R3: 0.0 },
-            'MW':   { R1: 48.0, R2: 39.0, R3: 0.0 },
-            'WW':   { R1: 50.0, R2: 41.0, R3: 0.0 },
-            'LW':   { R1: 52.0, R2: 43.0, R3: 0.0 },
-            'FW':   { R1: 52.0, R2: 43.0, R3: 0.0 },
-            'BW':   { R1: 54.0, R2: 45.0, R3: 0.0 },
-            'FLW':  { R1: 55.0, R2: 46.0, R3: 0.0 },
-            'WSW':  { R1: 58.0, R2: 49.0, R3: 0.0 },
-            'WFLW': { R1: 57.0, R2: 48.0, R3: 0.0 },
-            'WBW':  { R1: 56.0, R2: 47.0, R3: 0.0 },
-            'WFW':  { R1: 55.0, R2: 46.0, R3: 0.0 }
+            'HW':   { R1: 40.0, R2: 30.0, R3: 0.0 },   // 47% of HW KOs in R1
+            'LHW':  { R1: 43.0, R2: 33.0, R3: 0.0 },   // High finish rate, R1 common
+            'MW':   { R1: 48.0, R2: 38.0, R3: 0.0 },   // Moderate
+            'WW':   { R1: 46.0, R2: 36.0, R3: 0.0 },   // R1-heavy finishes historically
+            'LW':   { R1: 50.0, R2: 40.0, R3: 0.0 },   // Moderate
+            'FW':   { R1: 52.0, R2: 42.0, R3: 0.0 },   // Below average finish rate
+            'BW':   { R1: 56.0, R2: 44.0, R3: 0.0 },   // Low early finish rate
+            'FLW':  { R1: 48.0, R2: 38.0, R3: 0.0 },   // Front-loaded when finishes occur
+            'WSW':  { R1: 60.0, R2: 50.0, R3: 0.0 },   // Very low finish rate + female
+            'WFLW': { R1: 58.0, R2: 48.0, R3: 0.0 },   // Low finish rate + female
+            'WBW':  { R1: 62.0, R2: 50.0, R3: 0.0 },   // 96% go Over 1.5 rounds
+            'WFW':  { R1: 56.0, R2: 46.0, R3: 0.0 }    // Limited data
         };
 
         // Division-specific round thresholds for 5-round fights
+        // 5-round distribution is much flatter: R1 31.1%, R2 26.7%, R3 22.2%, R4 8.9%, R5 11.1%
+        // All thresholds raised significantly vs 3-round — fighters pace for 25min
         this.DIVISION_ROUND_THRESHOLDS_5RD = {
-            'HW':   { R1: 45.0, R2: 36.0, R3: 28.0, R4: 0.0 },
-            'LHW':  { R1: 48.0, R2: 39.0, R3: 31.0, R4: 0.0 },
-            'MW':   { R1: 51.0, R2: 42.0, R3: 33.0, R4: 0.0 },
-            'WW':   { R1: 53.0, R2: 44.0, R3: 35.0, R4: 0.0 },
-            'LW':   { R1: 55.0, R2: 45.0, R3: 35.0, R4: 0.0 },
-            'FW':   { R1: 55.0, R2: 45.0, R3: 35.0, R4: 0.0 },
-            'BW':   { R1: 57.0, R2: 47.0, R3: 37.0, R4: 0.0 },
-            'FLW':  { R1: 58.0, R2: 48.0, R3: 38.0, R4: 0.0 },
-            'WSW':  { R1: 61.0, R2: 51.0, R3: 41.0, R4: 0.0 },
-            'WFLW': { R1: 60.0, R2: 50.0, R3: 40.0, R4: 0.0 },
-            'WBW':  { R1: 59.0, R2: 49.0, R3: 39.0, R4: 0.0 },
-            'WFW':  { R1: 58.0, R2: 48.0, R3: 38.0, R4: 0.0 }
+            'HW':   { R1: 48.0, R2: 38.0, R3: 28.0, R4: 15.0, R5: 0.0 },
+            'LHW':  { R1: 50.0, R2: 40.0, R3: 30.0, R4: 15.0, R5: 0.0 },
+            'MW':   { R1: 54.0, R2: 44.0, R3: 34.0, R4: 18.0, R5: 0.0 },
+            'WW':   { R1: 52.0, R2: 42.0, R3: 32.0, R4: 16.0, R5: 0.0 },
+            'LW':   { R1: 56.0, R2: 46.0, R3: 36.0, R4: 18.0, R5: 0.0 },
+            'FW':   { R1: 56.0, R2: 46.0, R3: 36.0, R4: 18.0, R5: 0.0 },
+            'BW':   { R1: 60.0, R2: 48.0, R3: 38.0, R4: 20.0, R5: 0.0 },
+            'FLW':  { R1: 58.0, R2: 46.0, R3: 36.0, R4: 18.0, R5: 0.0 },
+            'WSW':  { R1: 64.0, R2: 52.0, R3: 42.0, R4: 22.0, R5: 0.0 },
+            'WFLW': { R1: 62.0, R2: 50.0, R3: 40.0, R4: 22.0, R5: 0.0 },
+            'WBW':  { R1: 64.0, R2: 52.0, R3: 42.0, R4: 22.0, R5: 0.0 },
+            'WFW':  { R1: 60.0, R2: 48.0, R3: 38.0, R4: 20.0, R5: 0.0 }
         };
 
-        this.FALLBACK_THRESHOLDS_3RD = { R1: 52.0, R2: 43.0, R3: 0.0 };
-        this.FALLBACK_THRESHOLDS_5RD = { R1: 55.0, R2: 45.0, R3: 35.0, R4: 0.0 };
+        this.FALLBACK_THRESHOLDS_3RD = { R1: 50.0, R2: 40.0, R3: 0.0 };
+        this.FALLBACK_THRESHOLDS_5RD = { R1: 55.0, R2: 45.0, R3: 35.0, R4: 18.0, R5: 0.0 };
 
         // Grappler detection thresholds
         this.WRESTLER_TD_THRESHOLD = 2.5; // TDs per 15 min
@@ -103,6 +125,9 @@ class PredictionEngine {
      * Generate prediction for a single fight
      */
     predictFight(fight, eventType) {
+        // Infer missing data from opponent before predicting
+        this.inferMissingFromOpponent(fight);
+
         const reasoning = [];
 
         // Layer 1: Winner Selection
@@ -190,7 +215,7 @@ class PredictionEngine {
 
         // Calculate composite win probability
         const sources = this.gatherSourceData(fight);
-        const composite = this.calculateCompositeWinProb(sources);
+        const composite = this.calculateCompositeWinProb(sources, fight.weightClass);
 
         // Calculate source agreement (new)
         const sourceAgreement = this.calculateSourceAgreement(sources);
@@ -395,12 +420,20 @@ class PredictionEngine {
         const sourceAgreement = layer1Result.sourceAgreement;
 
         // RULE: Close fight lean toward DEC
-        // If confidence is below threshold and sources disagree, lean DEC
+        // Close fights are harder to finish - apply DEC gravity
+        let closeFightDecBoost = 1.0;
+        let closeFightFinishPenalty = 1.0;
         if (confidence < this.CLOSE_FIGHT_THRESHOLD) {
+            // Scale the DEC boost based on how close the fight is
+            // At 50% confidence → max boost; at threshold → mild boost
+            const closeness = (this.CLOSE_FIGHT_THRESHOLD - confidence) / (this.CLOSE_FIGHT_THRESHOLD - 50);
+            closeFightDecBoost = 1.0 + (closeness * 0.5); // Up to 1.5x DEC boost
+            closeFightFinishPenalty = 1.0 - (closeness * 0.25); // Down to 0.75x finish
+
             reasoning.push({
                 layer: 2,
                 type: 'close_fight_rule',
-                text: `Close fight detected (${confidence.toFixed(1)}% < ${this.CLOSE_FIGHT_THRESHOLD}%) - leaning toward DEC`
+                text: `Close fight detected (${confidence.toFixed(1)}% < ${this.CLOSE_FIGHT_THRESHOLD}%) - DEC boost ${closeFightDecBoost.toFixed(2)}x, finish penalty ${closeFightFinishPenalty.toFixed(2)}x`
             });
 
             // If sources also disagree, force DEC
@@ -437,26 +470,28 @@ class PredictionEngine {
         let finalKoProb = 0;
         let finalSubProb = 0;
 
-        // STRATEGY A: Blend Tapology method bars with UFCStats career data
+        // STRATEGY A: Blend Tapology method bars + UFCStats career data + base rate prior
+        // v4: Three-way blend with Bayesian anchoring to prevent finish over-prediction
         if (hasTapologyMethod || hasUfcStats) {
             // Start with base probabilities
             let baseKO = 0, baseSub = 0, baseDec = 0;
             let tapologyWeight = 0, ufcStatsWeight = 0;
 
-            // Add Tapology contribution (community prediction)
+            // Add Tapology contribution (community prediction) - weight reduced from 0.50 to 0.40
             if (hasTapologyMethod) {
                 reasoning.push({
                     layer: 2,
                     type: 'tapology_method',
                     text: `Tapology method prediction for ${winnerData.name}: KO ${tapologyKO}%, SUB ${tapologySub}%, DEC ${tapologyDec}%`
                 });
-                baseKO += tapologyKO * 0.5;
-                baseSub += tapologySub * 0.5;
-                baseDec += tapologyDec * 0.5;
-                tapologyWeight = 0.5;
+                const tWeight = 0.40;
+                baseKO += tapologyKO * tWeight;
+                baseSub += tapologySub * tWeight;
+                baseDec += tapologyDec * tWeight;
+                tapologyWeight = tWeight;
             }
 
-            // Add UFCStats contribution (actual career track record)
+            // Add UFCStats contribution (actual career track record) - with small sample regression
             if (hasUfcStats) {
                 reasoning.push({
                     layer: 2,
@@ -464,11 +499,30 @@ class PredictionEngine {
                     text: `UFCStats career for ${winnerData.name}: KO ${koWinPct.toFixed(0)}%, SUB ${subWinPct.toFixed(0)}%, DEC ${decWinPct.toFixed(0)}%`
                 });
 
-                // UFCStats weight increases when Tapology is missing
-                const ufcWeight = hasTapologyMethod ? 0.5 : 1.0;
-                baseKO += koWinPct * ufcWeight;
-                baseSub += subWinPct * ufcWeight;
-                baseDec += decWinPct * ufcWeight;
+                // Detect small sample and regress toward base rates
+                const regressed = this.regressSmallSample(koWinPct, subWinPct, decWinPct);
+                const effectiveKO = regressed.ko;
+                const effectiveSub = regressed.sub;
+                const effectiveDec = regressed.dec;
+
+                if (regressed.isSmallSample) {
+                    reasoning.push({
+                        layer: 2,
+                        type: 'small_sample',
+                        text: `Small sample detected: regressing UFCStats toward base rates (KO ${effectiveKO.toFixed(0)}%, SUB ${effectiveSub.toFixed(0)}%, DEC ${effectiveDec.toFixed(0)}%)`
+                    });
+                }
+
+                // UFCStats weight: reduced when small sample, increased when Tapology missing
+                let ufcWeight;
+                if (hasTapologyMethod) {
+                    ufcWeight = regressed.isSmallSample ? 0.15 : 0.30;
+                } else {
+                    ufcWeight = regressed.isSmallSample ? 0.50 : 0.70;
+                }
+                baseKO += effectiveKO * ufcWeight;
+                baseSub += effectiveSub * ufcWeight;
+                baseDec += effectiveDec * ufcWeight;
                 ufcStatsWeight = ufcWeight;
 
                 // Bonus: Opponent vulnerability adjustments
@@ -505,8 +559,15 @@ class PredictionEngine {
                 }
             }
 
-            // Normalize if we had both sources
-            const totalWeight = tapologyWeight + ufcStatsWeight;
+            // Add base rate prior (historical UFC method distribution)
+            // Acts as Bayesian anchor - prevents finish over-prediction from noisy sources
+            const priorWeight = this.METHOD_PRIOR_WEIGHT;
+            baseKO += this.METHOD_BASE_RATE.ko * priorWeight;
+            baseSub += this.METHOD_BASE_RATE.sub * priorWeight;
+            baseDec += this.METHOD_BASE_RATE.dec * priorWeight;
+
+            // Normalize by total weight (three sources)
+            const totalWeight = tapologyWeight + ufcStatsWeight + priorWeight;
             if (totalWeight > 0) {
                 baseKO = baseKO / totalWeight;
                 baseSub = baseSub / totalWeight;
@@ -517,24 +578,24 @@ class PredictionEngine {
             const weightClassBias = this.WEIGHT_CLASS_FINISH_BIAS[fight.weightClass] || { ko: 1, sub: 1, dec: 1 };
 
             // Calculate adjusted method probabilities
-            let koProb = baseKO * weightClassBias.ko;
-            let subProb = baseSub * weightClassBias.sub;
-            let decProb = baseDec * weightClassBias.dec;
+            let koProb = baseKO * weightClassBias.ko * closeFightFinishPenalty;
+            let subProb = baseSub * weightClassBias.sub * closeFightFinishPenalty;
+            let decProb = baseDec * weightClassBias.dec * closeFightDecBoost;
 
             // RULE: Lopsided favorite boost for finishes
             // When confidence is very high AND sources all agree, boost finish probability
             if (confidence >= this.LOPSIDED_FAVORITE_THRESHOLD && sourceAgreement && sourceAgreement.allAgree) {
-                const finishBoost = 1.25;
+                const finishBoost = 1.12;
                 koProb *= finishBoost;
                 subProb *= finishBoost;
                 reasoning.push({
                     layer: 2,
                     type: 'lopsided_favorite',
-                    text: `Lopsided favorite rule: ${confidence.toFixed(1)}% confidence + unanimous sources → boosting finish probability by 25%`
+                    text: `Lopsided favorite rule: ${confidence.toFixed(1)}% confidence + unanimous sources → boosting finish probability by 12%`
                 });
             } else if (confidence >= this.LOPSIDED_FAVORITE_THRESHOLD) {
                 // High confidence but some disagreement - smaller boost
-                const finishBoost = 1.1;
+                const finishBoost = 1.05;
                 koProb *= finishBoost;
                 subProb *= finishBoost;
                 reasoning.push({
@@ -550,11 +611,11 @@ class PredictionEngine {
             if (winnerBettingPct !== null) {
                 let bettingFinishMult = 1.0;
                 if (winnerBettingPct >= 80) {
-                    bettingFinishMult = 1.35;
+                    bettingFinishMult = 1.18;
                 } else if (winnerBettingPct >= 75) {
-                    bettingFinishMult = 1.25;
+                    bettingFinishMult = 1.12;
                 } else if (winnerBettingPct >= 70) {
-                    bettingFinishMult = 1.15;
+                    bettingFinishMult = 1.08;
                 }
                 if (bettingFinishMult > 1.0) {
                     koProb *= bettingFinishMult;
@@ -577,6 +638,38 @@ class PredictionEngine {
                 // Apply striker-specific rules
                 const strikerAdjustment = this.applyStrikerRules(winnerData, loserData, layer1Result, fight.weightClass, reasoning);
                 koProb *= strikerAdjustment.koMult;
+
+                // SApM Damage Absorbed modifier: chin vulnerability
+                // If the predicted winner absorbs a lot of strikes AND the loser has KO power, boost loser KO upset risk
+                // But since we're predicting winner's method, if LOSER has high SApM and WINNER has KO power → boost KO
+                const loserSApM = loserData?.ufcStats?.sapm || 0;
+                const winnerKOPct = winnerData?.ufcStats?.koWinPct || 0;
+                if (loserSApM > 4.0 && winnerKOPct > 50) {
+                    koProb *= 1.15;
+                    reasoning.push({
+                        layer: 2,
+                        type: 'damage_absorbed',
+                        text: `Chin vulnerability: ${loserData.name} absorbs ${loserSApM.toFixed(1)} SApM vs ${winnerData.name}'s ${winnerKOPct.toFixed(0)}% KO rate → boosting KO`
+                    });
+                }
+
+                // TD Defense Gate: "Striker's Advantage"
+                // If loser's only path is grappling but winner has elite TD defense → favor standing fight
+                const winnerTdDef = winnerData?.ufcStats?.tdDef || 50;
+                const loserTdAvg = loserData?.ufcStats?.tdAvg || 0;
+                const loserSubWinPct = loserData?.ufcStats?.subWinPct || 0;
+                const loserDecWinPct = loserData?.ufcStats?.decWinPct || 0;
+                const loserIsGrappler = (loserTdAvg >= 2.0 && loserSubWinPct >= 30) || loserSubWinPct >= 50;
+                if (winnerTdDef >= 85 && loserIsGrappler) {
+                    // Winner keeps it standing → boost KO, reduce SUB
+                    koProb *= 1.15;
+                    subProb *= 0.75;
+                    reasoning.push({
+                        layer: 2,
+                        type: 'td_defense_gate',
+                        text: `Striker's Advantage: ${winnerData.name} has ${winnerTdDef}% TD defense vs grappler ${loserData.name} → fight stays standing`
+                    });
+                }
             }
 
             // Apply event type modifiers
@@ -602,23 +695,31 @@ class PredictionEngine {
                     text: `Adjusted method probabilities: KO ${koProb.toFixed(1)}%, SUB ${subProb.toFixed(1)}%, DEC ${decProb.toFixed(1)}%`
                 });
 
-                // EV-based method selection
-                // Scoring: DEC correct = 8pts max, Finish correct = 10pts max
-                // Break-even: finish at ~45% prob yields same EV as DEC at ~55%
-                const combinedFinishProb = koProb + subProb;
-                const EV_FINISH_THRESHOLD = 45;
+                // v5: Direct EV comparison with DEC certainty premium
+                // DEC predictions capture method + round reliably (round is auto-correct)
+                // Finish predictions have ~25% round accuracy → higher variance
+                // DEC gets a multiplier reflecting this structural advantage
+                const evDec = decProb * this.DEC_EV_MULTIPLIER;
+                const evKo = koProb;
+                const evSub = subProb;
+                const bestFinishEv = Math.max(evKo, evSub);
+                const bestFinishMethod = evKo >= evSub ? 'KO' : 'SUB';
 
-                if (combinedFinishProb >= EV_FINISH_THRESHOLD) {
-                    if (koProb >= subProb) {
-                        method = 'KO';
-                        methodReason = `KO selected: EV-optimal (combined finish ${combinedFinishProb.toFixed(1)}% >= ${EV_FINISH_THRESHOLD}%, KO ${koProb.toFixed(1)}% > SUB ${subProb.toFixed(1)}%)`;
-                    } else {
-                        method = 'SUB';
-                        methodReason = `SUB selected: EV-optimal (combined finish ${combinedFinishProb.toFixed(1)}% >= ${EV_FINISH_THRESHOLD}%, SUB ${subProb.toFixed(1)}% > KO ${koProb.toFixed(1)}%)`;
-                    }
-                } else {
+                reasoning.push({
+                    layer: 2,
+                    type: 'ev_comparison',
+                    text: `Method EV: DEC ${evDec.toFixed(1)} (${decProb.toFixed(1)}% × ${this.DEC_EV_MULTIPLIER}), KO ${evKo.toFixed(1)} (${koProb.toFixed(1)}%), SUB ${evSub.toFixed(1)} (${subProb.toFixed(1)}%)`
+                });
+
+                if (evDec >= bestFinishEv) {
                     method = 'DEC';
-                    methodReason = `DEC selected: Combined finish probability too low (${combinedFinishProb.toFixed(1)}% < ${EV_FINISH_THRESHOLD}% EV threshold)`;
+                    methodReason = `DEC selected: EV ${evDec.toFixed(1)} >= best finish ${bestFinishMethod} ${bestFinishEv.toFixed(1)} (DEC ${decProb.toFixed(1)}% × ${this.DEC_EV_MULTIPLIER} certainty premium)`;
+                } else if (evKo >= evSub) {
+                    method = 'KO';
+                    methodReason = `KO selected: EV ${evKo.toFixed(1)} > DEC ${evDec.toFixed(1)} (KO ${koProb.toFixed(1)}% overcomes DEC ${this.DEC_EV_MULTIPLIER}x premium)`;
+                } else {
+                    method = 'SUB';
+                    methodReason = `SUB selected: EV ${evSub.toFixed(1)} > DEC ${evDec.toFixed(1)} (SUB ${subProb.toFixed(1)}% overcomes DEC ${this.DEC_EV_MULTIPLIER}x premium)`;
                 }
             }
         }
@@ -717,8 +818,9 @@ class PredictionEngine {
         const dominantPct = method === 'KO' ? layer2Result.koProb : layer2Result.subProb;
 
         // Calculate early finish profile using continuous scoring
+        const winnerData = fight[winner];
         const earlyFinishProfile = this.calculateEarlyFinishProfile(
-            method, dominantPct, loserData, confidence
+            method, dominantPct, loserData, confidence, winnerData
         );
 
         reasoning.push({
@@ -811,6 +913,70 @@ class PredictionEngine {
     }
 
     /**
+     * Infer missing fighter data from opponent's matchup-specific diff values.
+     * FightMatrix diffs encode the matchup: opponent_winPct = 100 - fighter_winPct,
+     * opponent_rating = fighter_rating - fighter_diff.
+     * Also infers DRatings (matchup-specific) and CIRRS from elo rating.
+     */
+    inferMissingFromOpponent(fight) {
+        const sides = [
+            { fighter: 'fighterA', opponent: 'fighterB' },
+            { fighter: 'fighterB', opponent: 'fighterA' }
+        ];
+
+        for (const { fighter: fKey, opponent: oKey } of sides) {
+            const fighter = fight[fKey];
+            const opponent = fight[oKey];
+            if (!fighter || !opponent) continue;
+
+            const oFm = opponent.fightmatrix;
+            if (!oFm) continue;
+
+            // Infer expanded fightmatrix elo ratings from opponent's diffs
+            if (!fighter.fightmatrix) fighter.fightmatrix = {};
+            const fFm = fighter.fightmatrix;
+
+            for (const system of ['eloK170', 'eloMod', 'glicko', 'whr']) {
+                if (!fFm[system] && oFm[system] && oFm[system].winPct != null) {
+                    fFm[system] = {
+                        rating: Math.round((oFm[system].rating - oFm[system].diff) * 100) / 100,
+                        diff: -oFm[system].diff,
+                        winPct: Math.round((100 - oFm[system].winPct) * 100) / 100
+                    };
+                }
+            }
+
+            // Infer betting win % from opponent
+            if (fFm.bettingWinPct == null && oFm.bettingWinPct != null) {
+                fFm.bettingWinPct = Math.round((100 - oFm.bettingWinPct) * 100) / 100;
+            }
+
+            // Infer CIRRS from eloK170 rating (CIRRS ≈ eloK170 rating)
+            if (!fighter.fightMatrix) fighter.fightMatrix = {};
+            if (fighter.fightMatrix.cirrs == null && !fighter.cirrs && fFm.eloK170?.rating) {
+                fighter.fightMatrix.cirrs = Math.round(fFm.eloK170.rating);
+            }
+
+            // Infer DRatings from opponent (matchup-specific win %)
+            const oDratings = this.extractDRatingsWinPct(opponent.dratings);
+            const fDratings = this.extractDRatingsWinPct(fighter.dratings);
+            if (fDratings === 50 && oDratings !== 50) {
+                // Fighter has no dratings (defaulted to 50) but opponent does
+                if (!fighter.dratings || (typeof fighter.dratings === 'object' && fighter.dratings.winPct == null) ||
+                    fighter.dratings === null || fighter.dratings === undefined) {
+                    fighter.dratings = { winPct: Math.round((100 - oDratings) * 100) / 100 };
+                }
+            }
+
+            // Log inference
+            if (fFm.eloK170 && !fight[fKey]._inferred) {
+                console.log(`[Prediction] Inferred ${fight[fKey].name} data from opponent ${fight[oKey].name}`);
+                fight[fKey]._inferred = true;
+            }
+        }
+    }
+
+    /**
      * Extract DRatings win percentage from various data formats
      * Handles: number, object with winPct, string, null/undefined
      * @returns {number} Win percentage (0-100) or 50 if no valid data
@@ -848,7 +1014,7 @@ class PredictionEngine {
      * Calculate composite win probability from all sources
      * Updated to incorporate multiple FightMatrix rating systems and modifiers
      */
-    calculateCompositeWinProb(sources) {
+    calculateCompositeWinProb(sources, weightClass) {
         let totalWeight = 0;
         let weightedSumA = 0;
         let primarySourceA = 'composite';
@@ -856,8 +1022,8 @@ class PredictionEngine {
         let maxContributionA = 0;
         const contributions = [];
 
-        // Tapology contribution (weight: 20%)
-        const tapologyWeight = 0.20;
+        // Tapology contribution (weight: 12% - reduced from 20%, prone to popularity bias)
+        const tapologyWeight = 0.12;
         if (sources.tapologyA !== 50 || sources.tapologyB !== 50) {
             weightedSumA += sources.tapologyA * tapologyWeight;
             totalWeight += tapologyWeight;
@@ -868,8 +1034,8 @@ class PredictionEngine {
             }
         }
 
-        // DRatings contribution (weight: 15%)
-        const dratingsWeight = 0.15;
+        // DRatings contribution (weight: 12% - reduced from 15%)
+        const dratingsWeight = 0.12;
         if (sources.dratingsA !== 50 || sources.dratingsB !== 50) {
             weightedSumA += sources.dratingsA * dratingsWeight;
             totalWeight += dratingsWeight;
@@ -880,9 +1046,9 @@ class PredictionEngine {
             }
         }
 
-        // FightMatrix Betting Odds (weight: 20% - market signal is strong)
+        // FightMatrix Betting Odds (weight: 22% - market signal is strongest predictor)
         if (sources.bettingWinPctA !== null && sources.bettingWinPctB !== null) {
-            const bettingWeight = 0.20;
+            const bettingWeight = 0.22;
             weightedSumA += sources.bettingWinPctA * bettingWeight;
             totalWeight += bettingWeight;
             contributions.push({ source: 'betting', value: sources.bettingWinPctA, weight: bettingWeight });
@@ -892,9 +1058,9 @@ class PredictionEngine {
             }
         }
 
-        // FightMatrix Elo K170 (weight: 15%)
+        // FightMatrix Elo K170 (weight: 18% - high predictive validity, encodes opponent quality)
         if (sources.eloK170A !== null && sources.eloK170B !== null) {
-            const eloWeight = 0.15;
+            const eloWeight = 0.18;
             weightedSumA += sources.eloK170A.winPct * eloWeight;
             totalWeight += eloWeight;
             contributions.push({ source: 'eloK170', value: sources.eloK170A.winPct, weight: eloWeight });
@@ -904,25 +1070,25 @@ class PredictionEngine {
             }
         }
 
-        // FightMatrix Elo Modified (weight: 10%)
+        // FightMatrix Elo Modified (weight: 12% - accounts for recency/momentum)
         if (sources.eloModA !== null && sources.eloModB !== null) {
-            const eloModWeight = 0.10;
+            const eloModWeight = 0.12;
             weightedSumA += sources.eloModA.winPct * eloModWeight;
             totalWeight += eloModWeight;
             contributions.push({ source: 'eloMod', value: sources.eloModA.winPct, weight: eloModWeight });
         }
 
-        // FightMatrix Glicko-1 (weight: 10%)
+        // FightMatrix Glicko-1 (weight: 12% - recursive opponent quality encoding)
         if (sources.glickoA !== null && sources.glickoB !== null) {
-            const glickoWeight = 0.10;
+            const glickoWeight = 0.12;
             weightedSumA += sources.glickoA.winPct * glickoWeight;
             totalWeight += glickoWeight;
             contributions.push({ source: 'glicko', value: sources.glickoA.winPct, weight: glickoWeight });
         }
 
-        // FightMatrix WHR (weight: 10% - lower weight as it can be volatile)
+        // FightMatrix WHR (weight: 12% - whole-history rating, can be volatile but captures career arc)
         if (sources.whrA !== null && sources.whrB !== null) {
-            const whrWeight = 0.10;
+            const whrWeight = 0.12;
             weightedSumA += sources.whrA.winPct * whrWeight;
             totalWeight += whrWeight;
             contributions.push({ source: 'whr', value: sources.whrA.winPct, weight: whrWeight });
@@ -942,7 +1108,7 @@ class PredictionEngine {
         let winProbA = totalWeight > 0 ? weightedSumA / totalWeight : 50;
 
         // Apply modifiers based on age and activity
-        const ageModifier = this.calculateAgeModifier(sources);
+        const ageModifier = this.calculateAgeModifier(sources, weightClass);
         const activityModifier = this.calculateActivityModifier(sources);
         const formModifier = this.calculateFormModifier(sources);
 
@@ -971,57 +1137,69 @@ class PredictionEngine {
     }
 
     /**
-     * Calculate age-based modifier
-     * Older fighters (35+) get slight penalty, especially vs younger opponents
+     * Calculate age-based modifier with non-linear "Age Wall" penalty
+     * MMA performance cliff at 35 is steep, especially in lighter weight classes.
+     * Age gaps of 7+ years are significant. HW gets reduced penalty (power offsets age).
      */
-    calculateAgeModifier(sources) {
+    calculateAgeModifier(sources, weightClass) {
         if (sources.ageA === null || sources.ageB === null) return 0;
 
         const ageDiff = sources.ageB - sources.ageA; // positive = A is younger
         let modifier = 0;
 
-        // Age cliff penalty for fighters over 37
-        if (sources.ageA >= 37 && sources.ageB < 35) {
-            modifier -= 2; // Penalty for older fighter
-        } else if (sources.ageB >= 37 && sources.ageA < 35) {
-            modifier += 2; // Bonus for younger fighter A
+        // Weight class scaling: lighter classes penalize age more, HW less
+        const AGE_WEIGHT_CLASS_SCALE = {
+            'FLW': 1.3, 'BW': 1.2, 'FW': 1.1, 'LW': 1.1,
+            'WW': 1.0, 'MW': 1.0, 'LHW': 0.8, 'HW': 0.6,
+            'WFLW': 1.2, 'WBW': 1.1, 'WFW': 1.0, 'WSW': 1.2
+        };
+        const wcScale = AGE_WEIGHT_CLASS_SCALE[weightClass] || 1.0;
+
+        // Non-linear age cliff: penalty accelerates past 35
+        const applyAgeCliff = (age) => {
+            if (age < 35) return 0;
+            if (age < 37) return -1.5;  // 35-36: mild decline
+            if (age < 39) return -3.5;  // 37-38: steep decline
+            return -5.5;                // 39+: severe decline
+        };
+
+        modifier += applyAgeCliff(sources.ageA) * wcScale;
+        modifier -= applyAgeCliff(sources.ageB) * wcScale; // Benefit to A if B is old
+
+        // Large age gap bonus: 7+ year gap is a significant factor
+        const absAgeDiff = Math.abs(ageDiff);
+        if (absAgeDiff >= 8) {
+            modifier += Math.sign(ageDiff) * 3.0 * wcScale;
+        } else if (absAgeDiff >= 7) {
+            modifier += Math.sign(ageDiff) * 2.0 * wcScale;
         }
 
-        // General age advantage (capped at ±1.5%)
-        modifier += Math.max(-1.5, Math.min(1.5, ageDiff * 0.2));
-
-        return modifier;
+        // Cap total age modifier
+        return Math.max(-8, Math.min(8, modifier));
     }
 
     /**
      * Calculate activity/ring rust modifier
-     * Long layoffs get significant penalties - strengthened based on real-world impact
+     * 365+ days = automatic 10% confidence reduction per the "Year Off" rule
+     * Graduated penalties below that threshold
      */
     calculateActivityModifier(sources) {
         if (sources.daysSinceLastFightA === null || sources.daysSinceLastFightB === null) return 0;
 
         let modifier = 0;
 
-        // Ring rust penalty for A (strengthened penalties)
-        if (sources.daysSinceLastFightA > this.LAYOFF_EXTREME) {
-            // 500+ days = major ring rust (e.g., Arnold Allen at 546 days)
-            modifier -= 5;
-        } else if (sources.daysSinceLastFightA > this.LAYOFF_SEVERE) {
-            // 400-500 days = significant rust
-            modifier -= 3;
-        } else if (sources.daysSinceLastFightA > this.LAYOFF_MODERATE) {
-            // 300-400 days = some rust
-            modifier -= 1.5;
-        }
+        const applyRingRust = (days) => {
+            if (days > 730) return -10;    // 2+ years = extreme rust
+            if (days > 545) return -8;     // 18+ months
+            if (days > 365) return -6;     // 1+ year = "Year Off" penalty
+            if (days > this.LAYOFF_MODERATE) return -2; // 300-365 days
+            return 0;
+        };
 
+        // Ring rust penalty for A
+        modifier += applyRingRust(sources.daysSinceLastFightA);
         // Ring rust penalty for B (benefit to A)
-        if (sources.daysSinceLastFightB > this.LAYOFF_EXTREME) {
-            modifier += 5;
-        } else if (sources.daysSinceLastFightB > this.LAYOFF_SEVERE) {
-            modifier += 3;
-        } else if (sources.daysSinceLastFightB > this.LAYOFF_MODERATE) {
-            modifier += 1.5;
-        }
+        modifier -= applyRingRust(sources.daysSinceLastFightB);
 
         return modifier;
     }
@@ -1158,6 +1336,30 @@ class PredictionEngine {
     }
 
     /**
+     * Detect small UFCStats sample and regress method percentages toward base rates.
+     * When a fighter has very few UFC wins (indicated by extreme distributions like 100%/0%),
+     * their method splits are unreliable. Apply Bayesian shrinkage toward historical averages.
+     */
+    regressSmallSample(koWinPct, subWinPct, decWinPct) {
+        const zeroCount = [koWinPct, subWinPct, decWinPct].filter(v => v === 0).length;
+        const hundredCount = [koWinPct, subWinPct, decWinPct].filter(v => v >= 100).length;
+        const isSmallSample = hundredCount >= 1 || zeroCount >= 2;
+
+        if (!isSmallSample) {
+            return { ko: koWinPct, sub: subWinPct, dec: decWinPct, isSmallSample: false };
+        }
+
+        // Bayesian shrinkage: blend 60% actual + 40% base rate
+        const shrinkage = 0.40;
+        return {
+            ko: koWinPct * (1 - shrinkage) + this.METHOD_BASE_RATE.ko * shrinkage,
+            sub: subWinPct * (1 - shrinkage) + this.METHOD_BASE_RATE.sub * shrinkage,
+            dec: decWinPct * (1 - shrinkage) + this.METHOD_BASE_RATE.dec * shrinkage,
+            isSmallSample: true
+        };
+    }
+
+    /**
      * Check if sources disagree on the winner
      * Updated to check multiple FightMatrix rating systems
      */
@@ -1285,7 +1487,10 @@ class PredictionEngine {
         let koMult = 1;
 
         const koWinPct = winnerData?.ufcStats?.koWinPct || 0;
-        const slpm = winnerData?.ufcStats?.slpm || 0;
+        const winnerSlpm = winnerData?.ufcStats?.slpm || 0;
+        const winnerSapm = winnerData?.ufcStats?.sapm || 0;
+        const loserSlpm = loserData?.ufcStats?.slpm || 0;
+        const loserSapm = loserData?.ufcStats?.sapm || 0;
 
         // Early KO Threat Multiplier: underdog with high KO rate
         if (layer1Result.confidence < this.EARLY_KO_THREAT_TAPOLOGY_THRESHOLD &&
@@ -1298,14 +1503,30 @@ class PredictionEngine {
             });
         }
 
-        // High volume striker consideration
-        if (slpm >= 5.0) {
-            koMult *= 1.1;
-            reasoning.push({
-                layer: 2,
-                type: 'striker_rule',
-                text: `High Volume Striker: ${winnerData.name} has ${slpm} SLpM - slight KO boost`
-            });
+        // Striking Differential: (Landed - Absorbed) is more predictive than raw volume
+        // A fighter landing 6/min but absorbing 5 is worse than one landing 4 but absorbing 2
+        if (winnerSlpm > 0 && winnerSapm > 0) {
+            const winnerDiff = winnerSlpm - winnerSapm;
+            const loserDiff = (loserSlpm > 0 && loserSapm > 0) ? (loserSlpm - loserSapm) : 0;
+            const netAdvantage = winnerDiff - loserDiff;
+
+            if (netAdvantage >= 3.0) {
+                // Dominant striking differential (e.g., +2.5 vs -0.5)
+                koMult *= 1.15;
+                reasoning.push({
+                    layer: 2,
+                    type: 'striking_differential',
+                    text: `Striking Differential: ${winnerData.name} net ${winnerDiff > 0 ? '+' : ''}${winnerDiff.toFixed(1)} vs ${loserData.name} net ${loserDiff > 0 ? '+' : ''}${loserDiff.toFixed(1)} (advantage: ${netAdvantage > 0 ? '+' : ''}${netAdvantage.toFixed(1)}) → significant KO boost`
+                });
+            } else if (netAdvantage >= 1.5) {
+                // Moderate striking advantage
+                koMult *= 1.08;
+                reasoning.push({
+                    layer: 2,
+                    type: 'striking_differential',
+                    text: `Striking Differential: ${winnerData.name} net ${winnerDiff > 0 ? '+' : ''}${winnerDiff.toFixed(1)} vs ${loserData.name} net ${loserDiff > 0 ? '+' : ''}${loserDiff.toFixed(1)} (advantage: +${netAdvantage.toFixed(1)}) → moderate KO boost`
+                });
+            }
         }
 
         return { koMult };
@@ -1348,7 +1569,7 @@ class PredictionEngine {
      * plus small capped bonuses. Creates natural variance between fights
      * instead of collapsing everything into R1.
      */
-    calculateEarlyFinishProfile(method, dominantPct, loserData, confidence) {
+    calculateEarlyFinishProfile(method, dominantPct, loserData, confidence, winnerData) {
         const bonuses = [];
         let totalBonus = 0;
 
@@ -1366,6 +1587,15 @@ class PredictionEngine {
         if (confidence >= 73) {
             bonuses.push('lopsided matchup');
             totalBonus += this.BONUS_LOPSIDED;
+        }
+
+        // Bonus: Strong betting favorite (odds ~< -300, ~75%+ betting win prob)
+        // Research: fights with strong favorites end significantly faster
+        const bettingWinPct = winnerData?.fightmatrix?.bettingWinPct || null;
+        if (bettingWinPct !== null && bettingWinPct >= 75) {
+            const favBonus = bettingWinPct >= 80 ? 5.0 : 3.0;
+            bonuses.push(`strong betting fav (${bettingWinPct.toFixed(0)}%)`);
+            totalBonus += favBonus;
         }
 
         const cappedBonus = Math.min(totalBonus, this.MAX_BONUS_CAP);

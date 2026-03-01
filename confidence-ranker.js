@@ -280,6 +280,7 @@ class ConfidenceRanker {
             const fight = scoredFights[i];
             const rank = totalFights - i; // First in sorted list = highest rank
 
+            const hasOverride = !!fight.prediction.override;
             rankings.push({
                 rank: rank,
                 fightId: fight.fightId,
@@ -287,14 +288,15 @@ class ConfidenceRanker {
                 fighterB: fight.fight.fighterB?.name || 'Fighter B',
                 weightClass: fight.fight.weightClass,
                 isMainEvent: fight.fight.isMainEvent,
-                pick: fight.prediction.winnerName,
-                pickKey: fight.prediction.winner,
-                method: fight.prediction.method,
-                round: fight.prediction.round,
+                pick: hasOverride ? fight.prediction.override.winnerName : fight.prediction.winnerName,
+                pickKey: hasOverride ? fight.prediction.override.winner : fight.prediction.winner,
+                method: hasOverride ? fight.prediction.override.method : fight.prediction.method,
+                round: hasOverride ? fight.prediction.override.round : fight.prediction.round,
                 confidenceScore: fight.confidenceScore,
                 scoreBreakdown: fight.scoreBreakdown,
                 reasoning: fight.reasoning,
                 isVolatile: fight.prediction.isVolatile,
+                isOverridden: hasOverride,
                 isTied: false // Deterministic sort means no ties
             });
         }
