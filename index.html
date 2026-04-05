@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UFC Weekly Predictor</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 
 <body>
@@ -196,7 +197,7 @@
                     <p class="progress-text" id="auto-fetch-status">Fetching fighter data...</p>
                     <div class="source-status">
                         <span class="source-badge" id="tapology-status">Tapology</span>
-                        <span class="source-badge" id="dratings-status">DRatings</span>
+                        <span class="source-badge" id="bfo-status">BFO</span>
                         <span class="source-badge" id="fightmatrix-status">FightMatrix</span>
                         <span class="source-badge" id="ufcstats-status">UFCStats</span>
                         <span class="source-badge" id="gemini-status">Gemini AI</span>
@@ -588,7 +589,8 @@
                 <div class="view-header state-post-event">
                     <h2>Enter Results</h2>
                     <div class="view-actions">
-                        <button id="paste-results-btn" class="btn btn-secondary">Paste Results from Extension</button>
+                        <button id="fetch-results-btn" class="btn btn-primary">Fetch Results from Tapology</button>
+                        <button id="paste-results-btn" class="btn btn-secondary">Paste Results</button>
                         <button id="save-all-results-btn" class="btn btn-primary" disabled>Save All Results</button>
                     </div>
                 </div>
@@ -630,6 +632,27 @@
                         <div class="stat-total">
                             <span id="total-fights-tracked">0</span> fights tracked across <span
                                 id="total-events-tracked">0</span> events
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accuracy-charts">
+                    <div class="accuracy-chart-card">
+                        <h3>Winner Accuracy by Event</h3>
+                        <div class="chart-container">
+                            <canvas id="winner-accuracy-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="accuracy-chart-card">
+                        <h3>Method Accuracy by Event</h3>
+                        <div class="chart-container">
+                            <canvas id="method-accuracy-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="accuracy-chart-card">
+                        <h3>Round Accuracy by Event</h3>
+                        <div class="chart-container">
+                            <canvas id="round-accuracy-chart"></canvas>
                         </div>
                     </div>
                 </div>

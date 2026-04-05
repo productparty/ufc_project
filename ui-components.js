@@ -592,6 +592,7 @@ const UIComponents = {
     formatSourceName(source) {
         const names = {
             'tapology': 'Tapology',
+            'bfo': 'BFO',
             'dratings': 'DRatings',
             'fightmatrix': 'Fight Matrix',
             'heuristic': 'Heuristic',
@@ -1018,7 +1019,7 @@ const UIComponents = {
 
         summaryDiv.innerHTML = `
             ${createSummaryCard('Recent Trend', `${directionIcon} ${Math.abs(change).toFixed(1)}%`, 'vs previous events', isPositive)}
-            ${createSummaryCard('Current Form', `${trendAnalysis.summary.latestWinnerPct.toFixed(1)}%`, 'Last Event Accuracy', trendAnalysis.summary.latestWinnerPct >= 50)}
+            ${createSummaryCard('Current Form', `${trendAnalysis.summary.latestWinnerPct.toFixed(1)}%`, 'Last 3-Event Avg', trendAnalysis.summary.latestWinnerPct >= 50)}
             ${createSummaryCard('Overall Avg', `${trendAnalysis.summary.averageWinnerPct.toFixed(1)}%`, 'All Time', true)}
         `;
 
@@ -1031,8 +1032,8 @@ const UIComponents = {
             <thead>
                 <tr>
                     <th>Event</th>
-                    <th>Winner %</th>
-                    <th>Method %</th>
+                    <th>Winner % (3-Avg)</th>
+                    <th>Method % (3-Avg)</th>
                     <th>Diff</th>
                 </tr>
             </thead>

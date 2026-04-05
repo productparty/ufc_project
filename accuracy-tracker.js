@@ -124,11 +124,15 @@ class AccuracyTracker {
             });
         }
 
+        // Extract model version from predictions (all fights share same version per event)
+        const modelVersion = predictions.length > 0 ? (predictions[0].modelVersion || null) : null;
+
         const accuracyRecord = {
             eventId,
             eventName: event.name,
             eventDate: event.date,
             eventType: event.type,
+            modelVersion,
             totalFights,
             winnerCorrect,
             methodCorrect,
@@ -340,6 +344,7 @@ class AccuracyTracker {
             eventName: record.eventName,
             eventDate: record.eventDate,
             eventType: record.eventType,
+            modelVersion: record.modelVersion || null,
             totalFights: record.totalFights,
             winnerPct: record.totalFights > 0 ? (record.winnerCorrect / record.totalFights * 100) : 0,
             methodPct: record.totalFights > 0 ? (record.methodCorrect / record.totalFights * 100) : 0,

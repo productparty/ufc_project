@@ -76,6 +76,9 @@ class App {
                 UIComponents.hideLoading();
             }
 
+            // One-time migration: tag historical accuracy records with model versions
+            await this.migrateAccuracyVersions();
+
             // Initialize Chrome AI (non-blocking)
             this.initChromeAI();
 
@@ -140,6 +143,7 @@ class App {
 
         // Results
         document.getElementById('save-all-results-btn').addEventListener('click', () => this.handleSaveResults());
+        document.getElementById('fetch-results-btn').addEventListener('click', () => this.fetchResultsFromTapology());
         document.getElementById('paste-results-btn').addEventListener('click', () => this.toggleResultsPasteArea());
         document.getElementById('apply-results-paste-btn').addEventListener('click', () => this.applyResultsPaste());
 
@@ -1187,6 +1191,7 @@ class App {
 
         const instructions = {
             tapology: '<strong>Tapology:</strong> Go to the event page on Tapology, copy the community predictions section (including fighter names and percentages).',
+            bfo: '<strong>BestFightOdds:</strong> Go to BestFightOdds event page. Data is collected via the Chrome extension (moneyline + method props).',
             dratings: '<strong>DRatings:</strong> Go to DRatings UFC Predictions page, copy the table with fighter names and win percentages.',
             fightmatrix: '<strong>FightMatrix:</strong> Copy CIRRS ratings from FightMatrix. Supports multiple formats:<br>• "Fighter Name 1850"<br>• "1. Fighter Name (30) 15-2-0 1850"<br>• "Fighter Name - 1850"<br>Will auto-match to fighters on your card.',
             json: '<strong>JSON:</strong> Paste JSON data in format: <code>[{"name": "Fighter Name", "tapology": 65, "dratings": 62.5, "cirrs": 1850}]</code>'
@@ -1277,6 +1282,7 @@ class App {
             // Handle both nested and flat structures, and both casings (fightMatrix vs fightmatrix)
             const tapologyIsObject = typeof item.tapology === 'object' && item.tapology !== null;
             const dratingsIsObject = typeof item.dratings === 'object' && item.dratings !== null;
+            const bfoIsObject = typeof item.bfo === 'object' && item.bfo !== null;
             const fmObj = item.fightMatrix || item.fightmatrix || null;
             const fmIsObject = typeof fmObj === 'object' && fmObj !== null;
 
@@ -1289,6 +1295,12 @@ class App {
                     dec: tapologyIsObject ? (item.tapology.dec ?? null) : (item.dec ?? null)
                 },
                 dratings: { winPct: dratingsIsObject ? (item.dratings.winPct ?? null) : (item.dratings ?? item.winPct ?? null) },
+                bfo: {
+                    winPct: bfoIsObject ? (item.bfo.winPct ?? null) : null,
+                    methodKO: bfoIsObject ? (item.bfo.methodKO ?? null) : null,
+                    methodSub: bfoIsObject ? (item.bfo.methodSub ?? null) : null,
+                    methodDec: bfoIsObject ? (item.bfo.methodDec ?? null) : null
+                },
                 fightMatrix: { cirrs: fmIsObject ? (fmObj.cirrs ?? item.cirrs ?? null) : (item.cirrs ?? null) }
             };
 
@@ -1305,9 +1317,15 @@ class App {
                     age: fmObj.age ?? null,
                     daysSinceLastFight: fmObj.daysSinceLastFight ?? null,
                     ranking: fmObj.ranking ?? null,
-                    record: fmObj.record || null,
+                    record: fmObj.record || item.record || null,
                     last3Record: fmObj.last3Record || null
                 };
+            }
+
+            // Fallback: if no fightmatrix data but we have a record (e.g., from Tapology),
+            // store it so it's available for display
+            if (!result.fightmatrix && item.record) {
+                result.fightmatrix = { record: item.record };
             }
 
             return result;
@@ -1356,9 +1374,22 @@ class App {
                     existing.tapology.dec = fighter.tapology.dec;
                 }
 
-                // Merge dratings data
+                // Merge dratings data (backward compat for old events)
                 if (fighter.dratings.winPct !== null && existing.dratings.winPct === null) {
                     existing.dratings.winPct = fighter.dratings.winPct;
+                }
+
+                // Merge BFO data
+                if (fighter.bfo) {
+                    if (!existing.bfo) {
+                        existing.bfo = { ...fighter.bfo };
+                    } else {
+                        for (const [key, val] of Object.entries(fighter.bfo)) {
+                            if (val !== null && val !== undefined && (existing.bfo[key] === null || existing.bfo[key] === undefined)) {
+                                existing.bfo[key] = val;
+                            }
+                        }
+                    }
                 }
 
                 // Merge fightMatrix data
@@ -1366,9 +1397,17 @@ class App {
                     existing.fightMatrix.cirrs = fighter.fightMatrix.cirrs;
                 }
 
-                // Merge expanded fightmatrix data
-                if (fighter.fightmatrix && !existing.fightmatrix) {
-                    existing.fightmatrix = { ...fighter.fightmatrix };
+                // Merge expanded fightmatrix data (deep merge, prefer non-null values)
+                if (fighter.fightmatrix) {
+                    if (!existing.fightmatrix) {
+                        existing.fightmatrix = { ...fighter.fightmatrix };
+                    } else {
+                        for (const [key, val] of Object.entries(fighter.fightmatrix)) {
+                            if (val !== null && val !== undefined && (existing.fightmatrix[key] === null || existing.fightmatrix[key] === undefined)) {
+                                existing.fightmatrix[key] = val;
+                            }
+                        }
+                    }
                 }
             } else {
                 // Add as new entry
@@ -1504,6 +1543,69 @@ class App {
     /**
      * Normalize name for matching - handles hyphens, accents, and variations
      */
+    // Nickname/alias map: maps common nicknames to their full first names
+    // Each key is a nickname (lowercase), value is array of possible full names
+    static NICKNAME_MAP = {
+        'bia': ['beatriz'],
+        'beatriz': ['bia'],
+        'alex': ['alexander', 'alexandre', 'alexandro'],
+        'alexander': ['alex'],
+        'alexandre': ['alex'],
+        'mike': ['michael'],
+        'michael': ['mike'],
+        'chris': ['christopher', 'cristian'],
+        'christopher': ['chris'],
+        'rob': ['robert', 'roberto'],
+        'robert': ['rob', 'bob', 'bobby'],
+        'bob': ['robert'],
+        'bobby': ['robert'],
+        'roberto': ['rob'],
+        'dan': ['daniel'],
+        'daniel': ['dan'],
+        'matt': ['matthew', 'matheus'],
+        'matthew': ['matt'],
+        'matheus': ['matt'],
+        'joe': ['joseph'],
+        'joseph': ['joe'],
+        'tony': ['anthony', 'antonio'],
+        'anthony': ['tony'],
+        'antonio': ['tony'],
+        'nick': ['nicholas', 'nicolas'],
+        'nicholas': ['nick'],
+        'nicolas': ['nick'],
+        'ed': ['edward', 'eduardo'],
+        'edward': ['ed'],
+        'eduardo': ['ed'],
+        'sam': ['samuel'],
+        'samuel': ['sam'],
+        'max': ['maximilian', 'maximiliano'],
+        'will': ['william'],
+        'william': ['will'],
+        'greg': ['gregory'],
+        'gregory': ['greg'],
+        'steve': ['steven', 'stephen'],
+        'steven': ['steve'],
+        'stephen': ['steve'],
+        'dave': ['david'],
+        'david': ['dave'],
+        'jim': ['james'],
+        'james': ['jim'],
+        'charlie': ['charles'],
+        'charles': ['charlie'],
+        'nate': ['nathan', 'nathaniel'],
+        'nathan': ['nate'],
+        'nathaniel': ['nate'],
+        'rafa': ['rafael'],
+        'rafael': ['rafa'],
+        'jose': ['ze'],
+        'ze': ['jose'],
+        'gabi': ['gabriela', 'gabriella'],
+        'gabriela': ['gabi'],
+        'gabriella': ['gabi'],
+        'shem': ['shaqueme'],
+        'shaqueme': ['shem'],
+    };
+
     normalizeNameForMatch(name) {
         if (!name) return '';
         // Remove accents (e.g., "Natália" -> "Natalia")
@@ -1522,6 +1624,31 @@ class App {
     }
 
     /**
+     * Levenshtein edit distance between two strings
+     */
+    editDistance(a, b) {
+        const m = a.length, n = b.length;
+        const dp = Array.from({ length: m + 1 }, () => new Array(n + 1));
+        for (let i = 0; i <= m; i++) dp[i][0] = i;
+        for (let j = 0; j <= n; j++) dp[0][j] = j;
+        for (let i = 1; i <= m; i++) {
+            for (let j = 1; j <= n; j++) {
+                dp[i][j] = a[i - 1] === b[j - 1]
+                    ? dp[i - 1][j - 1]
+                    : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+            }
+        }
+        return dp[m][n];
+    }
+
+    // Full-name aliases: fighters known by completely different names across sites
+    // Maps normalized "first last" -> normalized "first last"
+    static FULL_NAME_ALIASES = {
+        'renato carneiro': 'renato moicano',
+        'renato moicano': 'renato carneiro',
+    };
+
+    /**
      * Check if two names likely refer to the same fighter
      */
     namesMatch(name1, name2) {
@@ -1531,20 +1658,47 @@ class App {
         // Exact match after normalization
         if (norm1 === norm2) return true;
 
+        // Full-name alias check (e.g., "Renato Moicano" <-> "Renato Carneiro")
+        const aliases = this.constructor.FULL_NAME_ALIASES || UFCApp.FULL_NAME_ALIASES || {};
+        if (aliases[norm1] === norm2 || aliases[norm2] === norm1) return true;
+
         // One is a substring of the other (handles "Lopes" vs "Diego Lopes")
         if (norm1.includes(norm2) || norm2.includes(norm1)) return true;
 
         // Last name match with min length check
         const parts1 = norm1.split(' ');
         const parts2 = norm2.split(' ');
+
+        // Nickname/alias check: if last names match, check if first names are known aliases
         const lastName1 = parts1[parts1.length - 1];
         const lastName2 = parts2[parts2.length - 1];
-
-        // REMOVED: Unconditional last name match. 
+        if (lastName1 === lastName2 && lastName1.length >= 3) {
+            const firstName1 = parts1[0];
+            const firstName2 = parts2[0];
+            const aliases1 = (this.constructor.NICKNAME_MAP || UFCApp.NICKNAME_MAP || {})[firstName1] || [];
+            if (aliases1.includes(firstName2)) {
+                return true;
+            }
+            const aliases2 = (this.constructor.NICKNAME_MAP || UFCApp.NICKNAME_MAP || {})[firstName2] || [];
+            if (aliases2.includes(firstName1)) {
+                return true;
+            }
+        }
+        // REMOVED: Unconditional last name match.
         // This caused "Javid Basharat" to match "Farid Basharat".
-        // We now rely on findBestFighterMatch's specific "last name only" fallback 
+        // We now rely on findBestFighterMatch's specific "last name only" fallback
         // which has duplicate-detection safety.
         // if (lastName1.length >= 4 && lastName1 === lastName2) return true;
+
+        // Fuzzy last name check: if first names match exactly, allow close last name spellings
+        // Handles "Southerland" vs "Sutherland", "Mellisa" vs "Melissa", etc.
+        if (parts1[0] === parts2[0] && parts1[0].length >= 3 &&
+            lastName1.length >= 4 && lastName2.length >= 4) {
+            const dist = this.editDistance(lastName1, lastName2);
+            if (dist <= 2 && dist / Math.max(lastName1.length, lastName2.length) <= 0.25) {
+                return true;
+            }
+        }
 
         // Check if all parts of one name appear within the other (handles "Rangbo Sulang" vs "Sulangrangbo")
         // This catches cases where names are concatenated differently
@@ -1595,7 +1749,8 @@ class App {
                 <span class="paste-preview-fighter">${fighter.name}</span>
                 <div class="paste-preview-data">
                     ${fighter.tapology && fighter.tapology.consensus !== null ? `<span>Tapology: ${fighter.tapology.consensus}%${methodStr}</span>` : ''}
-                    ${fighter.dratings && fighter.dratings.winPct !== null ? `<span>DRatings: ${fighter.dratings.winPct}%</span>` : ''}
+                    ${fighter.bfo && fighter.bfo.winPct !== null ? `<span>BFO: ${fighter.bfo.winPct}%</span>` : ''}
+                    ${fighter.dratings && fighter.dratings.winPct !== null && !(fighter.bfo && fighter.bfo.winPct !== null) ? `<span>DRatings: ${fighter.dratings.winPct}%</span>` : ''}
                     ${fighter.fightMatrix && fighter.fightMatrix.cirrs !== null ? `<span>CIRRS: ${fighter.fightMatrix.cirrs}</span>` : ''}
                 </div>
             </div>
@@ -1652,6 +1807,22 @@ class App {
 
             console.log('[Apply Paste] Total fights updated:', updatedCount);
             console.log('[Apply Paste] Total fighters matched:', matchedFighters);
+
+            // Auto-fetch missing records from Tapology event page
+            const fightersMissingRecords = [];
+            for (const fight of fights) {
+                if (fight.fighterA && !fight.fighterA.fightmatrix?.record) {
+                    fightersMissingRecords.push({ fighter: fight.fighterA, fightId: fight.id, fight });
+                }
+                if (fight.fighterB && !fight.fighterB.fightmatrix?.record) {
+                    fightersMissingRecords.push({ fighter: fight.fighterB, fightId: fight.id, fight });
+                }
+            }
+
+            if (fightersMissingRecords.length > 0) {
+                console.log(`[Apply Paste] ${fightersMissingRecords.length} fighters missing records, fetching from Tapology...`);
+                await this.fetchMissingRecordsFromTapology(fights, fightersMissingRecords);
+            }
 
             this.hidePasteDataModal();
             await this.loadDataCollectionView();
@@ -1803,6 +1974,238 @@ class App {
     /**
      * Merge parsed data into fighter object
      */
+    /**
+     * Fetch missing records from Tapology event page via proxy
+     */
+    async fetchMissingRecordsFromTapology(fights, missingList) {
+        try {
+            const eventName = this.activeEvent?.name || '';
+            if (!eventName) return;
+
+            // Search Tapology for the event
+            const searchUrl = `http://localhost:5555/proxy?url=${encodeURIComponent('https://www.tapology.com/fightcenter?search=' + encodeURIComponent(eventName))}`;
+            const searchRes = await fetch(searchUrl);
+            if (!searchRes.ok) return;
+            const searchHtml = await searchRes.text();
+
+            // Find event URL - try multiple matching strategies
+            const parser = new DOMParser();
+            const searchDoc = parser.parseFromString(searchHtml, 'text/html');
+            const eventLinks = searchDoc.querySelectorAll('a[href*="/fightcenter/events/"]');
+            let eventUrl = null;
+
+            // Extract keywords from event name for matching
+            // e.g. "UFC Fight Night: Adesanya vs. Pyfer" -> ["adesanya", "pyfer"]
+            const afterColon = eventName.split(':').pop().trim().toLowerCase();
+            const keywords = afterColon.replace(/\bvs\.?\b/g, '').split(/\s+/).filter(w => w.length >= 3);
+            const eventPrefix = eventName.split(':')[0].toLowerCase().trim(); // "ufc fight night" or "ufc 326"
+
+            for (const link of eventLinks) {
+                const text = link.textContent.toLowerCase();
+                // Strategy 1: text contains ALL fighter-name keywords (e.g. "adesanya" AND "pyfer")
+                if (keywords.length > 0 && keywords.every(kw => text.includes(kw))) {
+                    eventUrl = 'https://www.tapology.com' + link.getAttribute('href');
+                    break;
+                }
+            }
+
+            // Strategy 2: match on any single keyword (less strict)
+            if (!eventUrl) {
+                for (const link of eventLinks) {
+                    const text = link.textContent.toLowerCase();
+                    if (keywords.some(kw => text.includes(kw)) && text.includes('ufc')) {
+                        eventUrl = 'https://www.tapology.com' + link.getAttribute('href');
+                        break;
+                    }
+                }
+            }
+
+            // Strategy 3: match on event prefix (e.g. "ufc 326" or "ufc fight night") + href contains keyword
+            if (!eventUrl) {
+                for (const link of eventLinks) {
+                    const href = (link.getAttribute('href') || '').toLowerCase();
+                    if (keywords.some(kw => href.includes(kw))) {
+                        eventUrl = 'https://www.tapology.com' + link.getAttribute('href');
+                        break;
+                    }
+                }
+            }
+
+            if (!eventUrl) {
+                console.log('[Records] Could not find Tapology event URL for:', eventName, '(keywords:', keywords.join(', '), ')');
+            }
+
+            const recordMap = {};
+            let recordsAdded = 0;
+            const updatedFightIds = new Set();
+
+            // Strategy A: Fetch event page and extract records from bout wrappers
+            if (eventUrl) {
+                console.log('[Records] Fetching Tapology event page:', eventUrl);
+                const eventRes = await fetch(`http://localhost:5555/proxy?url=${encodeURIComponent(eventUrl)}`);
+                if (eventRes.ok) {
+                    const eventHtml = await eventRes.text();
+                    const eventDoc = parser.parseFromString(eventHtml, 'text/html');
+
+                    // Parse records from bout wrapper tooltips
+                    const boutWrappers = eventDoc.querySelectorAll('[data-bout-wrapper]');
+                    boutWrappers.forEach(wrapper => {
+                        const links = wrapper.querySelectorAll('a[href*="/fightcenter/fighters/"]');
+                        const seenInBout = new Set();
+                        links.forEach(link => {
+                            const name = link.textContent.trim();
+                            if (!name || name.length < 3 || seenInBout.has(name.toLowerCase())) return;
+                            seenInBout.add(name.toLowerCase());
+
+                            const bio = link.closest('[id*="Bio"]') || link.closest('[id*="boutFullsize"]');
+                            if (!bio) return;
+                            const recDiv = bio.querySelector('[title*="UFC Record"]');
+                            if (!recDiv) return;
+                            const span = recDiv.querySelector('span');
+                            if (!span) return;
+                            let record = span.textContent.trim();
+                            if (record.match(/^\d+-\d+$/) && !record.match(/^\d+-\d+-\d+$/)) record += '-0';
+                            if (record.match(/^\d+-\d+-\d+$/)) {
+                                recordMap[name.toLowerCase()] = record;
+                            }
+                        });
+                    });
+
+                    // Also try text-based extraction: "Name\nW-L-D" or matchup patterns
+                    const eventText = eventDoc.body?.innerText || eventDoc.body?.textContent || '';
+                    const textLines = eventText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                    for (let i = 0; i < textLines.length; i++) {
+                        const line = textLines[i];
+                        // Pattern: "Pro Record" or record after "manage_search"
+                        if (line === 'manage_search') {
+                            const nextLine = (textLines[i + 1] || '').trim();
+                            let rec = nextLine;
+                            if (rec.match(/^\d+-\d+$/) && !rec.match(/^\d+-\d+-\d+$/)) rec += '-0';
+                            if (rec.match(/^\d+-\d+-\d+$/)) {
+                                for (let j = i - 1; j >= Math.max(0, i - 5); j--) {
+                                    const prev = textLines[j].trim();
+                                    if (prev.length >= 3 && !prev.match(/^\d/) && !prev.includes('manage_search') &&
+                                        prev.match(/^[A-Za-zÀ-ÿ\-'.\s]+$/)) {
+                                        if (!recordMap[prev.toLowerCase()]) {
+                                            recordMap[prev.toLowerCase()] = rec;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    console.log('[Records] Extracted records from Tapology event page:', recordMap);
+                }
+            }
+
+            // Match event page records to fighters missing them
+            for (const { fighter, fightId, fight } of missingList) {
+                let record = recordMap[fighter.name.toLowerCase()];
+
+                // Try last name match
+                if (!record) {
+                    const lastName = fighter.name.split(' ').pop().toLowerCase();
+                    for (const [key, val] of Object.entries(recordMap)) {
+                        if (key.includes(lastName) || lastName.length >= 3 && key.split(' ').pop() === lastName) {
+                            record = val;
+                            break;
+                        }
+                    }
+                }
+
+                // Try namesMatch
+                if (!record) {
+                    for (const [key, val] of Object.entries(recordMap)) {
+                        if (this.namesMatch(fighter.name, key)) {
+                            record = val;
+                            break;
+                        }
+                    }
+                }
+
+                if (record) {
+                    fighter.fightmatrix = fighter.fightmatrix || {};
+                    fighter.fightmatrix.record = record;
+                    updatedFightIds.add(fightId);
+                    recordsAdded++;
+                    console.log(`[Records] Added record for ${fighter.name}: ${record} (from event page)`);
+                }
+            }
+
+            // Strategy B: Per-fighter Tapology search for any still-missing records
+            const stillMissing = missingList.filter(({ fighter }) => !fighter.fightmatrix?.record);
+            if (stillMissing.length > 0) {
+                console.log(`[Records] ${stillMissing.length} fighters still missing records, trying per-fighter Tapology search...`);
+                for (const { fighter, fightId, fight } of stillMissing) {
+                    try {
+                        const searchFighterUrl = `http://localhost:5555/proxy?url=${encodeURIComponent('https://www.tapology.com/search?term=' + encodeURIComponent(fighter.name) + '&search=fighters')}`;
+                        const fighterSearchRes = await fetch(searchFighterUrl);
+                        if (!fighterSearchRes.ok) continue;
+                        const fighterSearchHtml = await fighterSearchRes.text();
+                        const fighterSearchDoc = parser.parseFromString(fighterSearchHtml, 'text/html');
+
+                        // Find first fighter profile link
+                        const profileLink = fighterSearchDoc.querySelector('a[href*="/fightcenter/fighters/"]');
+                        if (!profileLink) {
+                            console.log(`[Records] No Tapology profile found for: ${fighter.name}`);
+                            continue;
+                        }
+
+                        const profileUrl = 'https://www.tapology.com' + profileLink.getAttribute('href');
+                        console.log(`[Records] Fetching profile for ${fighter.name}: ${profileUrl}`);
+                        const profileRes = await fetch(`http://localhost:5555/proxy?url=${encodeURIComponent(profileUrl)}`);
+                        if (!profileRes.ok) continue;
+                        const profileHtml = await profileRes.text();
+                        const profileDoc = parser.parseFromString(profileHtml, 'text/html');
+
+                        // Extract record from profile page
+                        // Look for "Pro Record" or W-L-D pattern in profile header
+                        const profileText = profileDoc.body?.innerText || profileDoc.body?.textContent || '';
+
+                        // Pattern 1: "Record: W-L-D" or "Pro Record: W-L-D"
+                        const recMatch = profileText.match(/(?:Pro\s+)?Record[:\s]+(\d+-\d+-\d+)/i);
+                        if (recMatch) {
+                            fighter.fightmatrix = fighter.fightmatrix || {};
+                            fighter.fightmatrix.record = recMatch[1];
+                            updatedFightIds.add(fightId);
+                            recordsAdded++;
+                            console.log(`[Records] Added record for ${fighter.name}: ${recMatch[1]} (from fighter profile)`);
+                            continue;
+                        }
+
+                        // Pattern 2: standalone W-L-D near fighter name in header area
+                        const headerArea = profileText.substring(0, 2000);
+                        const standaloneRec = headerArea.match(/\b(\d{1,2}-\d{1,2}-\d{1,2})\b/);
+                        if (standaloneRec) {
+                            fighter.fightmatrix = fighter.fightmatrix || {};
+                            fighter.fightmatrix.record = standaloneRec[1];
+                            updatedFightIds.add(fightId);
+                            recordsAdded++;
+                            console.log(`[Records] Added record for ${fighter.name}: ${standaloneRec[1]} (from fighter profile header)`);
+                        }
+                    } catch (err) {
+                        console.warn(`[Records] Failed to fetch profile for ${fighter.name}:`, err);
+                    }
+                }
+            }
+
+            // Save updated fights
+            for (const fight of fights) {
+                if (updatedFightIds.has(fight.id)) {
+                    await storage.updateFight(fight.id, fight);
+                }
+            }
+
+            if (recordsAdded > 0) {
+                console.log(`[Records] Added ${recordsAdded} missing records from Tapology`);
+            }
+        } catch (error) {
+            console.warn('[Records] Failed to fetch missing records:', error);
+        }
+    }
+
     mergeFighterData(fighter, parsedData) {
         if (parsedData.tapology.consensus !== null) {
             fighter.tapology = fighter.tapology || {};
@@ -1824,6 +2227,14 @@ class App {
         if (parsedData.dratings && parsedData.dratings.winPct !== null) {
             fighter.dratings = fighter.dratings || {};
             fighter.dratings.winPct = parsedData.dratings.winPct;
+        }
+        // Merge BFO data (replaces DRatings for new events)
+        if (parsedData.bfo) {
+            fighter.bfo = fighter.bfo || {};
+            if (parsedData.bfo.winPct !== null) fighter.bfo.winPct = parsedData.bfo.winPct;
+            if (parsedData.bfo.methodKO !== null) fighter.bfo.methodKO = parsedData.bfo.methodKO;
+            if (parsedData.bfo.methodSub !== null) fighter.bfo.methodSub = parsedData.bfo.methodSub;
+            if (parsedData.bfo.methodDec !== null) fighter.bfo.methodDec = parsedData.bfo.methodDec;
         }
         if (parsedData.fightMatrix && parsedData.fightMatrix.cirrs !== null) {
             fighter.fightMatrix = fighter.fightMatrix || {};
@@ -2012,7 +2423,7 @@ class App {
         const progressEl = document.getElementById('auto-fetch-progress');
         const statusEl = document.getElementById('auto-fetch-status');
         const tapologyBadge = document.getElementById('tapology-status');
-        const dratingsBadge = document.getElementById('dratings-status');
+        const dratingsBadge = document.getElementById('bfo-status') || document.getElementById('dratings-status');
         const fightmatrixBadge = document.getElementById('fightmatrix-status');
         const geminiBadge = document.getElementById('gemini-status');
 
@@ -2034,7 +2445,7 @@ class App {
 
             // Update source badges based on success
             tapologyBadge.className = `source-badge ${result.sources.tapology ? 'success' : 'error'}`;
-            dratingsBadge.className = `source-badge ${result.sources.dratings ? 'success' : 'error'}`;
+            dratingsBadge.className = `source-badge ${(result.sources.bfo || result.sources.dratings) ? 'success' : 'error'}`;
             fightmatrixBadge.className = `source-badge ${result.sources.fightMatrix ? 'success' : 'error'}`;
             geminiBadge.className = `source-badge ${result.sources.gemini ? 'success' : ''}`;
             const ufcstatsBadge = document.getElementById('ufcstats-status');
@@ -2106,7 +2517,8 @@ class App {
             const sourcesUsed = [];
             if (result.sources.gemini) sourcesUsed.push('Gemini AI');
             if (result.sources.tapology) sourcesUsed.push('Tapology');
-            if (result.sources.dratings) sourcesUsed.push('DRatings');
+            if (result.sources.bfo) sourcesUsed.push('BFO');
+            else if (result.sources.dratings) sourcesUsed.push('DRatings');
             if (result.sources.fightMatrix) sourcesUsed.push('FightMatrix');
             if (result.sources.ufcStats) sourcesUsed.push('UFCStats');
             document.getElementById('sources-fetched').textContent =
@@ -2859,6 +3271,312 @@ class App {
     }
 
     /**
+     * Fetch results from Tapology event page via local proxy and populate form
+     */
+    async fetchResultsFromTapology() {
+        const eventName = this.activeEvent?.name;
+        if (!eventName) {
+            UIComponents.showToast('No active event selected', 'warning');
+            return;
+        }
+
+        const fetchBtn = document.getElementById('fetch-results-btn');
+        fetchBtn.disabled = true;
+        fetchBtn.textContent = 'Fetching...';
+
+        try {
+            // Step 1: Search Tapology for the event
+            // Use Tapology's main search with events filter (returns fighter names in context)
+            const searchTerm = eventName.replace(/:/g, '');
+            const searchUrl = `http://localhost:5555/proxy?url=${encodeURIComponent('https://www.tapology.com/search?term=' + encodeURIComponent(searchTerm) + '&mainSearchFilter=events')}`;
+            const searchRes = await fetch(searchUrl);
+            if (!searchRes.ok) throw new Error('Tapology search failed');
+            const searchHtml = await searchRes.text();
+
+            // Step 2: Find the event URL
+            // Tapology search results: <td><a href="...">UFC Fight Night</a> | Adesanya vs. Pyfer</td>
+            // Fighter names are in the parent cell, not inside the link
+            const parser = new DOMParser();
+            const searchDoc = parser.parseFromString(searchHtml, 'text/html');
+            const eventLinks = searchDoc.querySelectorAll('a[href*="/fightcenter/events/"]');
+
+            const afterColon = eventName.split(':').pop().trim().toLowerCase();
+            const keywords = afterColon.replace(/\bvs\.?\b/g, '').split(/\s+/).filter(w => w.length >= 3);
+            // Also extract UFC number for numbered events (e.g. "UFC 326")
+            const ufcNumMatch = eventName.match(/UFC\s*(\d+)/i);
+            const ufcNum = ufcNumMatch ? ufcNumMatch[1] : null;
+
+            let eventUrl = null;
+            for (const link of eventLinks) {
+                // Check both link text AND parent cell text (fighters often outside the <a>)
+                const linkText = link.textContent.toLowerCase();
+                const cellText = (link.closest('td') || link.parentElement)?.textContent?.toLowerCase() || linkText;
+                const href = (link.getAttribute('href') || '').toLowerCase();
+
+                // Strategy 1: All fighter keywords in cell text
+                if (keywords.length > 0 && keywords.every(kw => cellText.includes(kw))) {
+                    eventUrl = 'https://www.tapology.com' + link.getAttribute('href');
+                    break;
+                }
+                // Strategy 2: UFC number match in href or text (e.g. "ufc-326" or "UFC 326")
+                if (ufcNum && (href.includes('ufc-' + ufcNum) || cellText.includes('ufc ' + ufcNum))) {
+                    eventUrl = 'https://www.tapology.com' + link.getAttribute('href');
+                    break;
+                }
+            }
+            // Strategy 3: Any keyword match with UFC context
+            if (!eventUrl) {
+                for (const link of eventLinks) {
+                    const cellText = (link.closest('td') || link.parentElement)?.textContent?.toLowerCase() || '';
+                    if (keywords.some(kw => cellText.includes(kw)) && cellText.includes('ufc')) {
+                        eventUrl = 'https://www.tapology.com' + link.getAttribute('href');
+                        break;
+                    }
+                }
+            }
+            if (!eventUrl) throw new Error(`Event not found on Tapology (searched: ${keywords.join(', ')})`);
+
+            console.log('[Fetch Results] Found event URL:', eventUrl);
+
+            // Step 3: Fetch the event page
+            const eventRes = await fetch(`http://localhost:5555/proxy?url=${encodeURIComponent(eventUrl)}`);
+            if (!eventRes.ok) throw new Error('Failed to fetch event page');
+            const eventHtml = await eventRes.text();
+            const eventDoc = parser.parseFromString(eventHtml, 'text/html');
+
+            // Step 4: Parse results from bout wrappers
+            const parsedResults = this.parseTapologyResults(eventDoc);
+            console.log('[Fetch Results] Parsed results:', parsedResults);
+
+            if (parsedResults.length === 0) throw new Error('No results found on event page');
+
+            // Step 5: Apply results to form (reuse the same matching logic as paste)
+            const fights = await storage.getFightsByEvent(this.activeEventId);
+            const { matchedCount, unmatchedResults } = this.applyResultsToForm(parsedResults, fights);
+
+            document.getElementById('save-all-results-btn').disabled = false;
+
+            const toastMsg = unmatchedResults.length > 0
+                ? `Applied ${matchedCount} of ${parsedResults.length} results. Unmatched: ${unmatchedResults.join(', ')}`
+                : `Applied ${matchedCount} of ${parsedResults.length} results`;
+            UIComponents.showToast(toastMsg, matchedCount === parsedResults.length ? 'success' : 'warning');
+
+        } catch (error) {
+            console.error('[Fetch Results] Error:', error);
+            UIComponents.showToast(`Failed to fetch results: ${error.message}`, 'error');
+        } finally {
+            fetchBtn.disabled = false;
+            fetchBtn.textContent = 'Fetch Results from Tapology';
+        }
+    }
+
+    /**
+     * Parse fight results from a Tapology event page DOM
+     */
+    parseTapologyResults(doc) {
+        const results = [];
+        const seenFights = new Set();
+        const boutWrappers = doc.querySelectorAll('[data-bout-wrapper]');
+
+        console.log('[Parse Results] Found', boutWrappers.length, 'bout wrappers');
+
+        for (const wrapper of boutWrappers) {
+            const text = wrapper.textContent || '';
+
+            // Get unique fighter names from links
+            const links = wrapper.querySelectorAll('a[href*="/fightcenter/fighters/"]');
+            const nameSet = new Set();
+            for (const link of links) {
+                const name = link.textContent.trim();
+                if (name && name.length >= 3) nameSet.add(name);
+            }
+            const fighters = [...nameSet];
+            if (fighters.length < 2) continue;
+
+            // Check for cancelled bout
+            if (/cancelled/i.test(text) && !/KO|TKO|Submission|Decision|Draw/i.test(text)) {
+                results.push({ fighterA: fighters[0], fighterB: fighters[1], cancelled: true, method: 'CANCELLED' });
+                console.log('[Parse Results] Cancelled:', fighters[0], 'vs', fighters[1]);
+                continue;
+            }
+
+            // Determine winner/loser using "Up to" (winner) / "Down to" (loser) / "Went to" (draw)
+            let winner = null, loser = null, isDraw = false;
+
+            for (const name of fighters) {
+                // Find the name in text and check what follows nearby
+                // Use a pattern that finds the name followed within ~40 chars by the record direction
+                const nameEscaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                const upToPattern = new RegExp(nameEscaped + '[\\s\\S]{0,60}Up to', 'i');
+                const downToPattern = new RegExp(nameEscaped + '[\\s\\S]{0,60}Down to', 'i');
+                const wentToPattern = new RegExp(nameEscaped + '[\\s\\S]{0,60}Went to', 'i');
+
+                if (upToPattern.test(text)) {
+                    winner = name;
+                } else if (downToPattern.test(text)) {
+                    loser = name;
+                } else if (wentToPattern.test(text)) {
+                    isDraw = true;
+                }
+            }
+
+            // Fallback: look for standalone W/L in text near names
+            if (!winner && !loser && !isDraw) {
+                for (const name of fighters) {
+                    const nameEscaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    // Check for "Name W Name" or "Name\nW\nName" pattern (name repeated around W)
+                    const winPattern = new RegExp(nameEscaped + '\\s*W\\s*' + nameEscaped, 'i');
+                    const losePattern = new RegExp(nameEscaped + '\\s*L\\s*' + nameEscaped, 'i');
+                    if (winPattern.test(text)) winner = name;
+                    else if (losePattern.test(text)) loser = name;
+                }
+            }
+
+            // Infer missing side
+            if (winner && !loser && !isDraw) loser = fighters.find(n => n !== winner);
+            if (loser && !winner && !isDraw) winner = fighters.find(n => n !== loser);
+
+            // Detect draw from text
+            if (!winner && !loser && /Draw|Ends in a Draw/i.test(text)) isDraw = true;
+
+            // Extract method
+            let method = 'DEC';
+            if (/KO\/TKO/i.test(text) || /\bTKO\b/i.test(text)) method = 'KO';
+            else if (/Submission|Technical Sub/i.test(text)) method = 'SUB';
+            else if (/Decision|Unanimous|Majority|Split/i.test(text)) method = 'DEC';
+
+            // Extract round
+            let round = 'DEC';
+            if (method !== 'DEC') {
+                const roundMatch = text.match(/Round\s*(\d+)\s*of\s*\d+/i);
+                if (roundMatch) round = 'R' + roundMatch[1];
+            }
+
+            // Deduplicate (Tapology has desktop + mobile bout wrappers)
+            const key = fighters.map(f => f.toLowerCase()).sort().join('-');
+            if (seenFights.has(key)) continue;
+            seenFights.add(key);
+
+            if (isDraw) {
+                results.push({ winner: 'DRAW', loser: fighters[0] + ' vs ' + fighters[1], method: 'DRAW', round: 'DEC' });
+                console.log('[Parse Results] Draw:', fighters[0], 'vs', fighters[1]);
+            } else if (winner) {
+                results.push({ winner, loser, method, round });
+                console.log('[Parse Results] Result:', winner, 'def', loser, '-', method, round);
+            } else {
+                console.warn('[Parse Results] Could not determine winner for:', fighters.join(' vs '));
+            }
+        }
+
+        return results;
+    }
+
+    /**
+     * Apply parsed results array to the result form cards
+     * Returns { matchedCount, unmatchedResults }
+     */
+    applyResultsToForm(results, fights) {
+        const nameMatchScore = (resultName, fightName) => {
+            if (!resultName || !fightName) return 0;
+            const rn = resultName.toLowerCase().trim();
+            const fn = fightName.toLowerCase().trim();
+            if (rn === fn) return 100;
+            if (rn.includes(fn) || fn.includes(rn)) return 90;
+            const rParts = rn.split(/\s+/);
+            const fParts = fn.split(/\s+/);
+            const rLast = rParts[rParts.length - 1];
+            const fLast = fParts[fParts.length - 1];
+            const rFirst = rParts[0];
+            const fFirst = fParts[0];
+            if (rLast === fLast && rFirst === fFirst) return 85;
+            if (rLast === fLast && (rFirst[0] === fFirst[0])) return 75;
+            if (rLast === fLast) return 50;
+            if (rLast.includes(fLast) || fLast.includes(rLast)) return 40;
+            return 0;
+        };
+
+        const matchedFightIds = new Set();
+        const unmatchedResults = [];
+        let matchedCount = 0;
+
+        for (const result of results) {
+            const winnerName = result.winner?.replace(/^[WLD]\n\s*/, '').trim();
+            const loserName = result.loser?.trim();
+            const isCancelled = result.cancelled === true || result.method?.toUpperCase() === 'CANCELLED';
+            const isDraw = result.method?.toUpperCase() === 'DRAW' || result.winner?.toUpperCase() === 'DRAW';
+
+            const resultCards = document.querySelectorAll('.result-card');
+            let bestMatch = null;
+            let bestScore = 0;
+
+            for (const card of resultCards) {
+                const fightId = card.dataset.fightId;
+                if (matchedFightIds.has(fightId)) continue;
+                const fight = fights.find(f => f.id === fightId);
+                if (!fight) continue;
+                const fighterAName = fight.fighterA?.name;
+                const fighterBName = fight.fighterB?.name;
+
+                if (isCancelled) {
+                    const names = [result.fighterA, result.fighterB, result.winner, result.loser].filter(Boolean);
+                    let score = 0;
+                    for (const name of names) {
+                        score = Math.max(score, nameMatchScore(name, fighterAName), nameMatchScore(name, fighterBName));
+                    }
+                    if (score > bestScore) { bestScore = score; bestMatch = { card, fightId, type: 'cancelled' }; }
+                } else if (isDraw) {
+                    const drawNames = loserName ? loserName.split(/\s+vs\.?\s+/) : [];
+                    const name1 = drawNames[0]?.trim();
+                    const name2 = drawNames[1]?.trim();
+                    const scoreA = Math.max(name1 ? nameMatchScore(name1, fighterAName) : 0, name2 ? nameMatchScore(name2, fighterAName) : 0);
+                    const scoreB = Math.max(name1 ? nameMatchScore(name1, fighterBName) : 0, name2 ? nameMatchScore(name2, fighterBName) : 0);
+                    const score = scoreA + scoreB;
+                    if (score > bestScore) { bestScore = score; bestMatch = { card, fightId, type: 'draw' }; }
+                } else {
+                    const scoreA = nameMatchScore(winnerName, fighterAName);
+                    const scoreB = nameMatchScore(winnerName, fighterBName);
+                    let bonusA = loserName ? nameMatchScore(loserName, fighterBName) : 0;
+                    let bonusB = loserName ? nameMatchScore(loserName, fighterAName) : 0;
+                    const totalA = scoreA + bonusA * 0.5;
+                    const totalB = scoreB + bonusB * 0.5;
+                    const bestSide = totalA >= totalB ? 'fighterA' : 'fighterB';
+                    const sideScore = Math.max(totalA, totalB);
+                    if (sideScore > bestScore) { bestScore = sideScore; bestMatch = { card, fightId, type: 'winner', winner: bestSide }; }
+                }
+            }
+
+            if (bestMatch && bestScore >= 40) {
+                matchedFightIds.add(bestMatch.fightId);
+                if (bestMatch.type === 'cancelled') {
+                    const winnerSelect = bestMatch.card.querySelector('.result-winner');
+                    winnerSelect.value = 'cancelled';
+                    winnerSelect.dispatchEvent(new Event('change'));
+                    matchedCount++;
+                    console.log('[Apply Results] Matched cancelled fight:', bestMatch.fightId, '(score:', bestScore + ')');
+                } else if (bestMatch.type === 'draw') {
+                    const winnerSelect = bestMatch.card.querySelector('.result-winner');
+                    winnerSelect.value = 'draw';
+                    bestMatch.card.querySelector('.result-method').value = 'DRAW';
+                    bestMatch.card.querySelector('.result-round').value = 'DEC';
+                    matchedCount++;
+                    console.log('[Apply Results] Matched draw:', result.loser, 'to fight', bestMatch.fightId, '(score:', bestScore + ')');
+                } else {
+                    bestMatch.card.querySelector('.result-winner').value = bestMatch.winner;
+                    if (result.method) bestMatch.card.querySelector('.result-method').value = result.method.toUpperCase();
+                    if (result.round) bestMatch.card.querySelector('.result-round').value = result.round;
+                    matchedCount++;
+                    console.log('[Apply Results] Matched:', result.winner, 'to fight', bestMatch.fightId, '(score:', bestScore + ')');
+                }
+            } else {
+                unmatchedResults.push(result.winner || result.fighterA || 'Unknown');
+                console.warn('[Apply Results] UNMATCHED:', result.winner || result.fighterA, '(best score:', bestScore + ')');
+            }
+        }
+
+        return { matchedCount, unmatchedResults };
+    }
+
+    /**
      * Toggle results paste area visibility
      */
     toggleResultsPasteArea() {
@@ -2883,96 +3601,23 @@ class App {
 
         try {
             const results = JSON.parse(pastedText);
-
             if (!Array.isArray(results) || results.length === 0) {
                 throw new Error('Invalid results format');
             }
 
             console.log('[Apply Results] Parsed results:', results);
 
-            // Get current fights
             const fights = await storage.getFightsByEvent(this.activeEventId);
-            let matchedCount = 0;
+            const { matchedCount, unmatchedResults } = this.applyResultsToForm(results, fights);
 
-            // For each result, find matching fight and fill in the form
-            for (const result of results) {
-                const winnerName = result.winner?.toLowerCase().trim();
-                const loserName = result.loser?.toLowerCase().trim();
-
-                // Find the fight card that matches this result
-                const resultCards = document.querySelectorAll('.result-card');
-                for (const card of resultCards) {
-                    const fightId = card.dataset.fightId;
-                    const fight = fights.find(f => f.id === fightId);
-                    if (!fight) continue;
-
-                    const fighterAName = fight.fighterA?.name?.toLowerCase().trim();
-                    const fighterBName = fight.fighterB?.name?.toLowerCase().trim();
-
-                    // Check if this fight matches the result (either fighter order)
-                    const fighterAWon = (fighterAName && (winnerName?.includes(fighterAName.split(' ').pop()) || fighterAName.includes(winnerName?.split(' ').pop() || '')));
-                    const fighterBWon = (fighterBName && (winnerName?.includes(fighterBName.split(' ').pop()) || fighterBName.includes(winnerName?.split(' ').pop() || '')));
-
-                    // Check for cancelled fight (method = CANCELLED or cancelled = true)
-                    const isCancelled = result.cancelled === true ||
-                        result.method?.toUpperCase() === 'CANCELLED' ||
-                        result.winner?.toLowerCase() === 'cancelled';
-
-                    if (isCancelled) {
-                        // Match cancelled fights by checking if either fighter name matches
-                        const matchesFight = (fighterAName && (
-                            result.fighterA?.toLowerCase().includes(fighterAName.split(' ').pop()) ||
-                            result.fighterB?.toLowerCase().includes(fighterAName.split(' ').pop()) ||
-                            result.winner?.toLowerCase().includes(fighterAName.split(' ').pop()) ||
-                            result.loser?.toLowerCase().includes(fighterAName.split(' ').pop())
-                        )) || (fighterBName && (
-                            result.fighterA?.toLowerCase().includes(fighterBName.split(' ').pop()) ||
-                            result.fighterB?.toLowerCase().includes(fighterBName.split(' ').pop()) ||
-                            result.winner?.toLowerCase().includes(fighterBName.split(' ').pop()) ||
-                            result.loser?.toLowerCase().includes(fighterBName.split(' ').pop())
-                        ));
-
-                        if (matchesFight) {
-                            const winnerSelect = card.querySelector('.result-winner');
-                            winnerSelect.value = 'cancelled';
-                            // Trigger change event to hide method/round
-                            winnerSelect.dispatchEvent(new Event('change'));
-                            matchedCount++;
-                            console.log('[Apply Results] Matched cancelled fight:', fightId);
-                            break;
-                        }
-                    } else if (fighterAWon || fighterBWon) {
-                        // Set winner
-                        const winnerSelect = card.querySelector('.result-winner');
-                        winnerSelect.value = fighterAWon ? 'fighterA' : 'fighterB';
-
-                        // Set method
-                        const methodSelect = card.querySelector('.result-method');
-                        if (result.method) {
-                            methodSelect.value = result.method.toUpperCase();
-                        }
-
-                        // Set round
-                        const roundSelect = card.querySelector('.result-round');
-                        if (result.round) {
-                            roundSelect.value = result.round;
-                        }
-
-                        matchedCount++;
-                        console.log('[Apply Results] Matched:', result.winner, 'to fight', fightId);
-                        break;
-                    }
-                }
-            }
-
-            // Clear paste area
             pasteInput.value = '';
             document.getElementById('results-paste-area').classList.add('hidden');
-
-            // Enable save button
             document.getElementById('save-all-results-btn').disabled = false;
 
-            UIComponents.showToast(`Applied ${matchedCount} of ${results.length} results`, matchedCount > 0 ? 'success' : 'warning');
+            const toastMsg = unmatchedResults.length > 0
+                ? `Applied ${matchedCount} of ${results.length} results. Unmatched: ${unmatchedResults.join(', ')}`
+                : `Applied ${matchedCount} of ${results.length} results`;
+            UIComponents.showToast(toastMsg, matchedCount === results.length ? 'success' : 'warning');
         } catch (error) {
             console.error('Failed to parse results:', error);
             UIComponents.showToast('Invalid JSON format. Please check the pasted data.', 'error');
@@ -2980,6 +3625,49 @@ class App {
     }
 
     // ==================== ACCURACY VIEW ====================
+
+    /**
+     * One-time migration: tag historical accuracy records with model versions.
+     * Maps events by date to the engine version that was active when predictions were made.
+     */
+    async migrateAccuracyVersions() {
+        try {
+            const records = await storage.getAllAccuracyRecords();
+            const untagged = records.filter(r => !r.modelVersion);
+            if (untagged.length === 0) return; // already migrated
+
+            // Version mapping by event date cutoffs
+            // v3: Jan 24 - Feb 20 (scoring, age wall, year-off, source reweighting)
+            // v4: Feb 21 (close fight threshold, base rate prior, method blend)
+            // v5: Feb 22+ (DEC EV multiplier)
+            const getVersionByDate = (dateStr) => {
+                if (!dateStr) return 'v3';
+                const d = new Date(dateStr);
+                if (d >= new Date('2026-02-22')) return 'v5';
+                if (d >= new Date('2026-02-21')) return 'v4';
+                return 'v3';
+            };
+
+            const transaction = storage.db.transaction(['accuracyHistory'], 'readwrite');
+            const store = transaction.objectStore('accuracyHistory');
+
+            for (const record of untagged) {
+                const version = getVersionByDate(record.eventDate);
+                record.modelVersion = version;
+                store.put(record);
+            }
+
+            await new Promise((resolve, reject) => {
+                transaction.oncomplete = () => {
+                    console.log(`[App] Migration: tagged ${untagged.length} accuracy records with model versions`);
+                    resolve();
+                };
+                transaction.onerror = () => reject(transaction.error);
+            });
+        } catch (err) {
+            console.warn('[App] Version migration skipped:', err.message);
+        }
+    }
 
     /**
      * Load accuracy view
@@ -3060,9 +3748,200 @@ class App {
             } else {
                 historyContainer.innerHTML = '<p class="empty-state">No completed events yet</p>';
             }
+
+            // Render accuracy trend charts
+            if (eventHistory.length > 0 && typeof Chart !== 'undefined') {
+                this.renderAccuracyCharts(eventHistory, overall);
+            }
         } catch (error) {
             console.error('Failed to load accuracy view:', error);
             UIComponents.showToast('Failed to load accuracy data', 'error');
+        }
+    }
+
+    /**
+     * Render accuracy trend charts (Winner, Method, Round)
+     */
+    renderAccuracyCharts(eventHistory, overall) {
+        // Sort events chronologically (oldest first)
+        const sorted = [...eventHistory].sort((a, b) => {
+            const dateA = a.eventDate ? new Date(a.eventDate) : new Date(a.timestamp);
+            const dateB = b.eventDate ? new Date(b.eventDate) : new Date(b.timestamp);
+            return dateA - dateB;
+        });
+
+        // Short event labels with version tag (e.g. "Moreno (v6)")
+        const labels = sorted.map(e => {
+            const name = e.eventName || 'Event';
+            let shortName;
+            // Extract headliner last name from "UFC Fight Night: X vs. Y" or "UFC 325"
+            const vsMatch = name.match(/:\s*(.+?)\s+vs/i);
+            if (vsMatch) shortName = vsMatch[1].split(' ').pop();
+            else {
+                const numMatch = name.match(/UFC\s+(\d+)/i);
+                if (numMatch) shortName = `UFC ${numMatch[1]}`;
+                else shortName = name.substring(0, 12);
+            }
+            // Append model version if available
+            if (e.modelVersion) shortName += ` (${e.modelVersion})`;
+            return shortName;
+        });
+
+        // Map model versions to distinct point border colors for visual grouping
+        const versionColors = { 'v3': '#ff6b6b', 'v4': '#ffa502', 'v5': '#7bed9f', 'v6': '#70a1ff' };
+        const pointBorderColors = sorted.map(e => versionColors[e.modelVersion] || '#888');
+
+        // Calculate rolling average (window size adapts: 2 for <=4 events, 3 for 5+)
+        const rollingAvg = (data) => {
+            const window = data.length <= 4 ? 2 : 3;
+            return data.map((_, i) => {
+                if (i < window - 1) return null; // not enough data yet
+                let sum = 0;
+                for (let j = i - window + 1; j <= i; j++) sum += data[j];
+                return sum / window;
+            });
+        };
+
+        const chartConfigs = [
+            {
+                canvasId: 'winner-accuracy-chart',
+                data: sorted.map(e => e.winnerPct),
+                avg: overall.winnerPct,
+                color: '#1a73e8',
+                label: 'Winner %'
+            },
+            {
+                canvasId: 'method-accuracy-chart',
+                data: sorted.map(e => e.methodPct),
+                avg: overall.methodPct,
+                color: '#34a853',
+                label: 'Method %'
+            },
+            {
+                canvasId: 'round-accuracy-chart',
+                data: sorted.map(e => e.roundPct),
+                avg: overall.roundPct,
+                color: '#fbbc04',
+                label: 'Round %'
+            }
+        ];
+
+        // Destroy previous chart instances if they exist
+        if (!this._accuracyCharts) this._accuracyCharts = {};
+
+        for (const cfg of chartConfigs) {
+            if (this._accuracyCharts[cfg.canvasId]) {
+                this._accuracyCharts[cfg.canvasId].destroy();
+            }
+
+            const canvas = document.getElementById(cfg.canvasId);
+            if (!canvas) continue;
+
+            const ctx = canvas.getContext('2d');
+
+            const rolling = rollingAvg(cfg.data);
+            const windowSize = cfg.data.length <= 4 ? 2 : 3;
+
+            this._accuracyCharts[cfg.canvasId] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: cfg.label,
+                            data: cfg.data,
+                            borderColor: cfg.color,
+                            backgroundColor: cfg.color + '33',
+                            borderWidth: 2.5,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            pointBackgroundColor: cfg.color,
+                            pointBorderColor: pointBorderColors,
+                            pointBorderWidth: 2.5,
+                            tension: 0.25,
+                            fill: true
+                        },
+                        {
+                            label: `Rolling Avg (${windowSize})`,
+                            data: rolling,
+                            borderColor: '#ffffff',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            pointBackgroundColor: '#ffffff',
+                            tension: 0.3,
+                            fill: false,
+                            spanGaps: false
+                        },
+                        {
+                            label: 'All-Time Avg',
+                            data: sorted.map(() => cfg.avg),
+                            borderColor: '#ea4335',
+                            borderWidth: 1.5,
+                            borderDash: [6, 4],
+                            pointRadius: 0,
+                            pointHoverRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: '#b0b0b0',
+                                font: { size: 11 },
+                                boxWidth: 14,
+                                padding: 12
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e1e1e',
+                            titleColor: '#e0e0e0',
+                            bodyColor: '#b0b0b0',
+                            borderColor: '#333',
+                            borderWidth: 1,
+                            callbacks: {
+                                title: function(contexts) {
+                                    const idx = contexts[0].dataIndex;
+                                    const event = sorted[idx];
+                                    const ver = event.modelVersion ? ` [${event.modelVersion}]` : '';
+                                    return `${event.eventName || labels[idx]}${ver}`;
+                                },
+                                label: function(context) {
+                                    if (context.parsed.y === null) return null;
+                                    return `${context.dataset.label}: ${context.parsed.y.toFixed(1)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#888', font: { size: 11 } },
+                            grid: { color: 'rgba(255,255,255,0.05)' }
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                color: '#888',
+                                font: { size: 11 },
+                                callback: v => v + '%',
+                                stepSize: 25
+                            },
+                            grid: { color: 'rgba(255,255,255,0.08)' }
+                        }
+                    }
+                }
+            });
         }
     }
 
