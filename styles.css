@@ -908,6 +908,15 @@ body {
     font-weight: 600;
 }
 
+.upset-risk-badge {
+    background: #e74c3c;
+    color: #fff;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
 .source-tag {
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);

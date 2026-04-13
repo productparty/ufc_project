@@ -1295,11 +1295,22 @@ class App {
                     dec: tapologyIsObject ? (item.tapology.dec ?? null) : (item.dec ?? null)
                 },
                 dratings: { winPct: dratingsIsObject ? (item.dratings.winPct ?? null) : (item.dratings ?? item.winPct ?? null) },
-                bfo: {
-                    winPct: bfoIsObject ? (item.bfo.winPct ?? null) : null,
-                    methodKO: bfoIsObject ? (item.bfo.methodKO ?? null) : null,
-                    methodSub: bfoIsObject ? (item.bfo.methodSub ?? null) : null,
-                    methodDec: bfoIsObject ? (item.bfo.methodDec ?? null) : null
+                bfo: bfoIsObject ? {
+                    winPct: item.bfo.winPct ?? null,
+                    methodKO: item.bfo.methodKO ?? null,
+                    methodSub: item.bfo.methodSub ?? null,
+                    methodDec: item.bfo.methodDec ?? null,
+                    insideDistance: item.bfo.insideDistance ?? null,
+                    winInRound: item.bfo.winInRound || null,
+                    koInRound: item.bfo.koInRound || null,
+                    subInRound: item.bfo.subInRound || null,
+                    goesToDecision: item.bfo.goesToDecision ?? null,
+                    overUnder: item.bfo.overUnder || null,
+                    endsInRound: item.bfo.endsInRound || null,
+                    endsKOInRound: item.bfo.endsKOInRound || null,
+                    endsSubInRound: item.bfo.endsSubInRound || null
+                } : {
+                    winPct: null, methodKO: null, methodSub: null, methodDec: null
                 },
                 fightMatrix: { cirrs: fmIsObject ? (fmObj.cirrs ?? item.cirrs ?? null) : (item.cirrs ?? null) }
             };
@@ -2231,10 +2242,12 @@ class App {
         // Merge BFO data (replaces DRatings for new events)
         if (parsedData.bfo) {
             fighter.bfo = fighter.bfo || {};
-            if (parsedData.bfo.winPct !== null) fighter.bfo.winPct = parsedData.bfo.winPct;
-            if (parsedData.bfo.methodKO !== null) fighter.bfo.methodKO = parsedData.bfo.methodKO;
-            if (parsedData.bfo.methodSub !== null) fighter.bfo.methodSub = parsedData.bfo.methodSub;
-            if (parsedData.bfo.methodDec !== null) fighter.bfo.methodDec = parsedData.bfo.methodDec;
+            // Merge all BFO fields, including nested objects (winInRound, overUnder, etc.)
+            for (const [key, val] of Object.entries(parsedData.bfo)) {
+                if (val !== null && val !== undefined) {
+                    fighter.bfo[key] = val;
+                }
+            }
         }
         if (parsedData.fightMatrix && parsedData.fightMatrix.cirrs !== null) {
             fighter.fightMatrix = fighter.fightMatrix || {};

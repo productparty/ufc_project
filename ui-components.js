@@ -223,6 +223,7 @@ const UIComponents = {
                 </div>
                 <div class="prediction-badges">
                     ${prediction.isVolatile ? '<span class="volatility-badge">Volatile</span>' : ''}
+                    ${prediction.upsetRisk >= 30 ? `<span class="upset-risk-badge" title="Upset Risk: ${prediction.upsetRisk}/100">Upset Risk ${prediction.upsetRisk}</span>` : ''}
                     ${this.createSourceBadges(prediction.dataSources || [prediction.primarySource], prediction.primarySource)}
                     <button class="btn btn-sm override-toggle-btn" type="button">${isOverridden ? 'Edit Override' : 'Override'}</button>
                     <span class="expand-icon">&#9660;</span>

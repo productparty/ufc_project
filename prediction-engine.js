@@ -277,6 +277,7 @@ class PredictionEngine {
             confidence: layer1Result.confidence,
             confidenceTier: layer1Result.confidenceTier,
             isVolatile: layer1Result.isVolatile,
+            upsetRisk: layer1Result.upsetRisk || 0,
             primarySource: layer1Result.primarySource,
             dataSources: dataSources,
             modelVersion: this.MODEL_VERSION,
@@ -352,10 +353,19 @@ class PredictionEngine {
         // Calculate source agreement (new)
         const sourceAgreement = this.calculateSourceAgreement(sources);
 
+        // Show BFO moneyline when available, fall back to DRatings for old events
+        const hasBFO = sources.bfoWinPctA !== null || sources.bfoWinPctB !== null;
+        const hasDRatings = sources.dratingsA !== 50 || sources.dratingsB !== 50;
+        let oddsSourceStr = '';
+        if (hasBFO) {
+            oddsSourceStr = `BFO: ${(sources.bfoWinPctA || 50).toFixed(1)}% / ${(sources.bfoWinPctB || 50).toFixed(1)}%`;
+        } else if (hasDRatings) {
+            oddsSourceStr = `DRatings: ${sources.dratingsA}% / ${sources.dratingsB}%`;
+        }
         reasoning.push({
             layer: 1,
             type: 'source_data',
-            text: `Sources - Tapology: ${fighterA.name} ${sources.tapologyA}% / ${fighterB.name} ${sources.tapologyB}%, DRatings: ${sources.dratingsA}% / ${sources.dratingsB}%`
+            text: `Sources - Tapology: ${fighterA.name} ${sources.tapologyA}% / ${fighterB.name} ${sources.tapologyB}%${oddsSourceStr ? ', ' + oddsSourceStr : ''}`
         });
 
         // Log source agreement
@@ -537,6 +547,27 @@ class PredictionEngine {
             isVolatile = true;
         }
 
+        // v15: Upset Risk Score — continuous 0-100 score capturing patterns
+        // that historically predict underdog wins but aren't caught by source
+        // disagreement (sources are correlated and often unanimously wrong)
+        const winnerData = fight[winner];
+        const loserData = fight[winner === 'fighterA' ? 'fighterB' : 'fighterA'];
+        const upsetRisk = this.calculateUpsetRisk(
+            fight, winner, confidence, primarySource, sources, sourceAgreement, winnerData, loserData
+        );
+
+        if (upsetRisk.score >= 30) {
+            isVolatile = true;
+        }
+
+        if (upsetRisk.score > 0) {
+            reasoning.push({
+                layer: 1,
+                type: 'upset_risk',
+                text: `Upset Risk: ${upsetRisk.score}/100 [${upsetRisk.factors.join('; ')}]${upsetRisk.score >= 30 ? ' → flagged volatile' : ''}`
+            });
+        }
+
         reasoning.push({
             layer: 1,
             type: 'result',
@@ -549,6 +580,7 @@ class PredictionEngine {
             confidence,
             confidenceTier,
             isVolatile,
+            upsetRisk: upsetRisk.score,
             primarySource,
             sourceAgreement // Include for Layer 2 and 3 to use
         };
@@ -935,6 +967,43 @@ class PredictionEngine {
                     text: `Adjusted method probabilities: KO ${koProb.toFixed(1)}%, SUB ${subProb.toFixed(1)}%, DEC ${decProb.toFixed(1)}%`
                 });
 
+                // v15: BFO "goes to decision" market signal
+                // goesToDecision is the market-implied probability that the fight ends by decision.
+                // This is the strongest single signal for DEC vs finish — it encodes fighter styles,
+                // matchup dynamics, and round count. Blend it with the model's DEC probability.
+                const bfoGoesToDec = winnerData.bfo?.goesToDecision;
+                if (bfoGoesToDec != null) {
+                    const modelDec = decProb;
+                    const blendWeight = 0.35; // 35% market, 65% model
+                    const blendedDec = decProb * (1 - blendWeight) + bfoGoesToDec * blendWeight;
+                    const decDelta = blendedDec - decProb;
+
+                    if (Math.abs(decDelta) > 1) {
+                        // Redistribute the delta proportionally between KO and SUB
+                        const finishTotal = koProb + subProb;
+                        if (finishTotal > 0) {
+                            const koShare = koProb / finishTotal;
+                            const subShare = subProb / finishTotal;
+                            koProb = Math.max(1, koProb - decDelta * koShare);
+                            subProb = Math.max(1, subProb - decDelta * subShare);
+                            decProb = blendedDec;
+                            // Re-normalize to 100%
+                            const newTotal = koProb + subProb + decProb;
+                            koProb = (koProb / newTotal) * 100;
+                            subProb = (subProb / newTotal) * 100;
+                            decProb = (decProb / newTotal) * 100;
+                        }
+                        reasoning.push({
+                            layer: 2,
+                            type: 'bfo_goes_to_decision',
+                            text: `BFO "goes to decision" market: ${bfoGoesToDec.toFixed(1)}% → DEC adjusted ${modelDec.toFixed(1)}% → ${decProb.toFixed(1)}% (KO ${koProb.toFixed(1)}%, SUB ${subProb.toFixed(1)}%)`
+                        });
+                    }
+                    // Update captured probabilities for Layer 3
+                    finalKoProb = koProb;
+                    finalSubProb = subProb;
+                }
+
                 // v5: Direct EV comparison with DEC certainty premium
                 // DEC predictions capture method + round reliably (round is auto-correct)
                 // Finish predictions have ~25% round accuracy → higher variance
@@ -1053,6 +1122,7 @@ class PredictionEngine {
         const numRounds = fight.numRounds || 3;
         const isFiveRounder = numRounds === 5;
         const weightClass = fight.weightClass || '';
+        const winnerData = fight[winner];
 
         let round = 'DEC';
 
@@ -1066,11 +1136,77 @@ class PredictionEngine {
             return { round: 'DEC' };
         }
 
+        // v15: Market-based round selection using BFO "wins in round" props
+        // When available, market-implied round probabilities encode matchup-specific
+        // timing information that heuristic thresholds can't capture.
+        // Uses fighter-specific "wins in round X" props for the predicted winner.
+        // Falls back to fight-level "ends in round X" if fighter-specific not available.
+        const winInRound = winnerData.bfo?.winInRound;
+        const endsInRound = winnerData.bfo?.endsInRound;
+        const hasMarketRoundData = winInRound && Object.keys(winInRound).length >= 2;
+        const hasFightRoundData = endsInRound && Object.keys(endsInRound).length >= 2;
+
+        if (hasMarketRoundData || hasFightRoundData) {
+            const roundProbs = hasMarketRoundData ? winInRound : endsInRound;
+            const source = hasMarketRoundData ? 'BFO winInRound' : 'BFO endsInRound';
+
+            // Find the round with highest implied probability
+            let bestRound = null;
+            let bestProb = 0;
+            const roundEntries = [];
+            for (const [r, prob] of Object.entries(roundProbs)) {
+                const roundNum = parseInt(r);
+                if (roundNum >= 1 && roundNum <= numRounds) {
+                    roundEntries.push({ round: roundNum, prob });
+                    if (prob > bestProb) {
+                        bestProb = prob;
+                        bestRound = roundNum;
+                    }
+                }
+            }
+
+            if (bestRound) {
+                round = `R${bestRound}`;
+                const probStr = roundEntries
+                    .sort((a, b) => a.round - b.round)
+                    .map(e => `R${e.round}:${e.prob.toFixed(1)}%`)
+                    .join(', ');
+
+                reasoning.push({
+                    layer: 3,
+                    type: 'market_round',
+                    text: `${source} for ${winnerData.name}: [${probStr}] → ${round} (${bestProb.toFixed(1)}% implied)`
+                });
+
+                // Cross-validate with over/under if available
+                const overUnder = winnerData.bfo?.overUnder;
+                if (overUnder) {
+                    const ouStr = Object.entries(overUnder)
+                        .sort(([a], [b]) => parseFloat(a) - parseFloat(b))
+                        .map(([t, p]) => `O${t}:${p.toFixed(0)}%`)
+                        .join(', ');
+                    reasoning.push({
+                        layer: 3,
+                        type: 'over_under_validation',
+                        text: `Over/under validation: [${ouStr}]`
+                    });
+                }
+
+                reasoning.push({
+                    layer: 3,
+                    type: 'result',
+                    text: `Round: ${round} (market-based)`
+                });
+
+                return { round };
+            }
+        }
+
+        // Fallback: threshold-based round prediction (no market data available)
         // Determine dominant method probability from Layer 2
         const dominantPct = method === 'KO' ? layer2Result.koProb : layer2Result.subProb;
 
         // Calculate early finish profile using continuous scoring
-        const winnerData = fight[winner];
         const earlyFinishProfile = this.calculateEarlyFinishProfile(
             method, dominantPct, loserData, confidence, winnerData
         );
@@ -1706,6 +1842,129 @@ class PredictionEngine {
             dec: decWinPct * (1 - shrinkage) + this.METHOD_BASE_RATE.dec * shrinkage,
             isSmallSample: true
         };
+    }
+
+    /**
+     * v15: Upset Risk Score
+     * Continuous 0-100 score based on historical patterns that predict underdog wins.
+     * Sources are highly correlated (Tapology, BFO, betting, Elo all lean the same way),
+     * so source disagreement alone misses most upsets. This captures structural risk
+     * factors identified from 40 upsets across 128 historical fights:
+     * - LW is anti-predictive (30% of upsets from 13% of fights)
+     * - Tapology-driven high-confidence picks fail disproportionately (11/40 upsets)
+     * - Rating systems (Elo/Glicko) diverging from betting/Tapology signals missed value
+     * - Close betting lines with inflated composite confidence = false confidence
+     * - Aging favorites and long layoffs compound risk
+     */
+    calculateUpsetRisk(fight, winner, confidence, primarySource, sources, sourceAgreement, winnerData, loserData) {
+        let score = 0;
+        const factors = [];
+        const weightClass = fight.weightClass || '';
+
+        // --- Division unreliability ---
+        // LW: 35% winner accuracy, worst division by far (12/40 upsets)
+        // HW: one-punch KO power makes any favorite vulnerable (8/40 upsets)
+        // FLW: small sample but consistent upsets (5/40)
+        const divisionRisk = {
+            'LW': 25, 'HW': 15, 'FLW': 12, 'FW': 8, 'MW': 5
+        };
+        if (divisionRisk[weightClass]) {
+            score += divisionRisk[weightClass];
+            factors.push(`${weightClass} division +${divisionRisk[weightClass]}`);
+        }
+
+        // --- Tapology-driven high confidence ---
+        // 11 of 40 upsets were Tapology-primary at 65%+. The MMA community
+        // creates false consensus around hype fighters.
+        if (primarySource === 'tapology' && confidence >= 65) {
+            const tapBonus = confidence >= 75 ? 20 : 15;
+            score += tapBonus;
+            factors.push(`Tapology-primary at ${confidence.toFixed(0)}% +${tapBonus}`);
+        }
+
+        // --- Tapology vs ratings divergence ---
+        // When Tapology consensus strongly favors one fighter but Elo/Glicko/WHR
+        // favor the other, the crowd is reading the matchup differently than the
+        // rating systems. This is a strong upset signal.
+        const winnerIsA = winner === 'fighterA';
+        const tapologyFavorsWinner = winnerIsA
+            ? sources.tapologyA > sources.tapologyB
+            : sources.tapologyB > sources.tapologyA;
+
+        let ratingsDisagree = 0;
+        const ratingsSources = [
+            { name: 'EloK170', data: winnerIsA ? sources.eloK170A : sources.eloK170B },
+            { name: 'Glicko', data: winnerIsA ? sources.glickoA : sources.glickoB },
+            { name: 'WHR', data: winnerIsA ? sources.whrA : sources.whrB }
+        ];
+        for (const rs of ratingsSources) {
+            if (rs.data && rs.data.winPct < 50) ratingsDisagree++;
+        }
+
+        if (tapologyFavorsWinner && ratingsDisagree >= 2) {
+            const divergeBonus = ratingsDisagree >= 3 ? 20 : 15;
+            score += divergeBonus;
+            factors.push(`Tapology/ratings divergence (${ratingsDisagree}/3 ratings pick underdog) +${divergeBonus}`);
+        }
+
+        // --- Close betting line with inflated confidence ---
+        // BFO moneyline within 55/45 but composite confidence >60 means other
+        // sources (Tapology, Elo) are inflating confidence beyond what the market says.
+        // The market is the sharpest single signal.
+        const bfoWinPct = winnerIsA ? sources.bfoWinPctA : sources.bfoWinPctB;
+        if (bfoWinPct !== null && bfoWinPct < 55 && confidence > 60) {
+            const inflation = confidence - bfoWinPct;
+            if (inflation > 10) {
+                const closeLineBonus = Math.min(15, Math.round(inflation));
+                score += closeLineBonus;
+                factors.push(`BFO ${bfoWinPct.toFixed(0)}% but conf ${confidence.toFixed(0)}% (inflation +${inflation.toFixed(0)}) +${closeLineBonus}`);
+            }
+        }
+
+        // --- Close betting line in general ---
+        // When the betting line is near pick-em, the market sees a coin flip
+        const bettingWinPct = winnerIsA ? sources.bettingWinPctA : sources.bettingWinPctB;
+        if (bettingWinPct !== null && Math.abs(bettingWinPct - 50) < 5) {
+            score += 10;
+            factors.push(`Pick-em betting line ${bettingWinPct.toFixed(0)}% +10`);
+        }
+
+        // --- Aging favorite ---
+        // Predicted winners over 36 have decline risk not captured in ratings
+        const winnerAge = winnerData?.fightmatrix?.age || null;
+        if (winnerAge && winnerAge > 36) {
+            const ageBonus = winnerAge > 40 ? 10 : 5;
+            score += ageBonus;
+            factors.push(`Winner age ${winnerAge} +${ageBonus}`);
+        }
+
+        // --- Long layoff for predicted winner ---
+        // >300 days off = ring rust, conditioning unknowns
+        const winnerDaysOff = winnerData?.fightmatrix?.daysSinceLastFight || null;
+        if (winnerDaysOff && winnerDaysOff > 300) {
+            const layoffBonus = winnerDaysOff > 450 ? 10 : 5;
+            score += layoffBonus;
+            factors.push(`Winner ${winnerDaysOff} days off +${layoffBonus}`);
+        }
+
+        // --- Losing form for predicted winner ---
+        // Winner on a 1-2 or 0-3 recent run
+        const winnerLast3 = winnerData?.fightmatrix?.last3Record;
+        if (winnerLast3) {
+            const wins = parseInt(winnerLast3.split('-')[0]) || 0;
+            if (wins === 0) {
+                score += 10;
+                factors.push(`Winner on 0-3 streak +10`);
+            } else if (wins === 1) {
+                score += 5;
+                factors.push(`Winner 1-2 recent form +5`);
+            }
+        }
+
+        // Cap at 100
+        score = Math.min(100, score);
+
+        return { score, factors };
     }
 
     /**

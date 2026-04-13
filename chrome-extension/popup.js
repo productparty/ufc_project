@@ -77,16 +77,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             collectedFighters[key].tapology.consensus = fighter.tapology;
             sources.tapology = true;
           }
-          if (fighter.bfoWinPct !== undefined) {
+          // Merge BFO data (nested object from scraper)
+          if (fighter.bfo && typeof fighter.bfo === 'object') {
             if (!collectedFighters[key].bfo) collectedFighters[key].bfo = {};
-            collectedFighters[key].bfo.winPct = fighter.bfoWinPct;
+            for (const [bfoKey, val] of Object.entries(fighter.bfo)) {
+              if (val !== null && val !== undefined) {
+                collectedFighters[key].bfo[bfoKey] = val;
+              }
+            }
             sources.bfo = true;
           }
-          if (fighter.bfoMethodKO !== undefined) {
+          // Backward compat: old flat format (bfoWinPct, bfoMethodKO, etc.)
+          else if (fighter.bfoWinPct !== undefined) {
             if (!collectedFighters[key].bfo) collectedFighters[key].bfo = {};
-            collectedFighters[key].bfo.methodKO = fighter.bfoMethodKO;
-            collectedFighters[key].bfo.methodSub = fighter.bfoMethodSub;
-            collectedFighters[key].bfo.methodDec = fighter.bfoMethodDec;
+            collectedFighters[key].bfo.winPct = fighter.bfoWinPct;
+            if (fighter.bfoMethodKO !== undefined) {
+              collectedFighters[key].bfo.methodKO = fighter.bfoMethodKO;
+              collectedFighters[key].bfo.methodSub = fighter.bfoMethodSub;
+              collectedFighters[key].bfo.methodDec = fighter.bfoMethodDec;
+            }
+            sources.bfo = true;
           }
           if (fighter.cirrs !== undefined) {
             collectedFighters[key].cirrs = fighter.cirrs;
@@ -321,6 +331,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     'renato moicano': 'renato carneiro',
     'song yadong': 'yadong song',
     'yadong song': 'song yadong',
+    'patricio freire': 'patricio pitbull',
+    'patricio pitbull': 'patricio freire',
   };
 
   function findMatchingKey(name, existingKeys) {
@@ -995,17 +1007,23 @@ async function scrapeBestFightOdds() {
 
     // Check if this is a matchup row (fighter row, not prop)
     if (row.classList.contains('pr')) {
-      // This is a prop row — extract method props
+      // This is a prop row — extract all available props
       if (!currentMatchupId || !matchups[currentMatchupId]) continue;
       const propText = row.querySelector('th')?.textContent?.trim() || '';
       const propOdds = getConsensusOdds(oddsRow, validColumns);
 
       if (propOdds !== null) {
         const mu = matchups[currentMatchupId];
-        // Match prop patterns: "[Name] wins by TKO/KO", "[Name] wins by submission", "[Name] wins by decision"
+        if (!mu.fightProps) mu.fightProps = {};
+
+        // === FIGHTER-LEVEL PROPS ===
         const koMatch = propText.match(/^(.+?)\s+wins by TKO\/KO$/i);
         const subMatch = propText.match(/^(.+?)\s+wins by submission$/i);
         const decMatch = propText.match(/^(.+?)\s+wins by decision$/i);
+        const insideDistMatch = propText.match(/^(.+?)\s+wins inside distance$/i);
+        const winsInRoundMatch = propText.match(/^(.+?)\s+wins in round (\d+)$/i);
+        const koInRoundMatch = propText.match(/^(.+?)\s+wins by TKO\/KO in round (\d+)$/i);
+        const subInRoundMatch = propText.match(/^(.+?)\s+wins by submission in round (\d+)$/i);
 
         if (koMatch) {
           const propName = koMatch[1].trim();
@@ -1019,6 +1037,67 @@ async function scrapeBestFightOdds() {
           const propName = decMatch[1].trim();
           if (!mu.props[propName]) mu.props[propName] = {};
           mu.props[propName].dec = propOdds;
+        } else if (insideDistMatch) {
+          const propName = insideDistMatch[1].trim();
+          if (!mu.props[propName]) mu.props[propName] = {};
+          mu.props[propName].insideDistance = propOdds;
+        } else if (winsInRoundMatch) {
+          const propName = winsInRoundMatch[1].trim();
+          const round = parseInt(winsInRoundMatch[2]);
+          if (!mu.props[propName]) mu.props[propName] = {};
+          if (!mu.props[propName].winInRound) mu.props[propName].winInRound = {};
+          mu.props[propName].winInRound[round] = propOdds;
+        } else if (koInRoundMatch) {
+          const propName = koInRoundMatch[1].trim();
+          const round = parseInt(koInRoundMatch[2]);
+          if (!mu.props[propName]) mu.props[propName] = {};
+          if (!mu.props[propName].koInRound) mu.props[propName].koInRound = {};
+          mu.props[propName].koInRound[round] = propOdds;
+        } else if (subInRoundMatch) {
+          const propName = subInRoundMatch[1].trim();
+          const round = parseInt(subInRoundMatch[2]);
+          if (!mu.props[propName]) mu.props[propName] = {};
+          if (!mu.props[propName].subInRound) mu.props[propName].subInRound = {};
+          mu.props[propName].subInRound[round] = propOdds;
+        }
+
+        // === FIGHT-LEVEL PROPS ===
+        else {
+          const overMatch = propText.match(/^Over (\d+)[½]/i);
+          const underMatch = propText.match(/^Under (\d+)[½]/i);
+          const goesDecMatch = propText.match(/^Fight goes to decision$/i);
+          const doesntGoDecMatch = propText.match(/^Fight doesn't go to decision$/i);
+          const endsInRoundMatch = propText.match(/^Fight ends in round (\d+)$/i);
+          const endsKOInRoundMatch = propText.match(/^Fight ends in TKO\/KO\/DQ in round (\d+)$/i);
+          const endsSubInRoundMatch = propText.match(/^Fight ends in submission in round (\d+)$/i);
+
+          if (overMatch) {
+            const threshold = parseFloat(overMatch[1]) + 0.5;
+            if (!mu.fightProps.overUnder) mu.fightProps.overUnder = {};
+            if (!mu.fightProps.overUnder[threshold]) mu.fightProps.overUnder[threshold] = {};
+            mu.fightProps.overUnder[threshold].over = propOdds;
+          } else if (underMatch) {
+            const threshold = parseFloat(underMatch[1]) + 0.5;
+            if (!mu.fightProps.overUnder) mu.fightProps.overUnder = {};
+            if (!mu.fightProps.overUnder[threshold]) mu.fightProps.overUnder[threshold] = {};
+            mu.fightProps.overUnder[threshold].under = propOdds;
+          } else if (goesDecMatch) {
+            mu.fightProps.goesToDecision = propOdds;
+          } else if (doesntGoDecMatch) {
+            mu.fightProps.doesntGoToDecision = propOdds;
+          } else if (endsInRoundMatch) {
+            const round = parseInt(endsInRoundMatch[1]);
+            if (!mu.fightProps.endsInRound) mu.fightProps.endsInRound = {};
+            if (!mu.fightProps.endsInRound[round]) mu.fightProps.endsInRound[round] = propOdds;
+          } else if (endsKOInRoundMatch) {
+            const round = parseInt(endsKOInRoundMatch[1]);
+            if (!mu.fightProps.endsKOInRound) mu.fightProps.endsKOInRound = {};
+            if (!mu.fightProps.endsKOInRound[round]) mu.fightProps.endsKOInRound[round] = propOdds;
+          } else if (endsSubInRoundMatch) {
+            const round = parseInt(endsSubInRoundMatch[1]);
+            if (!mu.fightProps.endsSubInRound) mu.fightProps.endsSubInRound = {};
+            if (!mu.fightProps.endsSubInRound[round]) mu.fightProps.endsSubInRound[round] = propOdds;
+          }
         }
       }
       continue;
@@ -1048,25 +1127,27 @@ async function scrapeBestFightOdds() {
     currentFighterIdx++;
   }
 
+  // Helper: convert odds to implied probability and round to 2 decimal places
+  function oddsToRoundedProb(odds) {
+    return Math.round(oddsToProb(odds) * 100) / 100;
+  }
+
   // Build fighter array from matchups
   for (const muId of Object.keys(matchups)) {
     const mu = matchups[muId];
     if (!mu.fighterA || !mu.fighterB) continue;
 
     for (const fighter of [mu.fighterA, mu.fighterB]) {
-      const entry = { name: fighter.name };
+      const entry = { name: fighter.name, bfo: {} };
 
       // Moneyline win probability (replaces DRatings)
       if (fighter.winPct !== null) {
-        entry.bfoWinPct = Math.round(fighter.winPct * 100) / 100;
+        entry.bfo.winPct = Math.round(fighter.winPct * 100) / 100;
       }
 
-      // Method props: check if this fighter has KO/SUB/DEC odds
-      // BFO prop labels use short names ("Ulberg") not full names ("Carlos Ulberg"),
-      // so match by checking if any prop key is contained in the fighter name or vice versa
+      // Find fighter's props (BFO prop labels use short names like "Ulberg", not "Carlos Ulberg")
       let propData = mu.props[fighter.name];
       if (!propData) {
-        // Fuzzy match: find prop key that matches the fighter's last name or partial name
         const nameLower = fighter.name.toLowerCase();
         for (const [propName, data] of Object.entries(mu.props)) {
           const propLower = propName.toLowerCase();
@@ -1076,24 +1157,109 @@ async function scrapeBestFightOdds() {
           }
         }
       }
-      if (propData && (propData.ko || propData.sub || propData.dec)) {
-        // Convert each method odds to implied probability
-        const rawKO = propData.ko ? oddsToProb(propData.ko) : 0;
-        const rawSub = propData.sub ? oddsToProb(propData.sub) : 0;
-        const rawDec = propData.dec ? oddsToProb(propData.dec) : 0;
-        const rawTotal = rawKO + rawSub + rawDec;
 
-        // Normalize to remove vig (sum to 100)
-        if (rawTotal > 0) {
-          entry.bfoMethodKO = Math.round(rawKO / rawTotal * 10000) / 100;
-          entry.bfoMethodSub = Math.round(rawSub / rawTotal * 10000) / 100;
-          entry.bfoMethodDec = Math.round(rawDec / rawTotal * 10000) / 100;
-          console.log(`[UFC Scraper] ${fighter.name} method props: KO ${entry.bfoMethodKO}%, SUB ${entry.bfoMethodSub}%, DEC ${entry.bfoMethodDec}%`);
+      if (propData) {
+        // Method props (normalize KO+SUB+DEC to sum to 100%)
+        if (propData.ko || propData.sub || propData.dec) {
+          const rawKO = propData.ko ? oddsToProb(propData.ko) : 0;
+          const rawSub = propData.sub ? oddsToProb(propData.sub) : 0;
+          const rawDec = propData.dec ? oddsToProb(propData.dec) : 0;
+          const rawTotal = rawKO + rawSub + rawDec;
+          if (rawTotal > 0) {
+            entry.bfo.methodKO = Math.round(rawKO / rawTotal * 10000) / 100;
+            entry.bfo.methodSub = Math.round(rawSub / rawTotal * 10000) / 100;
+            entry.bfo.methodDec = Math.round(rawDec / rawTotal * 10000) / 100;
+            console.log(`[UFC Scraper] ${fighter.name} method props: KO ${entry.bfo.methodKO}%, SUB ${entry.bfo.methodSub}%, DEC ${entry.bfo.methodDec}%`);
+          }
+        }
+
+        // Inside distance probability
+        if (propData.insideDistance != null) {
+          entry.bfo.insideDistance = oddsToRoundedProb(propData.insideDistance);
+        }
+
+        // Win in round (fighter-specific round probabilities)
+        if (propData.winInRound && Object.keys(propData.winInRound).length > 0) {
+          entry.bfo.winInRound = {};
+          for (const [round, odds] of Object.entries(propData.winInRound)) {
+            entry.bfo.winInRound[round] = oddsToRoundedProb(odds);
+          }
+        }
+
+        // KO in round (fighter-specific method+round)
+        if (propData.koInRound && Object.keys(propData.koInRound).length > 0) {
+          entry.bfo.koInRound = {};
+          for (const [round, odds] of Object.entries(propData.koInRound)) {
+            entry.bfo.koInRound[round] = oddsToRoundedProb(odds);
+          }
+        }
+
+        // SUB in round (fighter-specific method+round)
+        if (propData.subInRound && Object.keys(propData.subInRound).length > 0) {
+          entry.bfo.subInRound = {};
+          for (const [round, odds] of Object.entries(propData.subInRound)) {
+            entry.bfo.subInRound[round] = oddsToRoundedProb(odds);
+          }
         }
       }
 
+      // Fight-level props (stored on both fighters in the matchup)
+      const fp = mu.fightProps || {};
+
+      // Goes to decision (normalize with complement to remove vig)
+      if (fp.goesToDecision != null) {
+        const goesProb = oddsToProb(fp.goesToDecision);
+        if (fp.doesntGoToDecision != null) {
+          const doesntProb = oddsToProb(fp.doesntGoToDecision);
+          entry.bfo.goesToDecision = Math.round(goesProb / (goesProb + doesntProb) * 10000) / 100;
+        } else {
+          entry.bfo.goesToDecision = oddsToRoundedProb(fp.goesToDecision);
+        }
+      }
+
+      // Over/under rounds (normalize each pair to remove vig)
+      if (fp.overUnder && Object.keys(fp.overUnder).length > 0) {
+        entry.bfo.overUnder = {};
+        for (const [threshold, data] of Object.entries(fp.overUnder)) {
+          if (data.over != null && data.under != null) {
+            const overProb = oddsToProb(data.over);
+            const underProb = oddsToProb(data.under);
+            entry.bfo.overUnder[threshold] = Math.round(overProb / (overProb + underProb) * 10000) / 100;
+          } else if (data.over != null) {
+            entry.bfo.overUnder[threshold] = oddsToRoundedProb(data.over);
+          }
+        }
+      }
+
+      // Fight ends in round
+      if (fp.endsInRound && Object.keys(fp.endsInRound).length > 0) {
+        entry.bfo.endsInRound = {};
+        for (const [round, odds] of Object.entries(fp.endsInRound)) {
+          entry.bfo.endsInRound[round] = oddsToRoundedProb(odds);
+        }
+      }
+
+      // Fight ends by KO in round
+      if (fp.endsKOInRound && Object.keys(fp.endsKOInRound).length > 0) {
+        entry.bfo.endsKOInRound = {};
+        for (const [round, odds] of Object.entries(fp.endsKOInRound)) {
+          entry.bfo.endsKOInRound[round] = oddsToRoundedProb(odds);
+        }
+      }
+
+      // Fight ends by SUB in round
+      if (fp.endsSubInRound && Object.keys(fp.endsSubInRound).length > 0) {
+        entry.bfo.endsSubInRound = {};
+        for (const [round, odds] of Object.entries(fp.endsSubInRound)) {
+          entry.bfo.endsSubInRound[round] = oddsToRoundedProb(odds);
+        }
+      }
+
+      // Only include bfo if it has data
+      if (Object.keys(entry.bfo).length === 0) delete entry.bfo;
+
       fighters.push(entry);
-      console.log(`[UFC Scraper] Found: ${fighter.name} winPct=${entry.bfoWinPct || 'N/A'}%`);
+      console.log(`[UFC Scraper] Found: ${fighter.name} winPct=${entry.bfo?.winPct || 'N/A'}%`);
     }
   }
 

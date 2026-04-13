@@ -89,6 +89,8 @@ class ChromeAI {
 
         try {
             this.session = await LanguageModel.create({
+                expectedInputLanguages: ['en'],
+                expectedOutputLanguages: ['en'],
                 initialPrompts: [{
                     role: 'system',
                     content: 'You are an expert MMA analyst. You provide concise, insightful fight analysis based on statistical data. Keep responses under 200 words. Focus on WHY a prediction makes sense based on stylistic matchups and data trends, not just restating numbers. Be direct and opinionated.'
@@ -298,8 +300,14 @@ Confidence: ${prediction.confidence.toFixed(1)}% (${prediction.confidenceTier})`
     // ── Analysis Generation ───────────────────────────────────────
 
     async generateFightAnalysis(fight, prediction, options = {}) {
+        const fightLabel = `${fight.fighterA.name} vs ${fight.fighterB.name}`;
+        console.log(`[ChromeAI] Starting analysis: ${fightLabel}`);
+
         const session = await this.ensureSession();
-        if (!session) return null;
+        if (!session) {
+            console.warn(`[ChromeAI] No session available for: ${fightLabel}`);
+            return null;
+        }
 
         try {
             // Fetch and summarize news if enabled
@@ -315,18 +323,18 @@ Confidence: ${prediction.confidence.toFixed(1)}% (${prediction.confidenceTier})`
             }
 
             const prompt = this.buildAnalysisPrompt(fight, prediction, newsSummary);
+            console.log(`[ChromeAI] Prompting Gemini Nano for: ${fightLabel}`);
 
-            // Use streaming for responsive UI
-            let fullResponse = '';
-            if (session.promptStreaming) {
-                const stream = session.promptStreaming(prompt);
-                for await (const chunk of stream) {
-                    fullResponse = chunk; // Prompt API streams full accumulated text
-                    options.onChunk?.(fullResponse);
-                }
-            } else {
-                fullResponse = await session.prompt(prompt);
-            }
+            // Use non-streaming prompt with timeout for reliability
+            const timeoutPromise = new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('Prompt timed out after 30s')), 30000)
+            );
+            const fullResponse = await Promise.race([
+                session.prompt(prompt),
+                timeoutPromise
+            ]);
+
+            console.log(`[ChromeAI] Analysis complete: ${fightLabel} (${fullResponse.length} chars)`);
 
             return {
                 analysis: fullResponse,
@@ -334,7 +342,7 @@ Confidence: ${prediction.confidence.toFixed(1)}% (${prediction.confidenceTier})`
                 generatedAt: new Date().toISOString()
             };
         } catch (e) {
-            console.error('[ChromeAI] Analysis generation failed:', e);
+            console.error(`[ChromeAI] Analysis failed for ${fightLabel}:`, e);
             // Reset session if it died
             if (e.name === 'InvalidStateError' || e.name === 'NotReadableError') {
                 this.session?.destroy();

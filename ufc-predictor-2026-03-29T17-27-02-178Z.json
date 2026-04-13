@@ -1,0 +1,6955 @@
+{
+  "exportedAt": "2026-03-29T17:27:02.178Z",
+  "version": 4,
+  "events": [
+    {
+      "id": "1774548377399-hsfcrgigd",
+      "name": "UFC Fight Night: Adesanya vs. Pyfer",
+      "date": "2026-03-28",
+      "type": "fight-night",
+      "status": "results-entered",
+      "createdAt": "2026-03-26T18:06:17.399Z",
+      "updatedAt": "2026-03-29T17:27:02.091Z"
+    },
+    {
+      "id": "1773872393960-ol18fj5xh",
+      "name": "UFC Fight Night: Evloev vs. Murphy",
+      "date": "2026-03-21",
+      "type": "fight-night",
+      "status": "results-entered",
+      "createdAt": "2026-03-18T22:19:53.960Z",
+      "updatedAt": "2026-03-22T01:49:57.487Z"
+    },
+    {
+      "id": "1773264440789-7sh7rrhsv",
+      "name": "UFC Fight Night: Emmett vs. Vallejos",
+      "date": "2026-03-14",
+      "type": "fight-night",
+      "status": "results-entered",
+      "createdAt": "2026-03-11T21:27:20.790Z",
+      "updatedAt": "2026-03-15T04:07:21.632Z"
+    },
+    {
+      "id": "1772737026546-egloswpld",
+      "name": "UFC 326: Holloway vs. Oliveira 2",
+      "date": "2026-03-07",
+      "type": "ppv",
+      "status": "results-entered",
+      "createdAt": "2026-03-05T18:57:06.546Z",
+      "updatedAt": "2026-03-08T16:32:49.355Z"
+    },
+    {
+      "id": "1772057751768-rshh754dx",
+      "name": "UFC Fight Night: Moreno vs. Kavanagh",
+      "date": "2026-02-28",
+      "type": "fight-night",
+      "status": "results-entered",
+      "createdAt": "2026-02-25T22:15:51.768Z",
+      "updatedAt": "2026-03-01T13:12:38.415Z"
+    },
+    {
+      "id": "1771370688995-9dvqu18qp",
+      "name": "UFC Fight Night: Strickland vs. Hernandez",
+      "date": "2026-02-21",
+      "type": "fight-night",
+      "status": "results-entered",
+      "createdAt": "2026-02-17T23:24:48.995Z",
+      "updatedAt": "2026-02-22T18:18:25.214Z"
+    },
+    {
+      "id": "1770403680401-ixh11xpyl",
+      "name": "UFC Fight Night: Bautista vs. Oliveira",
+      "date": "2026-02-07",
+      "type": "fight-night",
+      "status": "results-entered",
+      "createdAt": "2026-02-06T18:48:00.401Z",
+      "updatedAt": "2026-02-08T04:07:22.355Z"
+    },
+    {
+      "createdAt": "2026-01-23T15:39:58.406Z",
+      "date": "2026-01-31",
+      "id": "1769182798406-br83wo3up",
+      "name": "UFC 325",
+      "status": "results-entered",
+      "type": "ppv",
+      "updatedAt": "2026-02-01T20:29:35.918Z"
+    },
+    {
+      "createdAt": "2026-01-21T01:12:13.278Z",
+      "date": "2026-01-24",
+      "id": "1768957933278-07kdpvih0",
+      "name": "UFC 324",
+      "status": "results-entered",
+      "type": "ppv",
+      "updatedAt": "2026-01-25T13:18:43.246Z"
+    }
+  ],
+  "allFights": [
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Israel Adesanya",
+      "fighterB": "Joe Pyfer",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Alexa Grasso",
+      "fighterB": "Maycee Barber",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Michael Chiesa",
+      "fighterB": "Niko Price",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Julian Erosa",
+      "fighterB": "Lerryan Douglas",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Mansur Abdul-Malik",
+      "fighterB": "Yousri Belgaroui",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Terrance McKinney",
+      "fighterB": "Kyle Nelson",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Ignacio Bahamondes",
+      "fighterB": "Tofiq Musayev",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Chase Hooper",
+      "fighterB": "Lance Gibson Jr.",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Marcin Tybura",
+      "fighterB": "Tyrell Fortune",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Casey O'Neill",
+      "fighterB": "Gabriella Fernandes",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Navajo Stirling",
+      "fighterB": "Bruno Lopes",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Ricky Simon",
+      "fighterB": "Adrian Yanez",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fighterA": "Alexia Thainara",
+      "fighterB": "Bruna Brasil",
+      "weightClass": "WSW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Movsar Evloev",
+      "fighterB": "Lerone Murphy",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Luke Riley",
+      "fighterB": "Michael Aswell Jr.",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Michael Page",
+      "fighterB": "Sam Patterson",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Iwo Baraniewski",
+      "fighterB": "Austen Lane",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Roman Dolidze",
+      "fighterB": "Christian Leroy Duncan",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Kurtis Campbell",
+      "fighterB": "Danny Silva",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Mason Jones",
+      "fighterB": "Axel Sola",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Nathaniel Wood",
+      "fighterB": "Losene Keita",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Mario Pinto",
+      "fighterB": "Felipe Franco",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Mantas Kondratavičius",
+      "fighterB": "Antonio Trocoli",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Louie Sutherland",
+      "fighterB": "Brando Peričić",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Shem Rock",
+      "fighterB": "Abdul-Kareem Al-Selwady",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Shanelle Dyer",
+      "fighterB": "Ravena Oliveira",
+      "weightClass": "WSW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fighterA": "Melissa Mullins",
+      "fighterB": "Luana Carolina",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Josh Emmett",
+      "fighterB": "Kevin Vallejos",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Amanda Lemos",
+      "fighterB": "Gillian Robertson",
+      "weightClass": "WSW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Ion Cutelaba",
+      "fighterB": "Oumar Sy",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Andre Fili",
+      "fighterB": "Jose Miguel Delgado",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Marwan Rahiki",
+      "fighterB": "Harry Hardwick",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Vitor Petrino",
+      "fighterB": "Steven Asplund",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Charles Johnson",
+      "fighterB": "Bruno Silva",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Brad Tavares",
+      "fighterB": "Eryk Anders",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Chris Curtis",
+      "fighterB": "Myktybek Orolbai",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Bolaji Oki",
+      "fighterB": "Manoel Sousa",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Luan Lacerda",
+      "fighterB": "Hecher Sosa",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Bia Mesquita",
+      "fighterB": "Montse Rendon",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Elijah Smith",
+      "fighterB": "SuYoung You",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fighterA": "Piera Rodriguez",
+      "fighterB": "Sam Hughes",
+      "weightClass": "WSW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Max Holloway",
+      "fighterB": "Charles Oliveira",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Caio Borralho",
+      "fighterB": "Reinier de Ridder",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Rob Font",
+      "fighterB": "Raul Rosas Jr.",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Drew Dober",
+      "fighterB": "Michael Johnson",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Gregory Rodrigues",
+      "fighterB": "Brunno Ferreira",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Cody Garbrandt",
+      "fighterB": "Xiao Long",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Donte Johnson",
+      "fighterB": "Cody Brundage",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Ricky Turcios",
+      "fighterB": "Alberto Montes",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Cody Durden",
+      "fighterB": "Nyamjargal Tumendemberel",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Sumudaerji",
+      "fighterB": "Jesus Aguilar",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Rafael Tobias",
+      "fighterB": "Diyar Nurgozhay",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "JeongYeong Lee",
+      "fighterB": "Gaston Bolanos",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fighterA": "Luke Fernandez",
+      "fighterB": "Rodolfo Bellato",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Brandon Moreno",
+      "fighterB": "Lone’er Kavanagh",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Marlon Vera",
+      "fighterB": "David Martinez",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Daniel Zellhuber",
+      "fighterB": "King Green",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Edgar Chairez",
+      "fighterB": "Felipe Bunes",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Imanol Rodriguez",
+      "fighterB": "Kevin Borjas",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Santiago Luna",
+      "fighterB": "Angel Pacheco",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Ailin Perez",
+      "fighterB": "Macy Chiasson",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Ryan Gandra",
+      "fighterB": "Jose Daniel Medina",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Cristian Quiñonez",
+      "fighterB": "Kris Moutinho",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Douglas Silva de Andrade",
+      "fighterB": "Javier Reyes",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Regina Tarin",
+      "fighterB": "Ernesta Kareckaitė",
+      "weightClass": "CW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Erik Silva",
+      "fighterB": "Francis Marshall",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fighterA": "Damian Pinas",
+      "fighterB": "Wes Schultz",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Sean Strickland",
+      "fighterB": "Anthony Hernandez",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Geoff Neal",
+      "fighterB": "Uroš Medić",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Dan Ige",
+      "fighterB": "Melquizael Costa",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Serghei Spivac",
+      "fighterB": "Ante Delija",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Jacobe Smith",
+      "fighterB": "Josiah Harrell",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Zach Reese",
+      "fighterB": "Michel Pereira",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Chidi Njokuani",
+      "fighterB": "Carlos Leal",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Ode Osbourne",
+      "fighterB": "Alibi Idiris",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Nora Cornolle",
+      "fighterB": "Joselyne Edwards",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Alden Coria",
+      "fighterB": "Luis Gurule",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Ramiz Brahimaj",
+      "fighterB": "Punahele Soriano",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Phil Rowe",
+      "fighterB": "Jean-Paul Lebosnoyani",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Jordan Leavitt",
+      "fighterB": "Yadier del Valle",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fighterA": "Juliana Miller",
+      "fighterB": "Carli Judice",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Mario Bautista",
+      "fighterB": "Vinicius Oliveira",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Amir Albazi",
+      "fighterB": "Kyoji Horiguchi",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Jailton Almeida",
+      "fighterB": "Rizvan Kuniev",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Michal Oleksiejczuk",
+      "fighterB": "Marc-Andre Barriault",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Jean Matsumoto",
+      "fighterB": "Farid Basharat",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Dustin Jacoby",
+      "fighterB": "Julius Walker",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Alex Morono",
+      "fighterB": "Daniil Donchenko",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Nikolay Veretennikov",
+      "fighterB": "Niko Price",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Bruna Brasil",
+      "fighterB": "Ketlen Souza",
+      "weightClass": "WSW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Javid Basharat",
+      "fighterB": "Gianni Vazquez",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Wang Cong",
+      "fighterB": "Eduarda Moura",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Muin Gafurov",
+      "fighterB": "Jakub Wiklacz",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fighterA": "Klaudia Sygula",
+      "fighterB": "Priscila Cachoeira",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": true,
+      "hasDRatingsA": true
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Alexander Volkanovski",
+      "fighterB": "Diego Lopes",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Dan Hooker",
+      "fighterB": "Benoît Saint Denis",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Rafael Fiziev",
+      "fighterB": "Mauricio Ruffy",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Tai Tuivasa",
+      "fighterB": "Tallison Teixeira",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Quillan Salkilld",
+      "fighterB": "Jamie Mullarkey",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Cam Rowston",
+      "fighterB": "Cody Brundage",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Junior Tafa",
+      "fighterB": "Billy Elekana",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Jonathan Micallef",
+      "fighterB": "Oban Elliott",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Jacob Malkoun",
+      "fighterB": "Torrez Finney",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Kaan Ofli",
+      "fighterB": "Yizha",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Keiichiro Nakamura",
+      "fighterB": "Sebastian Szalay",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "SangWook Kim",
+      "fighterB": "Dom Mar Fan",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Sulangrangbo",
+      "fighterB": "Lawrence Lui",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 325",
+      "fighterA": "Aaron Tau",
+      "fighterB": "Namsrai Batbayar",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Justin Gaethje",
+      "fighterB": "Paddy Pimblett",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Sean O'Malley",
+      "fighterB": "Song Yadong",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Natalia Silva",
+      "fighterB": "Rose Namajunas",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Waldo Cortes Acosta",
+      "fighterB": "Derrick Lewis",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Arnold Allen",
+      "fighterB": "Jean Silva",
+      "weightClass": "FW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Umar Nurmagomedov",
+      "fighterB": "Deiveson Figueiredo",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Nikita Krylov",
+      "fighterB": "Modestas Bukauskas",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Ateba Gautier",
+      "fighterB": "Andrey Pulyaev",
+      "weightClass": "MW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Alex Perez",
+      "fighterB": "Charles Johnson",
+      "weightClass": "FLW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Michael Johnson",
+      "fighterB": "Alexander Hernandez",
+      "weightClass": "LW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Josh Hokit",
+      "fighterB": "Denzel Freeman",
+      "weightClass": "HW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Adam Fugitt",
+      "fighterB": "Ty Miller",
+      "weightClass": "WW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    },
+    {
+      "event": "UFC 324",
+      "fighterA": "Cameron Smotherman",
+      "fighterB": "Ricky Turcios",
+      "weightClass": "BW",
+      "dataComplete": true,
+      "hasTapologyA": false,
+      "hasDRatingsA": false
+    }
+  ],
+  "allPredictions": [
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454877-leyczjf01",
+      "winner": "Ignacio Bahamondes",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 65.64432,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454876-1qrlxzc4q",
+      "winner": "Terrance McKinney",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 78,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454871-f8e75x7h5",
+      "winner": "Michael Chiesa",
+      "method": "SUB",
+      "round": "R2",
+      "confidence": 86.90171739130435,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454878-5k9j9dyoh",
+      "winner": "Chase Hooper",
+      "method": "SUB",
+      "round": "R3",
+      "confidence": 74.19088,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454867-i99pjnrcd",
+      "winner": "Joe Pyfer",
+      "method": "KO",
+      "round": "R4",
+      "confidence": 55.65579999999999,
+      "source": "composite",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454870-qg14gs7qu",
+      "winner": "Maycee Barber",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 68.2268,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454872-pc65k7rrd",
+      "winner": "Lerryan Douglas",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 62.936245,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454874-rpjtfz3dd",
+      "winner": "Mansur Abdul-Malik",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 52.31740000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454881-brtyd66x9",
+      "winner": "Navajo Stirling",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 71.957285,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454879-vkqa381h0",
+      "winner": "Marcin Tybura",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 50.099194999999995,
+      "source": "eloK170",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454882-shuoxz9jm",
+      "winner": "Ricky Simon",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 70.8066,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454880-eh3kxvudv",
+      "winner": "Gabriella Fernandes",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 58.63419999999999,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "fightId": "1774548454883-cusgpasjc",
+      "winner": "Alexia Thainara",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 80.17585000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411361-fr8dz1qyi",
+      "winner": "Movsar Evloev",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 61.644245,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411370-fgeipg71r",
+      "winner": "Mario Pinto",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 83.54874444444444,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411365-lm2nrms52",
+      "winner": "Iwo Baraniewski",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 81.82252173913042,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411368-009b4u83h",
+      "winner": "Mason Jones",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 57.93600000000001,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411364-2jmjqw7yn",
+      "winner": "Michael Page",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 70.23842,
+      "source": "eloK170",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411363-65njaf0md",
+      "winner": "Luke Riley",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 75.93899,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411369-fz7az0ejj",
+      "winner": "Losene Keita",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 55.87223499999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411367-n9o526xwo",
+      "winner": "Kurtis Campbell",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 65.32463999999999,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411366-fcne0e5n6",
+      "winner": "Christian Leroy Duncan",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 62.821999999999996,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411371-gplzgtljd",
+      "winner": "Mantas Kondratavičius",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 86.933,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411372-hh77sz40y",
+      "winner": "Brando Peričić",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 56.36582,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411374-tzrznvrqw",
+      "winner": "Shanelle Dyer",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 73.77773000000002,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411375-spx5j7ver",
+      "winner": "Luana Carolina",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 54.1132,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "fightId": "1773872411373-ooprao3eu",
+      "winner": "Shem Rock",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 57.38096,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503936-qyl84dxb7",
+      "winner": "Kevin Vallejos",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 75.487455,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503940-f9wfj8hj7",
+      "winner": "Oumar Sy",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 63.072065,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503944-zgb2blwp8",
+      "winner": "Charles Johnson",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 56.466800000000006,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503942-c9xym8y3s",
+      "winner": "Marwan Rahiki",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 54.982845,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503948-lgwbegrxn",
+      "winner": "Manoel Sousa",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 73.664,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503945-bzbcmc7o6",
+      "winner": "Eryk Anders",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 50.664399999999986,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503950-yff2mmzfn",
+      "winner": "Hecher Sosa",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 69.06199999999998,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503939-ajbj7iubm",
+      "winner": "Gillian Robertson",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 63.48694999999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503943-uid4xyjhe",
+      "winner": "Vitor Petrino",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 71.33858888888889,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503947-19xgvgx2b",
+      "winner": "Myktybek Orolbai",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 79.97610999999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503941-mzf2ynqe6",
+      "winner": "Jose Miguel Delgado",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 65.83175,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503953-8nuaobwxz",
+      "winner": "Piera Rodriguez",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 54.07201000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503952-0hm92i92o",
+      "winner": "Elijah Smith",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 51.544000000000004,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "fightId": "1773264503951-jkwltbdlx",
+      "winner": "Bia Mesquita",
+      "method": "SUB",
+      "round": "R3",
+      "confidence": 77.91860000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084642-0fv725qsw",
+      "winner": "Caio Borralho",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 63.476600000000005,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084644-i82c7wio2",
+      "winner": "Michael Johnson",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 57.712999999999994,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084645-s12pvttoz",
+      "winner": "Gregory Rodrigues",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 65.62480000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084643-6dye1jw0x",
+      "winner": "Raul Rosas Jr.",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 53.07319999999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084639-8yoxw1h43",
+      "winner": "Max Holloway",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 61.378600000000006,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084655-wk5x4ywpt",
+      "winner": "JeongYeong Lee",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 77.09340000000002,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084651-c4wq4laro",
+      "winner": "Jesus Aguilar",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 52.145199999999996,
+      "source": "eloK170",
+      "override": {
+        "winner": "fighterB",
+        "winnerName": "Jesus Aguilar",
+        "method": "SUB",
+        "round": "R2"
+      },
+      "overriddenAt": "2026-03-07T02:17:54.383Z"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084646-ryigcwaar",
+      "winner": "Cody Garbrandt",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 59.86580000000001,
+      "source": "eloK170",
+      "override": {
+        "winner": "fighterB",
+        "winnerName": "Xiao Long",
+        "method": "KO",
+        "round": "R2"
+      },
+      "overriddenAt": "2026-03-07T02:15:13.511Z"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084649-utzpqk0gf",
+      "winner": "Nyamjargal Tumendemberel",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 70.02619999999999,
+      "source": "tapology",
+      "override": {
+        "winner": "fighterB",
+        "winnerName": "Nyamjargal Tumendemberel",
+        "method": "SUB",
+        "round": "R2"
+      },
+      "overriddenAt": "2026-03-07T02:16:31.943Z"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084647-1m7qpkfg8",
+      "winner": "Donte Johnson",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 81.63140000000003,
+      "source": "betting",
+      "override": {
+        "winner": "fighterA",
+        "winnerName": "Donte Johnson",
+        "method": "KO",
+        "round": "R1"
+      },
+      "overriddenAt": "2026-03-05T20:25:54.599Z"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084648-tiprx89ma",
+      "winner": "Alberto Montes",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 73.842,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084653-zcflnglje",
+      "winner": "Rafael Tobias",
+      "method": "SUB",
+      "round": "R2",
+      "confidence": 71.60260000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "fightId": "1772737084656-3bxcv6hz4",
+      "winner": "Luke Fernandez",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 56.702000000000005,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781561-opgi3qjuh",
+      "winner": "Brandon Moreno",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 80.57820000000001,
+      "source": "eloK170",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781567-qlw09khlw",
+      "winner": "Santiago Luna",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 95,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781563-fkjrnzebp",
+      "winner": "David Martinez",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 59.688599999999994,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781564-57fz8vpxt",
+      "winner": "Daniel Zellhuber",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 60.6266,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781566-euqdwm95u",
+      "winner": "Imanol Rodriguez",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 80.13860000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781565-4ukuuxl2h",
+      "winner": "Edgar Chairez",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 63.10160000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781571-21ywba1f4",
+      "winner": "Ernesta Kareckaitė",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 57.435399999999994,
+      "source": "dratings",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781569-ghnw11cxu",
+      "winner": "Cristian Quiñonez",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 61.20860000000002,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781568-hgux4dgk9",
+      "winner": "Ailin Perez",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 65.43340000000002,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781570-kli0ytp79",
+      "winner": "Javier Reyes",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 75.5394,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781574-kl32msq0d",
+      "winner": "Francis Marshall",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 86.68939999999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781568-q6hjrzozo",
+      "winner": "Ryan Gandra",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 92.92800000000001,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "fightId": "1772057781575-h6v2lgukw",
+      "winner": "Damian Pinas",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 73.11660000000002,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707381-uh15ahmg6",
+      "winner": "Anthony Hernandez",
+      "method": "SUB",
+      "round": "R4",
+      "confidence": 74.50479999999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707392-kxejasovy",
+      "winner": "Ramiz Brahimaj",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 50.022400000000005,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707393-u4u5djhd5",
+      "winner": "Jean-Paul Lebosnoyani",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 60.81295454545454,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707391-pox4ms0px",
+      "winner": "Alden Coria",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 72.26040000000002,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707389-34418br2x",
+      "winner": "Carlos Leal",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 57.17619999999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707391-fp68otpwi",
+      "winner": "Joselyne Edwards",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 73.0432,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707384-mlsaxtvim",
+      "winner": "Geoff Neal",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 64.2228,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707388-m2xezu6hk",
+      "winner": "Michel Pereira",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 61.2838,
+      "source": "dratings",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707395-2ulexic0o",
+      "winner": "Yadier del Valle",
+      "method": "SUB",
+      "round": "R3",
+      "confidence": 70.02459999999999,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707386-r8czir9lw",
+      "winner": "Ante Delija",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 59.940999999999995,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707387-hzdfcx1fd",
+      "winner": "Jacobe Smith",
+      "method": "KO",
+      "round": "R2",
+      "confidence": 64.69020000000002,
+      "source": "betting",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707390-1kekwv3y4",
+      "winner": "Alibi Idiris",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 68.4032,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707385-vtjpibutq",
+      "winner": "Melquizael Costa",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 69.4982,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "fightId": "1771370707396-or0ahx4jc",
+      "winner": "Carli Judice",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 73.7336,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880223-7tqungw6k",
+      "winner": "Mario Bautista",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 56.477000000000004,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880228-xmhujybvo",
+      "winner": "Michal Oleksiejczuk",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 81.2115,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880230-a3jx65dvy",
+      "winner": "Dustin Jacoby",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 73.051,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880227-4ct5sqqhg",
+      "winner": "Jailton Almeida",
+      "method": "SUB",
+      "round": "R2",
+      "confidence": 74.943,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880226-959rqi7my",
+      "winner": "Kyoji Horiguchi",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 87.7645,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880229-0pof4bc1x",
+      "winner": "Farid Basharat",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 68.755,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880233-uq6pfx5ta",
+      "winner": "Nikolay Veretennikov",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 72.65454545454546,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880242-1l6aju3n3",
+      "winner": "Klaudia Sygula",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 62.07900000000001,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880232-mgifc7yl7",
+      "winner": "Daniil Donchenko",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 88.912,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880240-9nbijze2j",
+      "winner": "Jakub Wiklacz",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 64.3005,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880234-ycopcmf3w",
+      "winner": "Bruna Brasil",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 52.3775,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880235-bmdihs1lg",
+      "winner": "Javid Basharat",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 78.10000000000001,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "fightId": "1770403880238-ayszpk4yj",
+      "winner": "Wang Cong",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 58.6475,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637343-g3hz0kzq1",
+      "winner": "Benoît Saint Denis",
+      "method": "SUB",
+      "round": "R2",
+      "confidence": 77.7,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637342-ruq28nljg",
+      "winner": "Alexander Volkanovski",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 65.14285714285715,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637344-37eudte5o",
+      "winner": "Rafael Fiziev",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 58.01428571428572,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637344-nq1ls0jbb",
+      "winner": "Tallison Teixeira",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 80.68571428571428,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637345-jw7ypnqpe",
+      "winner": "Quillan Salkilld",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 80.81428571428572,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637349-8tv3rr7lf",
+      "winner": "Sebastian Szalay",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 77,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637347-2imxwuoro",
+      "winner": "Oban Elliott",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 53.85714285714286,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637346-7bzfc2emu",
+      "winner": "Billy Elekana",
+      "method": "SUB",
+      "round": "R2",
+      "confidence": 77.45714285714286,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637351-924ehunvb",
+      "winner": "Namsrai Batbayar",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 69,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637346-1kz1iamkl",
+      "winner": "Cam Rowston",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 83.65714285714287,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637347-8ostjd9mo",
+      "winner": "Torrez Finney",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 59.48571428571428,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637349-nften03jn",
+      "winner": "Dom Mar Fan",
+      "method": "KO",
+      "round": "R3",
+      "confidence": 77,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637350-j8rhn5cy9",
+      "winner": "Lawrence Lui",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 62,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 325",
+      "fightId": "1770403637348-tphzbgu7h",
+      "winner": "Yizha",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 79,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637351-4kw054mja",
+      "winner": "Paddy Pimblett",
+      "method": "SUB",
+      "round": "R2",
+      "confidence": 59.74285714285714,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637351-lsxdi35pt",
+      "winner": "Sean O'Malley",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 71.62857142857143,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637353-pqodczly8",
+      "winner": "Umar Nurmagomedov",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 89.6857142857143,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637353-oqmousy76",
+      "winner": "Jean Silva",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 70.07142857142857,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637352-1jhdg7x36",
+      "winner": "Natalia Silva",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 78.17142857142858,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637354-rtojn0ith",
+      "winner": "Ateba Gautier",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 88.80000000000003,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637352-echxrjb5q",
+      "winner": "Waldo Cortes Acosta",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 69.62857142857143,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637357-6aa8vit1h",
+      "winner": "Ty Miller",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 90,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637356-c1a9r659q",
+      "winner": "Josh Hokit",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 76.38571428571429,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637354-kmvyspd0m",
+      "winner": "Modestas Bukauskas",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 70.0142857142857,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637357-e4s77oova",
+      "winner": "Cameron Smotherman",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 72.58571428571429,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637355-auhrht6rz",
+      "winner": "Charles Johnson",
+      "method": "DEC",
+      "round": "DEC",
+      "confidence": 76.85714285714286,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    },
+    {
+      "event": "UFC 324",
+      "fightId": "1770403637355-nk737viia",
+      "winner": "Alexander Hernandez",
+      "method": "KO",
+      "round": "R1",
+      "confidence": 69.52857142857142,
+      "source": "tapology",
+      "override": null,
+      "overriddenAt": null
+    }
+  ],
+  "allResults": [
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Joe Pyfer",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Alexa Grasso",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Michael Chiesa",
+      "method": "SUB",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Lerryan Douglas",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Yousri Belgaroui",
+      "method": "KO",
+      "round": "R3"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Terrance McKinney",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Tofiq Musayev",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Tyrell Fortune",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Navajo Stirling",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Casey O'Neill",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Alexia Thainara",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Lance Gibson Jr.",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Adesanya vs. Pyfer",
+      "winner": "Draw/NC",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Movsar Evloev",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Luke Riley",
+      "method": "KO",
+      "round": "R3"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Michael Page",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Iwo Baraniewski",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Christian Leroy Duncan",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Mason Jones",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Danny Silva",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Nathaniel Wood",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Mario Pinto",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Brando Peričić",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Mantas Kondratavičius",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Fight Cancelled",
+      "method": "CANCELLED",
+      "round": "N/A"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Abdul-Kareem Al-Selwady",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Evloev vs. Murphy",
+      "winner": "Shanelle Dyer",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Kevin Vallejos",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Gillian Robertson",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Ion Cutelaba",
+      "method": "SUB",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Jose Miguel Delgado",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Marwan Rahiki",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Vitor Petrino",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Charles Johnson",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Eryk Anders",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Myktybek Orolbai",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Manoel Sousa",
+      "method": "KO",
+      "round": "R3"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Bia Mesquita",
+      "method": "SUB",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Hecher Sosa",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Elijah Smith",
+      "method": "SUB",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Emmett vs. Vallejos",
+      "winner": "Piera Rodriguez",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Fight Cancelled",
+      "method": "CANCELLED",
+      "round": "N/A"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Charles Oliveira",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Caio Borralho",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Raul Rosas Jr.",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Drew Dober",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Cody Garbrandt",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Gregory Rodrigues",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Donte Johnson",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Alberto Montes",
+      "method": "SUB",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Nyamjargal Tumendemberel",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Sumudaerji",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Diyar Nurgozhay",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 326: Holloway vs. Oliveira 2",
+      "winner": "Rodolfo Bellato",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Santiago Luna",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Ailin Perez",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Ryan Gandra",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Cristian Quiñonez",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Javier Reyes",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Regina Tarin",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Francis Marshall",
+      "method": "SUB",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Damian Pinas",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Imanol Rodriguez",
+      "method": "KO",
+      "round": "R3"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Edgar Chairez",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "Lone’er Kavanagh",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "David Martinez",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Moreno vs. Kavanagh",
+      "winner": "King Green",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Sean Strickland",
+      "method": "KO",
+      "round": "R3"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Uroš Medić",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Melquizael Costa",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Jacobe Smith",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Serghei Spivac",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Michel Pereira",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Carlos Leal",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Alibi Idiris",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Joselyne Edwards",
+      "method": "SUB",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Alden Coria",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Punahele Soriano",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Jordan Leavitt",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Jean-Paul Lebosnoyani",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Strickland vs. Hernandez",
+      "winner": "Carli Judice",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Javid Basharat",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Wang Cong",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Jakub Wiklacz",
+      "method": "SUB",
+      "round": "R3"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Klaudia Sygula",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Nikolay Veretennikov",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Ketlen Souza",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Daniil Donchenko",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Dustin Jacoby",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Michal Oleksiejczuk",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Farid Basharat",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Rizvan Kuniev",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Kyoji Horiguchi",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC Fight Night: Bautista vs. Oliveira",
+      "winner": "Mario Bautista",
+      "method": "SUB",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Alexander Volkanovski",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Benoît Saint Denis",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Mauricio Ruffy",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Tallison Teixeira",
+      "method": "SUB",
+      "round": "R1"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Billy Elekana",
+      "method": "SUB",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Quillan Salkilld",
+      "method": "SUB",
+      "round": "R1"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Jacob Malkoun",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Cam Rowston",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Dom Mar Fan",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Jonathan Micallef",
+      "method": "SUB",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Keiichiro Nakamura",
+      "method": "KO",
+      "round": "R3"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Kaan Ofli",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 325",
+      "winner": "Lawrence Lui",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Ateba Gautier",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Nikita Krylov",
+      "method": "KO",
+      "round": "R3"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Alex Perez",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Josh Hokit",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Umar Nurmagomedov",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Ty Miller",
+      "method": "KO",
+      "round": "R1"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Natalia Silva",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Waldo Cortes Acosta",
+      "method": "KO",
+      "round": "R2"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Justin Gaethje",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Jean Silva",
+      "method": "DEC",
+      "round": "DEC"
+    },
+    {
+      "event": "UFC 324",
+      "winner": "Sean O'Malley",
+      "method": "DEC",
+      "round": "DEC"
+    }
+  ],
+  "accuracyRecords": [
+    {
+      "id": "1774804769468-9iggp5h8w",
+      "eventId": "1774548377399-hsfcrgigd",
+      "eventName": "UFC Fight Night: Adesanya vs. Pyfer",
+      "eventDate": "2026-03-28",
+      "eventType": "fight-night",
+      "modelVersion": "v12",
+      "totalFights": 13,
+      "winnerCorrect": 6,
+      "methodCorrect": 5,
+      "roundCorrect": 2,
+      "byWeightClass": {
+        "LW": {
+          "total": 3,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "WW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "MW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "FLW": {
+          "total": 2,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "FW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "HW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "BW": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "WSW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        }
+      },
+      "bySource": {
+        "tapology": {
+          "total": 5,
+          "winnerCorrect": 2,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "betting": {
+          "total": 6,
+          "winnerCorrect": 3,
+          "methodCorrect": 3,
+          "roundCorrect": 2
+        },
+        "composite": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "eloK170": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "byVolatility": {
+        "volatile": {
+          "total": 7,
+          "correct": 3
+        },
+        "nonVolatile": {
+          "total": 6,
+          "correct": 3
+        }
+      },
+      "fightDetails": [
+        {
+          "fightId": "1774548454877-leyczjf01",
+          "fighterA": "Ignacio Bahamondes",
+          "fighterB": "Tofiq Musayev",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Ignacio Bahamondes",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 65.64432,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Tofiq Musayev",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454876-1qrlxzc4q",
+          "fighterA": "Terrance McKinney",
+          "fighterB": "Kyle Nelson",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Terrance McKinney",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 78,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Terrance McKinney",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454871-f8e75x7h5",
+          "fighterA": "Michael Chiesa",
+          "fighterB": "Niko Price",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Michael Chiesa",
+            "method": "SUB",
+            "round": "R2",
+            "confidence": 86.90171739130435,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Michael Chiesa",
+            "method": "SUB",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454878-5k9j9dyoh",
+          "fighterA": "Chase Hooper",
+          "fighterB": "Lance Gibson Jr.",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Chase Hooper",
+            "method": "SUB",
+            "round": "R3",
+            "confidence": 74.19088,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Lance Gibson Jr.",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454867-i99pjnrcd",
+          "fighterA": "Israel Adesanya",
+          "fighterB": "Joe Pyfer",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Joe Pyfer",
+            "method": "KO",
+            "round": "R4",
+            "confidence": 55.65579999999999,
+            "confidenceTier": "medium",
+            "isVolatile": false,
+            "primarySource": "composite",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Joe Pyfer",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454870-qg14gs7qu",
+          "fighterA": "Alexa Grasso",
+          "fighterB": "Maycee Barber",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Maycee Barber",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 68.2268,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Alexa Grasso",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454872-pc65k7rrd",
+          "fighterA": "Julian Erosa",
+          "fighterB": "Lerryan Douglas",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Lerryan Douglas",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 62.936245,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Lerryan Douglas",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454874-rpjtfz3dd",
+          "fighterA": "Mansur Abdul-Malik",
+          "fighterB": "Yousri Belgaroui",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Mansur Abdul-Malik",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 52.31740000000001,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Yousri Belgaroui",
+            "method": "KO",
+            "round": "R3"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454881-brtyd66x9",
+          "fighterA": "Navajo Stirling",
+          "fighterB": "Bruno Lopes",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Navajo Stirling",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 71.957285,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Navajo Stirling",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1774548454879-vkqa381h0",
+          "fighterA": "Marcin Tybura",
+          "fighterB": "Tyrell Fortune",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Marcin Tybura",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 50.099194999999995,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "eloK170",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Tyrell Fortune",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454882-shuoxz9jm",
+          "fighterA": "Ricky Simon",
+          "fighterB": "Adrian Yanez",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Ricky Simon",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 70.8066,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Draw/NC",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454880-eh3kxvudv",
+          "fighterA": "Casey O'Neill",
+          "fighterB": "Gabriella Fernandes",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Gabriella Fernandes",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 58.63419999999999,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Casey O'Neill",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1774548454883-cusgpasjc",
+          "fighterA": "Alexia Thainara",
+          "fighterB": "Bruna Brasil",
+          "weightClass": "WSW",
+          "prediction": {
+            "winner": "Alexia Thainara",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 80.17585000000001,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Alexia Thainara",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        }
+      ],
+      "timestamp": "2026-03-29T17:27:02.089Z"
+    },
+    {
+      "id": "1774144197486-x6k6uj8rr",
+      "eventId": "1773872393960-ol18fj5xh",
+      "eventName": "UFC Fight Night: Evloev vs. Murphy",
+      "eventDate": "2026-03-21",
+      "eventType": "fight-night",
+      "modelVersion": "v11",
+      "totalFights": 13,
+      "winnerCorrect": 10,
+      "methodCorrect": 7,
+      "roundCorrect": 7,
+      "byWeightClass": {
+        "FW": {
+          "total": 4,
+          "winnerCorrect": 2,
+          "methodCorrect": 2,
+          "roundCorrect": 2
+        },
+        "HW": {
+          "total": 3,
+          "winnerCorrect": 3,
+          "methodCorrect": 2,
+          "roundCorrect": 2
+        },
+        "LW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "WW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "MW": {
+          "total": 2,
+          "winnerCorrect": 2,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "WSW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "bySource": {
+        "betting": {
+          "total": 6,
+          "winnerCorrect": 5,
+          "methodCorrect": 2,
+          "roundCorrect": 2
+        },
+        "tapology": {
+          "total": 6,
+          "winnerCorrect": 4,
+          "methodCorrect": 4,
+          "roundCorrect": 4
+        },
+        "eloK170": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        }
+      },
+      "byVolatility": {
+        "volatile": {
+          "total": 6,
+          "correct": 5
+        },
+        "nonVolatile": {
+          "total": 7,
+          "correct": 5
+        }
+      },
+      "fightDetails": [
+        {
+          "fightId": "1773872411361-fr8dz1qyi",
+          "fighterA": "Movsar Evloev",
+          "fighterB": "Lerone Murphy",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Movsar Evloev",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 61.644245,
+            "confidenceTier": "medium",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Movsar Evloev",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773872411370-fgeipg71r",
+          "fighterA": "Mario Pinto",
+          "fighterB": "Felipe Franco",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Mario Pinto",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 83.54874444444444,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Mario Pinto",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773872411365-lm2nrms52",
+          "fighterA": "Iwo Baraniewski",
+          "fighterB": "Austen Lane",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Iwo Baraniewski",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 81.82252173913042,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Iwo Baraniewski",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773872411368-009b4u83h",
+          "fighterA": "Mason Jones",
+          "fighterB": "Axel Sola",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Mason Jones",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 57.93600000000001,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Mason Jones",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773872411364-2jmjqw7yn",
+          "fighterA": "Michael Page",
+          "fighterB": "Sam Patterson",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Michael Page",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 70.23842,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "eloK170",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Michael Page",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773872411363-65njaf0md",
+          "fighterA": "Luke Riley",
+          "fighterB": "Michael Aswell Jr.",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Luke Riley",
+            "method": "KO",
+            "round": "R3",
+            "confidence": 75.93899,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Luke Riley",
+            "method": "KO",
+            "round": "R3"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773872411369-fz7az0ejj",
+          "fighterA": "Nathaniel Wood",
+          "fighterB": "Losene Keita",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Losene Keita",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 55.87223499999999,
+            "confidenceTier": "medium",
+            "isVolatile": false,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Nathaniel Wood",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773872411367-n9o526xwo",
+          "fighterA": "Kurtis Campbell",
+          "fighterB": "Danny Silva",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Kurtis Campbell",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 65.32463999999999,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Danny Silva",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773872411366-fcne0e5n6",
+          "fighterA": "Roman Dolidze",
+          "fighterB": "Christian Leroy Duncan",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Christian Leroy Duncan",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 62.821999999999996,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Christian Leroy Duncan",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773872411371-gplzgtljd",
+          "fighterA": "Mantas Kondratavičius",
+          "fighterB": "Antonio Trocoli",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Mantas Kondratavičius",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 86.933,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Mantas Kondratavičius",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773872411372-hh77sz40y",
+          "fighterA": "Louie Sutherland",
+          "fighterB": "Brando Peričić",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Brando Peričić",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 56.36582,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Brando Peričić",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773872411374-tzrznvrqw",
+          "fighterA": "Shanelle Dyer",
+          "fighterB": "Ravena Oliveira",
+          "weightClass": "WSW",
+          "prediction": {
+            "winner": "Shanelle Dyer",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 73.77773000000002,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Shanelle Dyer",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773872411373-ooprao3eu",
+          "fighterA": "Shem Rock",
+          "fighterB": "Abdul-Kareem Al-Selwady",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Shem Rock",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 57.38096,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Abdul-Kareem Al-Selwady",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        }
+      ],
+      "timestamp": "2026-03-22T01:49:57.486Z"
+    },
+    {
+      "id": "1773547641631-jsvearyq8",
+      "eventId": "1773264440789-7sh7rrhsv",
+      "eventName": "UFC Fight Night: Emmett vs. Vallejos",
+      "eventDate": "2026-03-14",
+      "eventType": "fight-night",
+      "modelVersion": "v11",
+      "totalFights": 14,
+      "winnerCorrect": 13,
+      "methodCorrect": 8,
+      "roundCorrect": 5,
+      "byWeightClass": {
+        "FW": {
+          "total": 3,
+          "winnerCorrect": 3,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "HW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "FLW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "LW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "MW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "BW": {
+          "total": 3,
+          "winnerCorrect": 3,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "WSW": {
+          "total": 2,
+          "winnerCorrect": 2,
+          "methodCorrect": 2,
+          "roundCorrect": 2
+        },
+        "WW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        }
+      },
+      "bySource": {
+        "tapology": {
+          "total": 8,
+          "winnerCorrect": 7,
+          "methodCorrect": 5,
+          "roundCorrect": 3
+        },
+        "betting": {
+          "total": 6,
+          "winnerCorrect": 6,
+          "methodCorrect": 3,
+          "roundCorrect": 2
+        }
+      },
+      "byVolatility": {
+        "volatile": {
+          "total": 12,
+          "correct": 11
+        },
+        "nonVolatile": {
+          "total": 2,
+          "correct": 2
+        }
+      },
+      "fightDetails": [
+        {
+          "fightId": "1773264503936-qyl84dxb7",
+          "fighterA": "Josh Emmett",
+          "fighterB": "Kevin Vallejos",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Kevin Vallejos",
+            "method": "KO",
+            "round": "R3",
+            "confidence": 75.487455,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Kevin Vallejos",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503940-f9wfj8hj7",
+          "fighterA": "Ion Cutelaba",
+          "fighterB": "Oumar Sy",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Oumar Sy",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 63.072065,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Ion Cutelaba",
+            "method": "SUB",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503944-zgb2blwp8",
+          "fighterA": "Charles Johnson",
+          "fighterB": "Bruno Silva",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Charles Johnson",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 56.466800000000006,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Charles Johnson",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773264503942-c9xym8y3s",
+          "fighterA": "Marwan Rahiki",
+          "fighterB": "Harry Hardwick",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Marwan Rahiki",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 54.982845,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Marwan Rahiki",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503948-lgwbegrxn",
+          "fighterA": "Bolaji Oki",
+          "fighterB": "Manoel Sousa",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Manoel Sousa",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 73.664,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Manoel Sousa",
+            "method": "KO",
+            "round": "R3"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503945-bzbcmc7o6",
+          "fighterA": "Brad Tavares",
+          "fighterB": "Eryk Anders",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Eryk Anders",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 50.664399999999986,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Eryk Anders",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773264503950-yff2mmzfn",
+          "fighterA": "Luan Lacerda",
+          "fighterB": "Hecher Sosa",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Hecher Sosa",
+            "method": "KO",
+            "round": "R3",
+            "confidence": 69.06199999999998,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Hecher Sosa",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503939-ajbj7iubm",
+          "fighterA": "Amanda Lemos",
+          "fighterB": "Gillian Robertson",
+          "weightClass": "WSW",
+          "prediction": {
+            "winner": "Gillian Robertson",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 63.48694999999999,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Gillian Robertson",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773264503943-uid4xyjhe",
+          "fighterA": "Vitor Petrino",
+          "fighterB": "Steven Asplund",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Vitor Petrino",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 71.33858888888889,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Vitor Petrino",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503947-19xgvgx2b",
+          "fighterA": "Chris Curtis",
+          "fighterB": "Myktybek Orolbai",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Myktybek Orolbai",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 79.97610999999999,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Myktybek Orolbai",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773264503941-mzf2ynqe6",
+          "fighterA": "Andre Fili",
+          "fighterB": "Jose Miguel Delgado",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Jose Miguel Delgado",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 65.83175,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Jose Miguel Delgado",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503953-8nuaobwxz",
+          "fighterA": "Piera Rodriguez",
+          "fighterB": "Sam Hughes",
+          "weightClass": "WSW",
+          "prediction": {
+            "winner": "Piera Rodriguez",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 54.07201000000001,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Piera Rodriguez",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1773264503952-0hm92i92o",
+          "fighterA": "Elijah Smith",
+          "fighterB": "SuYoung You",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Elijah Smith",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 51.544000000000004,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Elijah Smith",
+            "method": "SUB",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1773264503951-jkwltbdlx",
+          "fighterA": "Bia Mesquita",
+          "fighterB": "Montse Rendon",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Bia Mesquita",
+            "method": "SUB",
+            "round": "R3",
+            "confidence": 77.91860000000001,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Bia Mesquita",
+            "method": "SUB",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        }
+      ],
+      "timestamp": "2026-03-15T04:07:21.631Z"
+    },
+    {
+      "id": "1772898080947-smwn7ju6b",
+      "eventId": "1772737026546-egloswpld",
+      "eventName": "UFC 326: Holloway vs. Oliveira 2",
+      "eventDate": "2026-03-07",
+      "eventType": "ppv",
+      "modelVersion": "v8",
+      "totalFights": 12,
+      "winnerCorrect": 6,
+      "methodCorrect": 3,
+      "roundCorrect": 2,
+      "byWeightClass": {
+        "MW": {
+          "total": 3,
+          "winnerCorrect": 3,
+          "methodCorrect": 2,
+          "roundCorrect": 1
+        },
+        "LW": {
+          "total": 2,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "BW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "FLW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "FW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "HW": {
+          "total": 2,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "bySource": {
+        "betting": {
+          "total": 6,
+          "winnerCorrect": 3,
+          "methodCorrect": 2,
+          "roundCorrect": 1
+        },
+        "tapology": {
+          "total": 4,
+          "winnerCorrect": 3,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "eloK170": {
+          "total": 2,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "byVolatility": {
+        "volatile": {
+          "total": 9,
+          "correct": 3
+        },
+        "nonVolatile": {
+          "total": 3,
+          "correct": 3
+        }
+      },
+      "fightDetails": [
+        {
+          "fightId": "1772737084642-0fv725qsw",
+          "fighterA": "Caio Borralho",
+          "fighterB": "Reinier de Ridder",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Caio Borralho",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 63.476600000000005,
+            "confidenceTier": "medium",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Caio Borralho",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772737084644-i82c7wio2",
+          "fighterA": "Drew Dober",
+          "fighterB": "Michael Johnson",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Michael Johnson",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 57.712999999999994,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Drew Dober",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084645-s12pvttoz",
+          "fighterA": "Gregory Rodrigues",
+          "fighterB": "Brunno Ferreira",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Gregory Rodrigues",
+            "method": "KO",
+            "round": "R3",
+            "confidence": 65.62480000000001,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Gregory Rodrigues",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084643-6dye1jw0x",
+          "fighterA": "Rob Font",
+          "fighterB": "Raul Rosas Jr.",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Raul Rosas Jr.",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 53.07319999999999,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Raul Rosas Jr.",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772737084639-8yoxw1h43",
+          "fighterA": "Max Holloway",
+          "fighterB": "Charles Oliveira",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Max Holloway",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 61.378600000000006,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Charles Oliveira",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084651-c4wq4laro",
+          "fighterA": "Sumudaerji",
+          "fighterB": "Jesus Aguilar",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Jesus Aguilar",
+            "method": "SUB",
+            "round": "R2",
+            "confidence": 52.145199999999996,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "eloK170",
+            "isOverridden": true
+          },
+          "result": {
+            "winner": "Sumudaerji",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084646-ryigcwaar",
+          "fighterA": "Cody Garbrandt",
+          "fighterB": "Xiao Long",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Xiao Long",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 59.86580000000001,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "eloK170",
+            "isOverridden": true
+          },
+          "result": {
+            "winner": "Cody Garbrandt",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084649-utzpqk0gf",
+          "fighterA": "Cody Durden",
+          "fighterB": "Nyamjargal Tumendemberel",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Nyamjargal Tumendemberel",
+            "method": "SUB",
+            "round": "R2",
+            "confidence": 70.02619999999999,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology",
+            "isOverridden": true
+          },
+          "result": {
+            "winner": "Nyamjargal Tumendemberel",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084647-1m7qpkfg8",
+          "fighterA": "Donte Johnson",
+          "fighterB": "Cody Brundage",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Donte Johnson",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 81.63140000000003,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": true
+          },
+          "result": {
+            "winner": "Donte Johnson",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084648-tiprx89ma",
+          "fighterA": "Ricky Turcios",
+          "fighterB": "Alberto Montes",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Alberto Montes",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 73.842,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Alberto Montes",
+            "method": "SUB",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084653-zcflnglje",
+          "fighterA": "Rafael Tobias",
+          "fighterB": "Diyar Nurgozhay",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Rafael Tobias",
+            "method": "SUB",
+            "round": "R2",
+            "confidence": 71.60260000000001,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Diyar Nurgozhay",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772737084656-3bxcv6hz4",
+          "fighterA": "Luke Fernandez",
+          "fighterB": "Rodolfo Bellato",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Luke Fernandez",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 56.702000000000005,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Rodolfo Bellato",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        }
+      ],
+      "timestamp": "2026-03-08T16:32:49.354Z"
+    },
+    {
+      "id": "1772330698242-14jv30kpn",
+      "eventId": "1772057751768-rshh754dx",
+      "eventName": "UFC Fight Night: Moreno vs. Kavanagh",
+      "eventDate": "2026-02-28",
+      "eventType": "fight-night",
+      "totalFights": 13,
+      "winnerCorrect": 10,
+      "methodCorrect": 8,
+      "roundCorrect": 6,
+      "byWeightClass": {
+        "FLW": {
+          "total": 3,
+          "winnerCorrect": 2,
+          "methodCorrect": 2,
+          "roundCorrect": 2
+        },
+        "BW": {
+          "total": 4,
+          "winnerCorrect": 4,
+          "methodCorrect": 3,
+          "roundCorrect": 3
+        },
+        "LW": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "CW": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "FW": {
+          "total": 2,
+          "winnerCorrect": 2,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "MW": {
+          "total": 2,
+          "winnerCorrect": 2,
+          "methodCorrect": 2,
+          "roundCorrect": 0
+        }
+      },
+      "bySource": {
+        "eloK170": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "betting": {
+          "total": 8,
+          "winnerCorrect": 7,
+          "methodCorrect": 6,
+          "roundCorrect": 4
+        },
+        "tapology": {
+          "total": 3,
+          "winnerCorrect": 3,
+          "methodCorrect": 2,
+          "roundCorrect": 2
+        },
+        "dratings": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "byVolatility": {
+        "volatile": {
+          "total": 8,
+          "correct": 5
+        },
+        "nonVolatile": {
+          "total": 5,
+          "correct": 5
+        }
+      },
+      "fightDetails": [
+        {
+          "fightId": "1772057781561-opgi3qjuh",
+          "fighterA": "Brandon Moreno",
+          "fighterB": "Lone’er Kavanagh",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Brandon Moreno",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 80.57820000000001,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "eloK170",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Lone’er Kavanagh",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772057781567-qlw09khlw",
+          "fighterA": "Santiago Luna",
+          "fighterB": "Angel Pacheco",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Santiago Luna",
+            "method": "KO",
+            "round": "R3",
+            "confidence": 95,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Santiago Luna",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772057781563-fkjrnzebp",
+          "fighterA": "Marlon Vera",
+          "fighterB": "David Martinez",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "David Martinez",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 59.688599999999994,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "David Martinez",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772057781564-57fz8vpxt",
+          "fighterA": "Daniel Zellhuber",
+          "fighterB": "King Green",
+          "weightClass": "LW",
+          "prediction": {
+            "winner": "Daniel Zellhuber",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 60.6266,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "King Green",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772057781566-euqdwm95u",
+          "fighterA": "Imanol Rodriguez",
+          "fighterB": "Kevin Borjas",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Imanol Rodriguez",
+            "method": "KO",
+            "round": "R3",
+            "confidence": 80.13860000000001,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Imanol Rodriguez",
+            "method": "KO",
+            "round": "R3"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772057781565-4ukuuxl2h",
+          "fighterA": "Edgar Chairez",
+          "fighterB": "Felipe Bunes",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Edgar Chairez",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 63.10160000000001,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Edgar Chairez",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772057781571-21ywba1f4",
+          "fighterA": "Regina Tarin",
+          "fighterB": "Ernesta Kareckaitė",
+          "weightClass": "CW",
+          "prediction": {
+            "winner": "Ernesta Kareckaitė",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 57.435399999999994,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "dratings",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Regina Tarin",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772057781569-ghnw11cxu",
+          "fighterA": "Cristian Quiñonez",
+          "fighterB": "Kris Moutinho",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Cristian Quiñonez",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 61.20860000000002,
+            "confidenceTier": "medium",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Cristian Quiñonez",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772057781568-hgux4dgk9",
+          "fighterA": "Ailin Perez",
+          "fighterB": "Macy Chiasson",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Ailin Perez",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 65.43340000000002,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Ailin Perez",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772057781570-kli0ytp79",
+          "fighterA": "Douglas Silva de Andrade",
+          "fighterB": "Javier Reyes",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Javier Reyes",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 75.5394,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Javier Reyes",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1772057781574-kl32msq0d",
+          "fighterA": "Erik Silva",
+          "fighterB": "Francis Marshall",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Francis Marshall",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 86.68939999999999,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Francis Marshall",
+            "method": "SUB",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772057781568-q6hjrzozo",
+          "fighterA": "Ryan Gandra",
+          "fighterB": "Jose Daniel Medina",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Ryan Gandra",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 92.92800000000001,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Ryan Gandra",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1772057781575-h6v2lgukw",
+          "fighterA": "Damian Pinas",
+          "fighterB": "Wes Schultz",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Damian Pinas",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 73.11660000000002,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "betting",
+            "isOverridden": false
+          },
+          "result": {
+            "winner": "Damian Pinas",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        }
+      ],
+      "timestamp": "2026-03-01T13:12:38.413Z",
+      "modelVersion": "v5"
+    },
+    {
+      "id": "1771784213474-ntyo3fmrd",
+      "eventId": "1771370688995-9dvqu18qp",
+      "eventName": "UFC Fight Night: Strickland vs. Hernandez",
+      "eventDate": "2026-02-21",
+      "eventType": "fight-night",
+      "totalFights": 14,
+      "winnerCorrect": 9,
+      "methodCorrect": 2,
+      "roundCorrect": 1,
+      "byWeightClass": {
+        "MW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "WW": {
+          "total": 5,
+          "winnerCorrect": 3,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "FLW": {
+          "total": 3,
+          "winnerCorrect": 3,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "BW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "FW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "HW": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "bySource": {
+        "tapology": {
+          "total": 9,
+          "winnerCorrect": 6,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "betting": {
+          "total": 4,
+          "winnerCorrect": 2,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "dratings": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "byVolatility": {
+        "volatile": {
+          "total": 12,
+          "correct": 9
+        },
+        "nonVolatile": {
+          "total": 2,
+          "correct": 0
+        }
+      },
+      "fightDetails": [
+        {
+          "fightId": "1771370707381-uh15ahmg6",
+          "fighterA": "Sean Strickland",
+          "fighterB": "Anthony Hernandez",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Anthony Hernandez",
+            "method": "SUB",
+            "round": "R4",
+            "confidence": 74.50479999999999,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Sean Strickland",
+            "method": "KO",
+            "round": "R3"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707392-kxejasovy",
+          "fighterA": "Ramiz Brahimaj",
+          "fighterB": "Punahele Soriano",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Ramiz Brahimaj",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 50.022400000000005,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "betting"
+          },
+          "result": {
+            "winner": "Punahele Soriano",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707393-u4u5djhd5",
+          "fighterA": "Phil Rowe",
+          "fighterB": "Jean-Paul Lebosnoyani",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Jean-Paul Lebosnoyani",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 60.81295454545454,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Jean-Paul Lebosnoyani",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707391-pox4ms0px",
+          "fighterA": "Alden Coria",
+          "fighterB": "Luis Gurule",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Alden Coria",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 72.26040000000002,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "betting"
+          },
+          "result": {
+            "winner": "Alden Coria",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707389-34418br2x",
+          "fighterA": "Chidi Njokuani",
+          "fighterB": "Carlos Leal",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Carlos Leal",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 57.17619999999999,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Carlos Leal",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707391-fp68otpwi",
+          "fighterA": "Nora Cornolle",
+          "fighterB": "Joselyne Edwards",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Joselyne Edwards",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 73.0432,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Joselyne Edwards",
+            "method": "SUB",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707384-mlsaxtvim",
+          "fighterA": "Geoff Neal",
+          "fighterB": "Uroš Medić",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Geoff Neal",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 64.2228,
+            "confidenceTier": "medium",
+            "isVolatile": false,
+            "primarySource": "betting"
+          },
+          "result": {
+            "winner": "Uroš Medić",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707388-m2xezu6hk",
+          "fighterA": "Zach Reese",
+          "fighterB": "Michel Pereira",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Michel Pereira",
+            "method": "KO",
+            "round": "R3",
+            "confidence": 61.2838,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "dratings"
+          },
+          "result": {
+            "winner": "Michel Pereira",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707395-2ulexic0o",
+          "fighterA": "Jordan Leavitt",
+          "fighterB": "Yadier del Valle",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Yadier del Valle",
+            "method": "SUB",
+            "round": "R3",
+            "confidence": 70.02459999999999,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Jordan Leavitt",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707386-r8czir9lw",
+          "fighterA": "Serghei Spivac",
+          "fighterB": "Ante Delija",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Ante Delija",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 59.940999999999995,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Serghei Spivac",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707387-hzdfcx1fd",
+          "fighterA": "Jacobe Smith",
+          "fighterB": "Josiah Harrell",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Jacobe Smith",
+            "method": "KO",
+            "round": "R2",
+            "confidence": 64.69020000000002,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "betting"
+          },
+          "result": {
+            "winner": "Jacobe Smith",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707390-1kekwv3y4",
+          "fighterA": "Ode Osbourne",
+          "fighterB": "Alibi Idiris",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Alibi Idiris",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 68.4032,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Alibi Idiris",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1771370707385-vtjpibutq",
+          "fighterA": "Dan Ige",
+          "fighterB": "Melquizael Costa",
+          "weightClass": "FW",
+          "prediction": {
+            "winner": "Melquizael Costa",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 69.4982,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Melquizael Costa",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1771370707396-or0ahx4jc",
+          "fighterA": "Juliana Miller",
+          "fighterB": "Carli Judice",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Carli Judice",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 73.7336,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Carli Judice",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        }
+      ],
+      "timestamp": "2026-02-22T18:18:25.213Z",
+      "modelVersion": "v4"
+    },
+    {
+      "id": "1770509013433-ky5elimos",
+      "eventId": "1770403680401-ixh11xpyl",
+      "eventName": "UFC Fight Night: Bautista vs. Oliveira",
+      "eventDate": "2026-02-07",
+      "eventType": "fight-night",
+      "totalFights": 13,
+      "winnerCorrect": 11,
+      "methodCorrect": 7,
+      "roundCorrect": 6,
+      "byWeightClass": {
+        "BW": {
+          "total": 5,
+          "winnerCorrect": 5,
+          "methodCorrect": 3,
+          "roundCorrect": 3
+        },
+        "MW": {
+          "total": 1,
+          "winnerCorrect": 1,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        },
+        "HW": {
+          "total": 2,
+          "winnerCorrect": 1,
+          "methodCorrect": 1,
+          "roundCorrect": 0
+        },
+        "FLW": {
+          "total": 2,
+          "winnerCorrect": 2,
+          "methodCorrect": 2,
+          "roundCorrect": 2
+        },
+        "WW": {
+          "total": 2,
+          "winnerCorrect": 2,
+          "methodCorrect": 1,
+          "roundCorrect": 1
+        },
+        "WSW": {
+          "total": 1,
+          "winnerCorrect": 0,
+          "methodCorrect": 0,
+          "roundCorrect": 0
+        }
+      },
+      "bySource": {
+        "tapology": {
+          "total": 13,
+          "winnerCorrect": 11,
+          "methodCorrect": 7,
+          "roundCorrect": 6
+        }
+      },
+      "byVolatility": {
+        "volatile": {
+          "total": 10,
+          "correct": 8
+        },
+        "nonVolatile": {
+          "total": 3,
+          "correct": 3
+        }
+      },
+      "fightDetails": [
+        {
+          "fightId": "1770403880223-7tqungw6k",
+          "fighterA": "Mario Bautista",
+          "fighterB": "Vinicius Oliveira",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Mario Bautista",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 56.477000000000004,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Mario Bautista",
+            "method": "SUB",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1770403880228-xmhujybvo",
+          "fighterA": "Michal Oleksiejczuk",
+          "fighterB": "Marc-Andre Barriault",
+          "weightClass": "MW",
+          "prediction": {
+            "winner": "Michal Oleksiejczuk",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 81.2115,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Michal Oleksiejczuk",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1770403880230-a3jx65dvy",
+          "fighterA": "Dustin Jacoby",
+          "fighterB": "Julius Walker",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Dustin Jacoby",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 73.051,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Dustin Jacoby",
+            "method": "KO",
+            "round": "R2"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1770403880227-4ct5sqqhg",
+          "fighterA": "Jailton Almeida",
+          "fighterB": "Rizvan Kuniev",
+          "weightClass": "HW",
+          "prediction": {
+            "winner": "Jailton Almeida",
+            "method": "SUB",
+            "round": "R2",
+            "confidence": 74.943,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Rizvan Kuniev",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1770403880226-959rqi7my",
+          "fighterA": "Amir Albazi",
+          "fighterB": "Kyoji Horiguchi",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Kyoji Horiguchi",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 87.7645,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Kyoji Horiguchi",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1770403880229-0pof4bc1x",
+          "fighterA": "Jean Matsumoto",
+          "fighterB": "Farid Basharat",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Farid Basharat",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 68.755,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Farid Basharat",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1770403880233-uq6pfx5ta",
+          "fighterA": "Nikolay Veretennikov",
+          "fighterB": "Niko Price",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Nikolay Veretennikov",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 72.65454545454546,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Nikolay Veretennikov",
+            "method": "KO",
+            "round": "R1"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1770403880242-1l6aju3n3",
+          "fighterA": "Klaudia Sygula",
+          "fighterB": "Priscila Cachoeira",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Klaudia Sygula",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 62.07900000000001,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Klaudia Sygula",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1770403880232-mgifc7yl7",
+          "fighterA": "Alex Morono",
+          "fighterB": "Daniil Donchenko",
+          "weightClass": "WW",
+          "prediction": {
+            "winner": "Daniil Donchenko",
+            "method": "KO",
+            "round": "R1",
+            "confidence": 88.912,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Daniil Donchenko",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1770403880240-9nbijze2j",
+          "fighterA": "Muin Gafurov",
+          "fighterB": "Jakub Wiklacz",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Jakub Wiklacz",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 64.3005,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Jakub Wiklacz",
+            "method": "SUB",
+            "round": "R3"
+          },
+          "correct": {
+            "winner": true,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1770403880234-ycopcmf3w",
+          "fighterA": "Bruna Brasil",
+          "fighterB": "Ketlen Souza",
+          "weightClass": "WSW",
+          "prediction": {
+            "winner": "Bruna Brasil",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 52.3775,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Ketlen Souza",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": false,
+            "method": false,
+            "round": false
+          }
+        },
+        {
+          "fightId": "1770403880235-bmdihs1lg",
+          "fighterA": "Javid Basharat",
+          "fighterB": "Gianni Vazquez",
+          "weightClass": "BW",
+          "prediction": {
+            "winner": "Javid Basharat",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 78.10000000000001,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Javid Basharat",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        },
+        {
+          "fightId": "1770403880238-ayszpk4yj",
+          "fighterA": "Wang Cong",
+          "fighterB": "Eduarda Moura",
+          "weightClass": "FLW",
+          "prediction": {
+            "winner": "Wang Cong",
+            "method": "DEC",
+            "round": "DEC",
+            "confidence": 58.6475,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "primarySource": "tapology"
+          },
+          "result": {
+            "winner": "Wang Cong",
+            "method": "DEC",
+            "round": "DEC"
+          },
+          "correct": {
+            "winner": true,
+            "method": true,
+            "round": true
+          }
+        }
+      ],
+      "timestamp": "2026-02-08T04:07:22.354Z",
+      "modelVersion": "v3"
+    },
+    {
+      "bySource": {
+        "tapology": {
+          "methodCorrect": 4,
+          "roundCorrect": 3,
+          "total": 13,
+          "winnerCorrect": 8
+        }
+      },
+      "byVolatility": {
+        "nonVolatile": {
+          "correct": 4,
+          "total": 4
+        },
+        "volatile": {
+          "correct": 4,
+          "total": 9
+        }
+      },
+      "byWeightClass": {
+        "BW": {
+          "methodCorrect": 1,
+          "roundCorrect": 1,
+          "total": 1,
+          "winnerCorrect": 1
+        },
+        "FW": {
+          "methodCorrect": 1,
+          "roundCorrect": 1,
+          "total": 3,
+          "winnerCorrect": 1
+        },
+        "HW": {
+          "methodCorrect": 1,
+          "roundCorrect": 1,
+          "total": 2,
+          "winnerCorrect": 2
+        },
+        "LW": {
+          "methodCorrect": 0,
+          "roundCorrect": 0,
+          "total": 4,
+          "winnerCorrect": 3
+        },
+        "MW": {
+          "methodCorrect": 1,
+          "roundCorrect": 0,
+          "total": 2,
+          "winnerCorrect": 1
+        },
+        "WW": {
+          "methodCorrect": 0,
+          "roundCorrect": 0,
+          "total": 1,
+          "winnerCorrect": 0
+        }
+      },
+      "eventDate": "2026-01-31",
+      "eventId": "1769182798406-br83wo3up",
+      "eventName": "UFC 325",
+      "eventType": "ppv",
+      "fightDetails": [
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1769193219387-lh4t4b8m1",
+          "fighterA": "Dan Hooker",
+          "fighterB": "Benoît Saint Denis",
+          "prediction": {
+            "confidence": 77.7,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "SUB",
+            "primarySource": "tapology",
+            "round": "R2",
+            "winner": "Benoît Saint Denis"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R2",
+            "winner": "Benoît Saint Denis"
+          },
+          "weightClass": "LW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1769193219389-5whcaxmk1",
+          "fighterA": "Rafael Fiziev",
+          "fighterB": "Mauricio Ruffy",
+          "prediction": {
+            "confidence": 58.01428571428572,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Rafael Fiziev"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R2",
+            "winner": "Mauricio Ruffy"
+          },
+          "weightClass": "LW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": true,
+            "winner": true
+          },
+          "fightId": "1769193219384-4q0kr7j2h",
+          "fighterA": "Alexander Volkanovski",
+          "fighterB": "Diego Lopes",
+          "prediction": {
+            "confidence": 65.14285714285715,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Alexander Volkanovski"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Alexander Volkanovski"
+          },
+          "weightClass": "FW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1769193219393-p794xlaau",
+          "fighterA": "Quillan Salkilld",
+          "fighterB": "Jamie Mullarkey",
+          "prediction": {
+            "confidence": 80.81428571428572,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Quillan Salkilld"
+          },
+          "result": {
+            "method": "SUB",
+            "round": "R1",
+            "winner": "Quillan Salkilld"
+          },
+          "weightClass": "LW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1769193219390-9ryjgknju",
+          "fighterA": "Tai Tuivasa",
+          "fighterB": "Tallison Teixeira",
+          "prediction": {
+            "confidence": 80.68571428571428,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Tallison Teixeira"
+          },
+          "result": {
+            "method": "SUB",
+            "round": "R1",
+            "winner": "Tallison Teixeira"
+          },
+          "weightClass": "HW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1769193219400-6r3phwsbs",
+          "fighterA": "Jonathan Micallef",
+          "fighterB": "Oban Elliott",
+          "prediction": {
+            "confidence": 53.85714285714286,
+            "confidenceTier": "low",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Oban Elliott"
+          },
+          "result": {
+            "method": "SUB",
+            "round": "R2",
+            "winner": "Jonathan Micallef"
+          },
+          "weightClass": "WW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1769193219408-zqb0ruv8e",
+          "fighterA": "Keiichiro Nakamura",
+          "fighterB": "Sebastian Szalay",
+          "prediction": {
+            "confidence": 77,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Sebastian Szalay"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R3",
+            "winner": "Keiichiro Nakamura"
+          },
+          "weightClass": "FW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": true,
+            "winner": true
+          },
+          "fightId": "1769193219394-7iukns3eb",
+          "fighterA": "Junior Tafa",
+          "fighterB": "Billy Elekana",
+          "prediction": {
+            "confidence": 77.45714285714286,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "SUB",
+            "primarySource": "tapology",
+            "round": "R2",
+            "winner": "Billy Elekana"
+          },
+          "result": {
+            "method": "SUB",
+            "round": "R2",
+            "winner": "Billy Elekana"
+          },
+          "weightClass": "HW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1769193219396-cwjwmfqn7",
+          "fighterA": "Cam Rowston",
+          "fighterB": "Cody Brundage",
+          "prediction": {
+            "confidence": 83.65714285714287,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Cam Rowston"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R2",
+            "winner": "Cam Rowston"
+          },
+          "weightClass": "MW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1769193219398-ucuoebuz1",
+          "fighterA": "Jacob Malkoun",
+          "fighterB": "Torrez Finney",
+          "prediction": {
+            "confidence": 59.48571428571428,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Torrez Finney"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Jacob Malkoun"
+          },
+          "weightClass": "MW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": true,
+            "winner": true
+          },
+          "fightId": "1769193219410-tvsb872gu",
+          "fighterA": "Sulangrangbo",
+          "fighterB": "Lawrence Lui",
+          "prediction": {
+            "confidence": 62,
+            "confidenceTier": "medium",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Lawrence Lui"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Lawrence Lui"
+          },
+          "weightClass": "BW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1769193219402-zan2jyrk0",
+          "fighterA": "Kaan Ofli",
+          "fighterB": "Yizha",
+          "prediction": {
+            "confidence": 79,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Yizha"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Kaan Ofli"
+          },
+          "weightClass": "FW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1769193219405-p6vrwt2i6",
+          "fighterA": "SangWook Kim",
+          "fighterB": "Dom Mar Fan",
+          "prediction": {
+            "confidence": 77,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R3",
+            "winner": "Dom Mar Fan"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Dom Mar Fan"
+          },
+          "weightClass": "LW"
+        }
+      ],
+      "id": "1769975757720-6hjk8ltv4",
+      "methodCorrect": 4,
+      "roundCorrect": 3,
+      "timestamp": "2026-02-01T20:29:35.916Z",
+      "totalFights": 13,
+      "winnerCorrect": 8,
+      "modelVersion": "v3"
+    },
+    {
+      "bySource": {
+        "tapology": {
+          "methodCorrect": 5,
+          "roundCorrect": 4,
+          "total": 11,
+          "winnerCorrect": 8
+        }
+      },
+      "byVolatility": {
+        "nonVolatile": {
+          "correct": 5,
+          "total": 7
+        },
+        "volatile": {
+          "correct": 3,
+          "total": 4
+        }
+      },
+      "byWeightClass": {
+        "BW": {
+          "methodCorrect": 2,
+          "roundCorrect": 2,
+          "total": 2,
+          "winnerCorrect": 2
+        },
+        "FLW": {
+          "methodCorrect": 1,
+          "roundCorrect": 1,
+          "total": 2,
+          "winnerCorrect": 1
+        },
+        "FW": {
+          "methodCorrect": 0,
+          "roundCorrect": 0,
+          "total": 1,
+          "winnerCorrect": 1
+        },
+        "HW": {
+          "methodCorrect": 2,
+          "roundCorrect": 1,
+          "total": 3,
+          "winnerCorrect": 2
+        },
+        "LW": {
+          "methodCorrect": 0,
+          "roundCorrect": 0,
+          "total": 1,
+          "winnerCorrect": 0
+        },
+        "MW": {
+          "methodCorrect": 0,
+          "roundCorrect": 0,
+          "total": 1,
+          "winnerCorrect": 1
+        },
+        "WW": {
+          "methodCorrect": 0,
+          "roundCorrect": 0,
+          "total": 1,
+          "winnerCorrect": 1
+        }
+      },
+      "eventDate": "2026-01-24",
+      "eventId": "1768957933278-07kdpvih0",
+      "eventName": "UFC 324",
+      "eventType": "ppv",
+      "fightDetails": [
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1768957996372-jp6p3bs0s",
+          "fighterA": "Justin Gaethje",
+          "fighterB": "Paddy Pimblett",
+          "prediction": {
+            "confidence": 59.74285714285714,
+            "confidenceTier": "medium",
+            "isVolatile": false,
+            "method": "SUB",
+            "primarySource": "tapology",
+            "round": "R2",
+            "winner": "Paddy Pimblett"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Justin Gaethje"
+          },
+          "weightClass": "LW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": true,
+            "winner": true
+          },
+          "fightId": "1768957996382-1ukz9fnem",
+          "fighterA": "Umar Nurmagomedov",
+          "fighterB": "Deiveson Figueiredo",
+          "prediction": {
+            "confidence": 89.6857142857143,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Umar Nurmagomedov"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Umar Nurmagomedov"
+          },
+          "weightClass": "BW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1768957996380-fj721bp78",
+          "fighterA": "Arnold Allen",
+          "fighterB": "Jean Silva",
+          "prediction": {
+            "confidence": 70.07142857142857,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Jean Silva"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Jean Silva"
+          },
+          "weightClass": "FW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": true,
+            "winner": true
+          },
+          "fightId": "1768957996375-c4aubpd3f",
+          "fighterA": "Sean O'Malley",
+          "fighterB": "Song Yadong",
+          "prediction": {
+            "confidence": 71.62857142857143,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Sean O'Malley"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Sean O'Malley"
+          },
+          "weightClass": "BW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": true,
+            "winner": true
+          },
+          "fightId": "1768957996379-sucr6wzug",
+          "fighterA": "Natalia Silva",
+          "fighterB": "Rose Namajunas",
+          "prediction": {
+            "confidence": 78.17142857142858,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Natalia Silva"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Natalia Silva"
+          },
+          "weightClass": "FLW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1768957996377-lt5z5etyw",
+          "fighterA": "Waldo Cortes Acosta",
+          "fighterB": "Derrick Lewis",
+          "prediction": {
+            "confidence": 69.62857142857143,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Waldo Cortes Acosta"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R2",
+            "winner": "Waldo Cortes Acosta"
+          },
+          "weightClass": "HW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1768957996383-f1i1xolej",
+          "fighterA": "Ateba Gautier",
+          "fighterB": "Andrey Pulyaev",
+          "prediction": {
+            "confidence": 88.80000000000003,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Ateba Gautier"
+          },
+          "result": {
+            "method": "DEC",
+            "round": "DEC",
+            "winner": "Ateba Gautier"
+          },
+          "weightClass": "MW"
+        },
+        {
+          "correct": {
+            "method": true,
+            "round": true,
+            "winner": true
+          },
+          "fightId": "1768957996389-us61h2k9x",
+          "fighterA": "Josh Hokit",
+          "fighterB": "Denzel Freeman",
+          "prediction": {
+            "confidence": 76.38571428571429,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Josh Hokit"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R1",
+            "winner": "Josh Hokit"
+          },
+          "weightClass": "HW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": true
+          },
+          "fightId": "1768957996390-hq58ohk3u",
+          "fighterA": "Adam Fugitt",
+          "fighterB": "Ty Miller",
+          "prediction": {
+            "confidence": 90,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Ty Miller"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R1",
+            "winner": "Ty Miller"
+          },
+          "weightClass": "WW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1768957996386-81tsazu1e",
+          "fighterA": "Alex Perez",
+          "fighterB": "Charles Johnson",
+          "prediction": {
+            "confidence": 76.85714285714286,
+            "confidenceTier": "high",
+            "isVolatile": false,
+            "method": "DEC",
+            "primarySource": "tapology",
+            "round": "DEC",
+            "winner": "Charles Johnson"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R1",
+            "winner": "Alex Perez"
+          },
+          "weightClass": "FLW"
+        },
+        {
+          "correct": {
+            "method": false,
+            "round": false,
+            "winner": false
+          },
+          "fightId": "1768957996384-3vcueczsk",
+          "fighterA": "Nikita Krylov",
+          "fighterB": "Modestas Bukauskas",
+          "prediction": {
+            "confidence": 70.0142857142857,
+            "confidenceTier": "high",
+            "isVolatile": true,
+            "method": "KO",
+            "primarySource": "tapology",
+            "round": "R1",
+            "winner": "Modestas Bukauskas"
+          },
+          "result": {
+            "method": "KO",
+            "round": "R3",
+            "winner": "Nikita Krylov"
+          },
+          "weightClass": "HW"
+        }
+      ],
+      "id": "1769304614962-8twtpgn70",
+      "methodCorrect": 5,
+      "roundCorrect": 4,
+      "timestamp": "2026-01-25T13:18:43.245Z",
+      "totalFights": 11,
+      "winnerCorrect": 8,
+      "modelVersion": "v3"
+    }
+  ]
+}

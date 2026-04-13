@@ -482,6 +482,7 @@ class Storage {
                         confidence: pred.confidence,
                         confidenceTier: pred.confidenceTier,
                         isVolatile: pred.isVolatile,
+                        upsetRisk: pred.upsetRisk || 0,
                         primarySource: pred.primarySource,
                         dataSources: pred.dataSources || [],
                         modelVersion: pred.modelVersion || null,
@@ -1208,6 +1209,9 @@ class Storage {
                         method: p.method,
                         round: p.round,
                         confidence: p.confidence,
+                        confidenceTier: p.confidenceTier || null,
+                        isVolatile: p.isVolatile || false,
+                        upsetRisk: p.upsetRisk || 0,
                         source: p.primarySource,
                         override: p.override || null,
                         overriddenAt: p.overriddenAt || null
