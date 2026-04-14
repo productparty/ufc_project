@@ -104,10 +104,16 @@ for (const pred of preds) {
 console.log(`\nMatched ${matched.length} fights across ${data.events.length} events\n`);
 
 // === SCORING ===
-// League scoring: W=150, M=125 (gated by W), R=50 (gated by W)
+// League scoring (observed from UFC 327 scoreboard):
+//   W=150 base + 100 Win Bonus (whenever winner correct) → 250 for winner-only
+//   M=125 (gated by W)   R=50 (gated by W+non-DEC method)
+// Ulberg KO R1 perfect = 150+100+125+50 = 425 ✓
+// Hokit DEC R3 perfect = 150+100+125+0  = 375 (observed 275 → no Win Bonus on DEC picks?)
+// Reyes KO R1 picked, Reyes DEC won = 150+100+0+0 = 250 (observed 300 → mystery 50)
+// Treat scoring as approximate; use deltas between v14/v15 runs, not absolute totals.
 function calcScore(winnerCorrect, methodCorrect, roundCorrect) {
     if (!winnerCorrect) return 0;
-    let score = 150;
+    let score = 150 + 100; // base + Win Bonus
     if (methodCorrect) score += 125;
     if (roundCorrect) score += 50;
     return score;

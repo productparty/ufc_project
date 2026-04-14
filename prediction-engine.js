@@ -52,7 +52,7 @@ class PredictionEngine {
         //     - Close-margin volatility tightened (2→3 sources required)
         //     - SUB base rate raised 20→23% in method prior
         //     - BestFightOdds replaces DRatings as data source (method props + moneyline)
-        this.MODEL_VERSION = 'v14';
+        this.MODEL_VERSION = 'v15';
 
         // Confidence thresholds
         this.CONFIDENCE_HIGH = 65;
@@ -136,7 +136,7 @@ class PredictionEngine {
             'FLW':  1.00,   // 75.0% accuracy - trust fully
             'FW':   0.95,   // 66.7% accuracy - slight caution
             'WW':   0.95,   // 66.7% accuracy - slight caution
-            'HW':   0.85,   // 50.0% accuracy - meaningful discount
+            'HW':   0.78,   // v15: 0.85→0.78 — HW favorites collapsed at UFC 327 (Prochazka, Murzakanov, Blaydes). Stronger discount caps top-end HW confidence so wrong locks cost fewer points.
             'LW':   0.75,   // v14: 0.80→0.75 — 35% accuracy warrants stronger discount
             'LHW':  0.90,   // limited data, mild caution
             'WSW':  0.85,   // limited data, women's = more upsets
@@ -895,13 +895,22 @@ class PredictionEngine {
             // Historical: 5 KO→DEC misses (15pts lost) + 2 SUB→DEC misses (6pts lost) in backtest.
             // v14: SUB specialist threshold lowered 55→40%, tiers: ≥65%→1.20x, ≥50%→1.15x, ≥40%→1.10x
             // Betting gate lowered 65→55% (SUB specialists are often underdogs)
-            if (tapologySub >= 40 && (winnerBettingPct === null || winnerBettingPct >= 55)) {
-                const subBoost = tapologySub >= 65 ? 1.20 : tapologySub >= 50 ? 1.15 : 1.10;
+            // v15: Broadened gate to also trigger on UFCStats career subWinPct. Tapology consensus
+            // rarely flags 40%+ SUB even for proven submission artists (Gamrot, Suarez, Luque at
+            // UFC 327 all went SUB but weren't caught). Use max(tapologySub, subWinPct) when
+            // subWinPct >= 30 to extend the gate without over-firing on non-grapplers.
+            const ufcStatsSubWinPct = winnerData.ufcStats?.subWinPct || 0;
+            const subTrigger = ufcStatsSubWinPct >= 30
+                ? Math.max(tapologySub, ufcStatsSubWinPct)
+                : tapologySub;
+            if (subTrigger >= 40 && (winnerBettingPct === null || winnerBettingPct >= 55)) {
+                const subBoost = subTrigger >= 65 ? 1.20 : subTrigger >= 50 ? 1.15 : 1.10;
                 subProb *= subBoost;
+                const triggerSource = subTrigger === tapologySub ? 'Tapology' : 'UFCStats career';
                 reasoning.push({
                     layer: 2,
                     type: 'sub_specialist_boost',
-                    text: `SUB specialist: Tapology SUB ${tapologySub}%${winnerBettingPct ? ` + ${winnerBettingPct.toFixed(0)}% betting fav` : ''} → ${((subBoost - 1) * 100).toFixed(0)}% SUB boost`
+                    text: `SUB specialist: ${triggerSource} SUB ${subTrigger.toFixed(0)}%${winnerBettingPct ? ` + ${winnerBettingPct.toFixed(0)}% betting fav` : ''} → ${((subBoost - 1) * 100).toFixed(0)}% SUB boost`
                 });
             }
             if (tapologyKO >= 60 && (winnerBettingPct === null || winnerBettingPct >= 65)) {
@@ -1473,14 +1482,34 @@ class PredictionEngine {
         }
 
         // FightMatrix Elo K170 (default 18% - high predictive validity, encodes opponent quality)
+        // v15: HW divergence shave — when HW and eloK170 disagrees with betting+tapology
+        // on who wins, shave eloK170 weight 30% and redistribute to betting. EloK170 drove the
+        // Blaydes 71% lock (wrong) at UFC 327; it's the weakest source overall (28.6% primary acc).
         if (sources.eloK170A !== null && sources.eloK170B !== null) {
-            const eloWeight = getWeight('eloK170', 0.18);
+            let eloWeight = getWeight('eloK170', 0.18);
+            const isHW = weightClass === 'HW';
+            const eloPicksA = sources.eloK170A.winPct >= 50;
+            const bettingPicksA = sources.bettingWinPctA !== null && sources.bettingWinPctA >= 50;
+            const tapologyPicksA = sources.tapologyA >= 50;
+            const hasBetting = sources.bettingWinPctA !== null;
+            // Only apply shave when both betting and tapology disagree with eloK170
+            const eloDivergesHW = isHW && hasBetting && (eloPicksA !== bettingPicksA) && (eloPicksA !== tapologyPicksA);
+            let eloShave = 0;
+            if (eloDivergesHW) {
+                eloShave = eloWeight * 0.30;
+                eloWeight -= eloShave;
+            }
             weightedSumA += sources.eloK170A.winPct * eloWeight;
             totalWeight += eloWeight;
             contributions.push({ source: 'eloK170', value: sources.eloK170A.winPct, weight: eloWeight });
             if (sources.eloK170A.winPct * eloWeight > maxContributionA) {
                 maxContributionA = sources.eloK170A.winPct * eloWeight;
                 primarySourceA = 'eloK170';
+            }
+            // Redistribute shaved weight to betting (the strongest signal per source audit)
+            if (eloShave > 0 && sources.bettingWinPctA !== null) {
+                weightedSumA += sources.bettingWinPctA * eloShave;
+                totalWeight += eloShave;
             }
         }
 
